@@ -1,17 +1,16 @@
-FROM python:3.7
+FROM ubuntu:18.04
 LABEL maintainer="Viktor Sokolov"
 
 RUN apt-get update && apt-get install -y \
+  software-properties-common \
   python3-pip \
   tesseract-ocr \
-  tesseract-ocr-eng \
-  tesseract-ocr-lat \
+  tesseract-ocr-lav \
   build-essential \
   vim \
   wget \
   curl \
   git \
-  software-properties-common \
   gcc \
   imagemagick \
   libicu-dev \
