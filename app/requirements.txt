@@ -1,0 +1,9 @@
+pytesseract
+opencv-python
+Pillow
+flask
+flask-sqlalchemy
+flask-login
+flask-migrate
+Flask-WTF
+pytesseract
