@@ -1,12 +1,8 @@
 #!/bin/bash
 
+# default model --model lav.lstm
 
-# Base evaluation model
-# lstmeval --model eng.lstm \
-#   --traineddata tesseract/tessdata/eng.traineddata \
-#   --eval_listfile train/eng.training_files.txt
-
-
-lstmeval --model output/pubg_checkpoint \
-  --traineddata $TESSDATA_PREFIX/eng.traineddata \
-  --eval_listfile train/eng.training_files.txt
+lstmeval \
+  --model ../tesseract/model_output/hypermarket_checkpoint \
+  --traineddata ../tesseract/model_output/lav.traineddata \
+  --eval_listfile ../tesseract/train_data/lav.training_files.txt

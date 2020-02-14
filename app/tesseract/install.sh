@@ -1,13 +1,14 @@
 #!/bin/sh
 
-# installation: https://github.com/tesseract-ocr/tesseract/wiki/Compiling-%E2%80%93-GitInstallation
+# installation:
+# https://github.com/tesseract-ocr/tesseract/wiki
+# https://tesseract-ocr.github.io/tessdoc/Compiling-%E2%80%93-GitInstallation.html
 
 sudo apt-get install build-essential
 sudo apt-get install tesseract-ocr libtesseract-dev libpango1.0-dev -y
 
 # Languages
 sudo apt-get install tesseract-ocr-lav -y
-
 sudo apt-get install imagemagick make -y
 
 # Libs

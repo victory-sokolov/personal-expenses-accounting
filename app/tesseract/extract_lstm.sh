@@ -1,1 +1,2 @@
-combine_tessdata -e $TESSDATA_PREFIX/eng.traineddata eng.lstm
+lang="lav"
+combine_tessdata -e $TESSDATA_PREFIX/$lang.traineddata $lang.lstm

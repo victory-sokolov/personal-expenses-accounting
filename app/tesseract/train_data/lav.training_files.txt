@@ -1,0 +1,1 @@
+../tesseract/train_data/lav.HypermarketW00-Light_Light.exp0.lstmf
