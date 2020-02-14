@@ -1,8 +1,6 @@
 # Personal epenses accounting
-
 Personal expenses accounting using receipt recognition.
 
----
 
 ## Dependencies
 * [Python 3.7](https://www.python.org/)
