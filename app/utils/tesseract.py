@@ -1,4 +1,5 @@
 import os
+import sys
 from subprocess import PIPE, Popen, check_output
 
 from font import font_path
@@ -34,6 +35,7 @@ def generate_training_data():
 
 def evaluate():
     font_checkpoint = "hypermarket_checkpoint"
+    logfile = open('logfile', 'w')
 
     process = Popen([
         'lstmeval',
@@ -41,8 +43,11 @@ def evaluate():
         '--traineddata', f'../tesseract/{MODEL}/{LANG}.traineddata',
         '--eval_listfile', f'../tesseract/{TRAIN_FOLDER}/{LANG}.training_files.txt'
     ], stdout=PIPE, stderr=PIPE)
+    print(process)
+    for line in process.stdout:
+        sys.stdout.write(line)
+        logfile.write(line)
     process.wait()
-    stdout, stderr = process.communicate()
 
     print(stdout)
     print(stderr)
