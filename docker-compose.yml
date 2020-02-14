@@ -1,10 +1,19 @@
-version: '3.3'
+version: "3.7"
+
 services:
 
-  python:
-    container_name: python_cont
-    build: docker/python
-    volumes:
-      - .app/
-      - .:/home/app
+	users:
+		container_name: users
+		build:
+			context: ./services/users
+			dockerfile: Docker
+		ports:
+			- 5001:5000
 
+	nginx:
+		build:
+			context: ./services/nginx
+			dockerfile: Dockerfile
+		restart: always
+		ports:
+			- 80:80
