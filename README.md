@@ -1,6 +1,7 @@
 # Personal epenses accounting
 
 Personal expenses accounting using receipt recognition.
+
 ---
 
 ## Dependencies
