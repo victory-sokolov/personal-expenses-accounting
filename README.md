@@ -7,7 +7,6 @@ Personal expenses accounting using receipt recognition.
 * [Tesseract OCR](https://github.com/tesseract-ocr/tesseract)
 * [OpenCV](https://opencv.org/)
 * [ReactJS](https://reactjs.org/)
-* [Docker](https://www.docker.com/)
 
 
 
