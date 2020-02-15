@@ -7,7 +7,7 @@ from app.utils.font import font_path, get_fonts_names
 
 LANG = "lav"
 TRAIN_FOLDER = "train_data"
-MODEL = "model_output"
+MODEL = "model_output/"
 TESSERACT_ENV = os.getenv("TESSDATA_PREFIX")
 
 
@@ -34,12 +34,12 @@ def generate_training_data():
 
 
 def evaluate():
-    font_checkpoint = "hypermarket_checkpoint"
+    font_checkpoint = "hypermarket"
     logfile = open('logfile', 'w')
 
     process = subprocess.check_output([
         'lstmeval',
-        '--model', f'{MODEL}/{font_checkpoint}',
+        '--model', f'{MODEL}/{font_checkpoint}_checkpoint',
         '--traineddata', f'{MODEL}/{LANG}.traineddata',
         '--eval_listfile', f'{TRAIN_FOLDER}/{LANG}.training_files.txt'
     ])
@@ -58,14 +58,14 @@ def evaluate_default():
 
 
 def combine():
-    checkpoint = ""
+    checkpoint = "hypermarket"
 
     process = subprocess.check_output([
         'lstmtraining',
         '--stop_training',
-        f'- -continue_from model_output', checkpoint,
-        f'--traineddata', '{TESSDATA_ENV}/{LANG}.traineddata',
-        f'--model_output', '{MODEL}/{LANG}.traineddata'
+        '--continue_from', f'model_output/{checkpoint}_checkpoint',
+        '--traineddata', f'{TESSERACT_ENV}/{LANG}.traineddata',
+        '--model_output', f'{MODEL}/{LANG}.traineddata'
     ])
 
 
@@ -77,9 +77,15 @@ def extract_recognition_model():
 
 
 def fine_tune():
-    pass
+    process = subprocess.check_output([
+        'lstmtraining',
+        '--continue_from', f'{LANG}.lstm',
+        '--model_output', f'{MODEL}/hypermarket',
+        '--traineddata', f'{TESSERACT_ENV}/{LANG}.traineddata',
+        '--train_listfile', f'{TRAIN_FOLDER}/{LANG}.training_files.txt',
+        '--max_iterations', '400'
+    ])
+    print(process)
 
 
-# evaluate()
-
-evaluate_default()
+fine_tune()
