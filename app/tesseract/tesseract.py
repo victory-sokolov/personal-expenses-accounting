@@ -71,8 +71,9 @@ def combine():
 
 def extract_recognition_model():
     process = subprocess.check_output([
-        'combine_tessdata -e',
-        f'{TESSERACT_ENV}/{LANG}.traineddata'
+        'combine_tessdata', '-e',
+        f'{TESSERACT_ENV}/{LANG}.traineddata',
+        f'{LANG}.lstm'
     ])
 
 
@@ -88,4 +89,5 @@ def fine_tune():
     print(process)
 
 
-fine_tune()
+extract_recognition_model()
+# fine_tune()
