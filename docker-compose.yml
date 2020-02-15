@@ -10,6 +10,13 @@ services:
 		ports:
 			- 5001:5000
 
+	tesseract:
+		build:
+			context: ./app/tesseract/
+			dockerfile: Docker
+		ports:
+			- 4022:4022
+
 	nginx:
 		build:
 			context: ./services/nginx
