@@ -1,4 +1,4 @@
 app/.vscode/*
 test/
-app/training\ lv/*
 app/utils/__pycache__/
+app.egg-info/
