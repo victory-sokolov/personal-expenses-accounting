@@ -1,5 +1,5 @@
-# Personal epenses accounting
-Personal expenses accounting using receipt recognition.
+# Personal expenses accounting
+Personal expenses accounting using Tesseract OCR.
 
 
 ## Dependencies
