@@ -1,4 +1,0 @@
-N=1 # set accordingly to the number of files that you have
-for i in `seq 0 $N`; do
-    tesseract slv.merchantcopy.lat.png slv.merchantcopy.lat batch.nochop makebox
-done
