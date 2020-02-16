@@ -23,4 +23,4 @@ def data_to_file(data, filename, path):
             writer.writerow([line])
 
 
-data_to_file(font_name, 'fonts.txt', 'app/tesseract')
+# data_to_file(font_name, 'fonts.txt', 'app/tesseract')
