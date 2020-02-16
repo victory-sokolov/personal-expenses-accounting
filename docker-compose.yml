@@ -1,26 +1,25 @@
 version: "3.7"
 
 services:
+  # users:
+  # 	container_name: users
+  # 	build:
+  # 		context: ./services/users
+  # 		dockerfile: Docker
+  # 	ports:
+  # 		- 5001:5000
 
-	users:
-		container_name: users
-		build:
-			context: ./services/users
-			dockerfile: Docker
-		ports:
-			- 5001:5000
+  tesseract:
+    build:
+      context: ./app/tesseract/
+      dockerfile: Dockerfile
+    ports:
+      - 4022:4022
 
-	tesseract:
-		build:
-			context: ./app/tesseract/
-			dockerfile: Docker
-		ports:
-			- 4022:4022
-
-	nginx:
-		build:
-			context: ./services/nginx
-			dockerfile: Dockerfile
-		restart: always
-		ports:
-			- 80:80
+  nginx:
+    build:
+      context: ./services/nginx
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 80:80
