@@ -5,18 +5,27 @@ from subprocess import PIPE, Popen, check_output
 
 
 def font_path() -> str:
+    """Return font full path"""
     ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
     path = PurePosixPath(ROOT_DIR).parent.parent
     return f'{path}/fonts'
 
 
 def get_fonts_names() -> list:
+    """
+    Get font names in directory
+    with extension: .ttf
+    """
     dir = f'{font_path()}'
-    return os.listdir(dir)
+    dir_content = os.listdir(dir)
+    font_list = [font for font in dir_content if font.endswith('.ttf', -4)]
+    return font_list
 
 
-def font_name(fonts: list) -> list:
+def font_name() -> list:
+    """Get fonts names from fc-scan command"""
     font_lst = []
+    fonts = get_fonts_names()
 
     for name in fonts:
         process = Popen(
