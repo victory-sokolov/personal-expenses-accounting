@@ -1,0 +1,6 @@
+Before Training: At iteration 0, stage 0, Eval Char error rate=1.1361391, Word error rate=3.3761378
+
+After training:
+
+At iteration 0, stage 0, Eval Char error rate=0.20744075, Word error rate=0.38598233 (250 pages, 2000 iterations)
+At iteration 0, stage 0, Eval Char error rate=0.33744981, Word error rate=0.81785576 (20 pages, 2000 iterations)
