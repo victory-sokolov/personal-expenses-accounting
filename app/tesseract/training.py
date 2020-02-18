@@ -20,9 +20,9 @@ class Training:
 
     def __init__(self):
         self._langs = ['lav']
-        self.TESSERACT_ENV = os.getenv("TESSDATA_PREFIX")
-        self.TRAIN_FOLDER = "train_data"
-        self.MODEL = "model_output"
+        self.tesseract_env = os.getenv("TESSDATA_PREFIX")
+        self.train_folder = "train_data"
+        self.model = "model_output"
 
     @property
     def langs(self):
@@ -46,18 +46,18 @@ class Training:
             '--lang', 'eng',
             '--noextract_font_properties',
             '--linedata_only',
-            '--langdata_dir', f'{self.TESSERACT_ENV}/langdata_lstm',
-            '--tessdata_dir', self.TESSERACT_ENV,
+            '--langdata_dir', f'{self.tesseract_env}/langdata_lstm',
+            '--tessdata_dir', self.tesseract_env,
             '--save_box_tiff',
             '--maxpages', str(pages),
-            '--output_dir', self.TRAIN_FOLDER
+            '--output_dir', self.train_folder
         ])
         # return process
 
     def extract_recognition_model(self):
         process = subprocess.call([
             'combine_tessdata', '-e',
-            f'{self.TESSERACT_ENV}/{LANG}.traineddata',
+            f'{self.tesseract_env}/{LANG}.traineddata',
             f'{LANG}.lstm'
         ])
 
@@ -73,17 +73,17 @@ class Training:
         """
         if default:
             model = f'{LANG}.lstm'
-            traineddata = f'{self.TESSERACT_ENV}/{LANG}.traineddata'
+            traineddata = f'{self.tesseract_env}/{LANG}.traineddata'
         else:
             font_checkpoint = "hypermarket"
-            model = f'{self.MODEL}/{font_checkpoint}_checkpoint'
-            traineddata = f'{self.MODEL}/{LANG}.traineddata'
+            model = f'{self.model}/{font_checkpoint}_checkpoint'
+            traineddata = f'{self.model}/{LANG}.traineddata'
 
         process = subprocess.Popen([
             'lstmeval',
             '--model', model,
             '--traineddata', traineddata,
-            '--eval_listfile', f'{self.TRAIN_FOLDER}/{LANG}.training_files.txt'
+            '--eval_listfile', f'{self.train_folder}/{LANG}.training_files.txt'
         ], stdout=PIPE, stderr=subprocess.STDOUT, text=True)
 
         out = process.communicate()
@@ -101,9 +101,9 @@ class Training:
         process = subprocess.check_output([
             'lstmtraining',
             '--continue_from', f'{LANG}.lstm',
-            '--model_output', f'{self.MODEL}/hypermarket',
-            '--traineddata', f'{TESSERACT_ENV}/{LANG}.traineddata',
-            '--train_listfile', f'{self.TRAIN_FOLDER}/{LANG}.training_files.txt',
+            '--model_output', f'{self.model}/hypermarket',
+            '--traineddata', f'{tesseract_env}/{LANG}.traineddata',
+            '--train_listfile', f'{self.train_folder}/{LANG}.training_files.txt',
             '--max_iterations', '2000'
         ], text=True)
         print(process)
@@ -115,18 +115,14 @@ class Training:
             'lstmtraining',
             '--stop_training',
             '--continue_from', f'model_output/{checkpoint}_checkpoint',
-            '--traineddata', f'{TESSERACT_ENV}/{LANG}.traineddata',
-            '--model_output', f'{self.MODEL}/{LANG}.traineddata'
+            '--traineddata', f'{tesseract_env}/{LANG}.traineddata',
+            '--model_output', f'{self.model}/{LANG}.traineddata'
         ])
 
     def training_pipeline(self):
         pass
 
 
-# extract_recognition_model()
-# fine_tune()
-# combine()
-# evaluate()
 train = Training()
 train.generate_training_data(5)
 # print(train.evaluate(True))
