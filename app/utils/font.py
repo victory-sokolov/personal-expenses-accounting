@@ -1,7 +1,10 @@
 import os
 import re
+import subprocess
 from pathlib import Path, PurePosixPath
 from subprocess import PIPE, Popen, check_output
+
+from helpers import read_json
 
 
 def font_path() -> str:
@@ -35,3 +38,32 @@ def font_name() -> list:
         font_name = re.findall(r'\"(.+?)\"', str(full_name).split(":")[1])[0]
         font_lst.append(font_name)
     return font_lst
+
+
+def is_lang_supported(font: str, lang: str):
+    """
+    Check if fonts supports specific language
+    Parameters:
+    arg1(string) font name without extension
+    arg2(string) language code in ISO 639-1 standart
+    """
+    # convert 639-2 to 639-1
+    l = read_json('../tesseract/iso_639-2')[lang]['639-1']
+    font = f'{font}.ttf'
+    path = font_path()
+    full_path = os.path.join(path, font)
+
+    process = Popen([
+        'fc-query', full_path
+    ], stdout=PIPE, stderr=PIPE)
+
+    langs = check_output([
+        'grep', '-w', 'lang'
+    ], stdin=process.stdout, text=True)
+    process.wait()
+    lang_list = langs.split('|')
+
+    return l in lang_list
+
+
+#print(is_lang_supported('Hypermarket W00 Light', 'lav'))
