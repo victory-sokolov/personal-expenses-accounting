@@ -1,0 +1,410 @@
+{
+  "afr": {
+    "Language": "Afrikaans",
+    "4.0 traineddata": "afr.traineddata"
+  },
+  "amh": {
+    "Language": "Amharic",
+    "4.0 traineddata": "amh.traineddata"
+  },
+  "ara": {
+    "Language": "Arabic",
+    "4.0 traineddata": "ara.traineddata"
+  },
+  "asm": {
+    "Language": "Assamese",
+    "4.0 traineddata": "asm.traineddata"
+  },
+  "aze": {
+    "Language": "Azerbaijani",
+    "4.0 traineddata": "aze.traineddata"
+  },
+  "aze_cyrl": {
+    "Language": "Azerbaijani - Cyrillic",
+    "4.0 traineddata": "aze_cyrl.traineddata"
+  },
+  "bel": {
+    "Language": "Belarusian",
+    "4.0 traineddata": "bel.traineddata"
+  },
+  "ben": {
+    "Language": "Bengali",
+    "4.0 traineddata": "ben.traineddata"
+  },
+  "bod": {
+    "Language": "Tibetan",
+    "4.0 traineddata": "bod.traineddata"
+  },
+  "bos": {
+    "Language": "Bosnian",
+    "4.0 traineddata": "bos.traineddata"
+  },
+  "bul": {
+    "Language": "Bulgarian",
+    "4.0 traineddata": "bul.traineddata"
+  },
+  "cat": {
+    "Language": "Catalan; Valencian",
+    "4.0 traineddata": "cat.traineddata"
+  },
+  "ceb": {
+    "Language": "Cebuano",
+    "4.0 traineddata": "ceb.traineddata"
+  },
+  "ces": {
+    "Language": "Czech",
+    "4.0 traineddata": "ces.traineddata"
+  },
+  "chi_sim": {
+    "Language": "Chinese - Simplified",
+    "4.0 traineddata": "chi_sim.traineddata"
+  },
+  "chi_tra": {
+    "Language": "Chinese - Traditional",
+    "4.0 traineddata": "chi_tra.traineddata"
+  },
+  "chr": {
+    "Language": "Cherokee",
+    "4.0 traineddata": "chr.traineddata"
+  },
+  "cym": {
+    "Language": "Welsh",
+    "4.0 traineddata": "cym.traineddata"
+  },
+  "dan": {
+    "Language": "Danish",
+    "4.0 traineddata": "dan.traineddata"
+  },
+  "deu": {
+    "Language": "German",
+    "4.0 traineddata": "deu.traineddata"
+  },
+  "dzo": {
+    "Language": "Dzongkha",
+    "4.0 traineddata": "dzo.traineddata"
+  },
+  "ell": {
+    "Language": "Greek, Modern (1453-)",
+    "4.0 traineddata": "ell.traineddata"
+  },
+  "eng": {
+    "Language": "English",
+    "4.0 traineddata": "eng.traineddata"
+  },
+  "enm": {
+    "Language": "English, Middle (1100-1500)",
+    "4.0 traineddata": "enm.traineddata"
+  },
+  "epo": {
+    "Language": "Esperanto",
+    "4.0 traineddata": "epo.traineddata"
+  },
+  "est": {
+    "Language": "Estonian",
+    "4.0 traineddata": "est.traineddata"
+  },
+  "eus": {
+    "Language": "Basque",
+    "4.0 traineddata": "eus.traineddata"
+  },
+  "fas": {
+    "Language": "Persian",
+    "4.0 traineddata": "fas.traineddata"
+  },
+  "fin": {
+    "Language": "Finnish",
+    "4.0 traineddata": "fin.traineddata"
+  },
+  "fra": {
+    "Language": "French",
+    "4.0 traineddata": "fra.traineddata"
+  },
+  "frk": {
+    "Language": "German Fraktur",
+    "4.0 traineddata": "frk.traineddata"
+  },
+  "frm": {
+    "Language": "French, Middle (ca. 1400-1600)",
+    "4.0 traineddata": "frm.traineddata"
+  },
+  "gle": {
+    "Language": "Irish",
+    "4.0 traineddata": "gle.traineddata"
+  },
+  "glg": {
+    "Language": "Galician",
+    "4.0 traineddata": "glg.traineddata"
+  },
+  "grc": {
+    "Language": "Greek, Ancient (-1453)",
+    "4.0 traineddata": "grc.traineddata"
+  },
+  "guj": {
+    "Language": "Gujarati",
+    "4.0 traineddata": "guj.traineddata"
+  },
+  "hat": {
+    "Language": "Haitian; Haitian Creole",
+    "4.0 traineddata": "hat.traineddata"
+  },
+  "heb": {
+    "Language": "Hebrew",
+    "4.0 traineddata": "heb.traineddata"
+  },
+  "hin": {
+    "Language": "Hindi",
+    "4.0 traineddata": "hin.traineddata"
+  },
+  "hrv": {
+    "Language": "Croatian",
+    "4.0 traineddata": "hrv.traineddata"
+  },
+  "hun": {
+    "Language": "Hungarian",
+    "4.0 traineddata": "hun.traineddata"
+  },
+  "iku": {
+    "Language": "Inuktitut",
+    "4.0 traineddata": "iku.traineddata"
+  },
+  "ind": {
+    "Language": "Indonesian",
+    "4.0 traineddata": "ind.traineddata"
+  },
+  "isl": {
+    "Language": "Icelandic",
+    "4.0 traineddata": "isl.traineddata"
+  },
+  "ita": {
+    "Language": "Italian",
+    "4.0 traineddata": "ita.traineddata"
+  },
+  "ita_old": {
+    "Language": "Italian - Old",
+    "4.0 traineddata": "ita_old.traineddata"
+  },
+  "jav": {
+    "Language": "Javanese",
+    "4.0 traineddata": "jav.traineddata"
+  },
+  "jpn": {
+    "Language": "Japanese",
+    "4.0 traineddata": "jpn.traineddata"
+  },
+  "kan": {
+    "Language": "Kannada",
+    "4.0 traineddata": "kan.traineddata"
+  },
+  "kat": {
+    "Language": "Georgian",
+    "4.0 traineddata": "kat.traineddata"
+  },
+  "kat_old": {
+    "Language": "Georgian - Old",
+    "4.0 traineddata": "kat_old.traineddata"
+  },
+  "kaz": {
+    "Language": "Kazakh",
+    "4.0 traineddata": "kaz.traineddata"
+  },
+  "khm": {
+    "Language": "Central Khmer",
+    "4.0 traineddata": "khm.traineddata"
+  },
+  "kir": {
+    "Language": "Kirghiz; Kyrgyz",
+    "4.0 traineddata": "kir.traineddata"
+  },
+  "kor": {
+    "Language": "Korean",
+    "4.0 traineddata": "kor.traineddata"
+  },
+  "kur": {
+    "Language": "Kurdish",
+    "4.0 traineddata": "kur.traineddata"
+  },
+  "lao": {
+    "Language": "Lao",
+    "4.0 traineddata": "lao.traineddata"
+  },
+  "lat": {
+    "Language": "Latin",
+    "4.0 traineddata": "lat.traineddata"
+  },
+  "lav": {
+    "Language": "Latvian",
+    "4.0 traineddata": "lav.traineddata"
+  },
+  "lit": {
+    "Language": "Lithuanian",
+    "4.0 traineddata": "lit.traineddata"
+  },
+  "mal": {
+    "Language": "Malayalam",
+    "4.0 traineddata": "mal.traineddata"
+  },
+  "mar": {
+    "Language": "Marathi",
+    "4.0 traineddata": "mar.traineddata"
+  },
+  "mkd": {
+    "Language": "Macedonian",
+    "4.0 traineddata": "mkd.traineddata"
+  },
+  "mlt": {
+    "Language": "Maltese",
+    "4.0 traineddata": "mlt.traineddata"
+  },
+  "msa": {
+    "Language": "Malay",
+    "4.0 traineddata": "msa.traineddata"
+  },
+  "mya": {
+    "Language": "Burmese",
+    "4.0 traineddata": "mya.traineddata"
+  },
+  "nep": {
+    "Language": "Nepali",
+    "4.0 traineddata": "nep.traineddata"
+  },
+  "nld": {
+    "Language": "Dutch; Flemish",
+    "4.0 traineddata": "nld.traineddata"
+  },
+  "nor": {
+    "Language": "Norwegian",
+    "4.0 traineddata": "nor.traineddata"
+  },
+  "ori": {
+    "Language": "Oriya",
+    "4.0 traineddata": "ori.traineddata"
+  },
+  "pan": {
+    "Language": "Panjabi; Punjabi",
+    "4.0 traineddata": "pan.traineddata"
+  },
+  "pol": {
+    "Language": "Polish",
+    "4.0 traineddata": "pol.traineddata"
+  },
+  "por": {
+    "Language": "Portuguese",
+    "4.0 traineddata": "por.traineddata"
+  },
+  "pus": {
+    "Language": "Pushto; Pashto",
+    "4.0 traineddata": "pus.traineddata"
+  },
+  "ron": {
+    "Language": "Romanian; Moldavian; Moldovan",
+    "4.0 traineddata": "ron.traineddata"
+  },
+  "rus": {
+    "Language": "Russian",
+    "4.0 traineddata": "rus.traineddata"
+  },
+  "san": {
+    "Language": "Sanskrit",
+    "4.0 traineddata": "san.traineddata"
+  },
+  "sin": {
+    "Language": "Sinhala; Sinhalese",
+    "4.0 traineddata": "sin.traineddata"
+  },
+  "slk": {
+    "Language": "Slovak",
+    "4.0 traineddata": "slk.traineddata"
+  },
+  "slv": {
+    "Language": "Slovenian",
+    "4.0 traineddata": "slv.traineddata"
+  },
+  "spa": {
+    "Language": "Spanish; Castilian",
+    "4.0 traineddata": "spa.traineddata"
+  },
+  "spa_old": {
+    "Language": "Spanish; Castilian - Old",
+    "4.0 traineddata": "spa_old.traineddata"
+  },
+  "sqi": {
+    "Language": "Albanian",
+    "4.0 traineddata": "sqi.traineddata"
+  },
+  "srp": {
+    "Language": "Serbian",
+    "4.0 traineddata": "srp.traineddata"
+  },
+  "srp_latn": {
+    "Language": "Serbian - Latin",
+    "4.0 traineddata": "srp_latn.traineddata"
+  },
+  "swa": {
+    "Language": "Swahili",
+    "4.0 traineddata": "swa.traineddata"
+  },
+  "swe": {
+    "Language": "Swedish",
+    "4.0 traineddata": "swe.traineddata"
+  },
+  "syr": {
+    "Language": "Syriac",
+    "4.0 traineddata": "syr.traineddata"
+  },
+  "tam": {
+    "Language": "Tamil",
+    "4.0 traineddata": "tam.traineddata"
+  },
+  "tel": {
+    "Language": "Telugu",
+    "4.0 traineddata": "tel.traineddata"
+  },
+  "tgk": {
+    "Language": "Tajik",
+    "4.0 traineddata": "tgk.traineddata"
+  },
+  "tgl": {
+    "Language": "Tagalog",
+    "4.0 traineddata": "tgl.traineddata"
+  },
+  "tha": {
+    "Language": "Thai",
+    "4.0 traineddata": "tha.traineddata"
+  },
+  "tir": {
+    "Language": "Tigrinya",
+    "4.0 traineddata": "tir.traineddata"
+  },
+  "tur": {
+    "Language": "Turkish",
+    "4.0 traineddata": "tur.traineddata"
+  },
+  "uig": {
+    "Language": "Uighur; Uyghur",
+    "4.0 traineddata": "uig.traineddata"
+  },
+  "ukr": {
+    "Language": "Ukrainian",
+    "4.0 traineddata": "ukr.traineddata"
+  },
+  "urd": {
+    "Language": "Urdu",
+    "4.0 traineddata": "urd.traineddata"
+  },
+  "uzb": {
+    "Language": "Uzbek",
+    "4.0 traineddata": "uzb.traineddata"
+  },
+  "uzb_cyrl": {
+    "Language": "Uzbek - Cyrillic",
+    "4.0 traineddata": "uzb_cyrl.traineddata"
+  },
+  "vie": {
+    "Language": "Vietnamese",
+    "4.0 traineddata": "vie.traineddata"
+  },
+  "yid": {
+    "Language": "Yiddish",
+    "4.0 traineddata": "yid.traineddata"
+  }
+}
