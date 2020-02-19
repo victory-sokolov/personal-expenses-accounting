@@ -1,3 +1,4 @@
+import asyncio
 import os
 import re
 import subprocess
@@ -39,11 +40,14 @@ class Training:
         path = font_path()
         font_list = read_file('fonts.txt')
 
+        # if language is supported then generate training data
+        #if is_lang_supported():
+
         process = subprocess.call([
             'tesstrain.sh',
             '--fonts_dir', path,
             '--fontlist', 'DPix_8pt',
-            '--lang', 'eng',
+            '--lang', 'lav',
             '--noextract_font_properties',
             '--linedata_only',
             '--langdata_dir', f'{self.tesseract_env}/langdata_lstm',
@@ -97,14 +101,15 @@ class Training:
             'word_error': float(word_error)
         }
 
-    def fine_tune(self):
+    def fine_tune(self, iterations):
+
         process = subprocess.check_output([
             'lstmtraining',
             '--continue_from', f'{LANG}.lstm',
             '--model_output', f'{self.model}/hypermarket',
             '--traineddata', f'{tesseract_env}/{LANG}.traineddata',
             '--train_listfile', f'{self.train_folder}/{LANG}.training_files.txt',
-            '--max_iterations', '2000'
+            '--max_iterations', iterations
         ], text=True)
         print(process)
 
@@ -118,6 +123,7 @@ class Training:
             '--traineddata', f'{tesseract_env}/{LANG}.traineddata',
             '--model_output', f'{self.model}/{LANG}.traineddata'
         ])
+
 
     def training_pipeline(self):
         pass

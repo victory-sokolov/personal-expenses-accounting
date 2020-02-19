@@ -4,7 +4,7 @@ import subprocess
 from pathlib import Path, PurePosixPath
 from subprocess import PIPE, Popen, check_output
 
-from helpers import read_json
+from app.utils.helpers import read_json
 
 
 def font_path() -> str:
