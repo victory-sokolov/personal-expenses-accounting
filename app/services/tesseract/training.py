@@ -7,7 +7,7 @@ from subprocess import PIPE, Popen, check_output
 
 from app.utils.decor import exectime
 from app.utils.font import font_path
-from app.utils.helpers import read_file
+from app.utils.helpers import read_file, read_json
 
 LANG = "lav"
 
@@ -16,24 +16,27 @@ class MyException(Exception):
     pass
 
 
-class Training:
+class TrainingModel:
     """Training tesseract model functions"""
 
-    def __init__(self):
-        self._langs = ['lav']
+    def __init__(self, lang):
+        self.lang = lang
         self.tesseract_env = os.getenv("TESSDATA_PREFIX")
         self.train_folder = "train_data"
         self.model = "model_output"
 
     @property
-    def langs(self):
-        return self._langs
+    def lang(self):
+        return self._lang
 
-    @langs.setter
-    def langs(self, langs):
-        if type(langs) is not list:
-            raise MyException('Argument must be list of languages')
-        self._langs = langs
+    @lang.setter
+    def lang(self, lang):
+        tess_lang = read_json('tesseract_langs')
+
+        if lang in tess_lang:
+            self._lang = lang
+        else:
+            raise MyException('Language not supported')
 
     def generate_training_data(self, pages=250):
         """Generates training data"""
@@ -41,12 +44,12 @@ class Training:
         font_list = read_file('fonts.txt')
 
         # if language is supported then generate training data
-        #if is_lang_supported():
+        # if is_lang_supported():
 
         process = subprocess.call([
             'tesstrain.sh',
             '--fonts_dir', path,
-            '--fontlist', 'DPix_8pt',
+            '--fontlist', 'OCR-A',
             '--lang', 'lav',
             '--noextract_font_properties',
             '--linedata_only',
@@ -61,8 +64,8 @@ class Training:
     def extract_recognition_model(self):
         process = subprocess.call([
             'combine_tessdata', '-e',
-            f'{self.tesseract_env}/{LANG}.traineddata',
-            f'{LANG}.lstm'
+            f'{self.tesseract_env}/{self._lang}.traineddata',
+            f'{self._lang}.lstm'
         ])
 
     def evaluate(self, default=False):
@@ -76,18 +79,18 @@ class Training:
         dict: result of evaluation
         """
         if default:
-            model = f'{LANG}.lstm'
-            traineddata = f'{self.tesseract_env}/{LANG}.traineddata'
+            model = f'{self._lang}.lstm'
+            traineddata = f'{self.tesseract_env}/{self._lang}.traineddata'
         else:
             font_checkpoint = "hypermarket"
             model = f'{self.model}/{font_checkpoint}_checkpoint'
-            traineddata = f'{self.model}/{LANG}.traineddata'
+            traineddata = f'{self.model}/{self._lang}.traineddata'
 
         process = subprocess.Popen([
             'lstmeval',
             '--model', model,
             '--traineddata', traineddata,
-            '--eval_listfile', f'{self.train_folder}/{LANG}.training_files.txt'
+            '--eval_listfile', f'{self.train_folder}/{self._lang}.training_files.txt'
         ], stdout=PIPE, stderr=subprocess.STDOUT, text=True)
 
         out = process.communicate()
@@ -102,13 +105,12 @@ class Training:
         }
 
     def fine_tune(self, iterations):
-
         process = subprocess.check_output([
             'lstmtraining',
-            '--continue_from', f'{LANG}.lstm',
+            '--continue_from', f'{self._lang}.lstm',
             '--model_output', f'{self.model}/hypermarket',
-            '--traineddata', f'{tesseract_env}/{LANG}.traineddata',
-            '--train_listfile', f'{self.train_folder}/{LANG}.training_files.txt',
+            '--traineddata', f'{tesseract_env}/{self._lang}.traineddata',
+            '--train_listfile', f'{self.train_folder}/{self._lang}.training_files.txt',
             '--max_iterations', iterations
         ], text=True)
         print(process)
@@ -120,16 +122,21 @@ class Training:
             'lstmtraining',
             '--stop_training',
             '--continue_from', f'model_output/{checkpoint}_checkpoint',
-            '--traineddata', f'{tesseract_env}/{LANG}.traineddata',
-            '--model_output', f'{self.model}/{LANG}.traineddata'
+            '--traineddata', f'{tesseract_env}/{self._lang}.traineddata',
+            '--model_output', f'{self.model}/{self._lang}.traineddata'
         ])
 
+    def instances(self, languages):
+        instances = []
+        for lang in languages:
+            instances.append(TrainingModel(lang))
+        return instances
 
     def training_pipeline(self):
         pass
 
 
-train = Training()
+train = TrainingModel('lav')
 train.generate_training_data(5)
 # print(train.evaluate(True))
 
