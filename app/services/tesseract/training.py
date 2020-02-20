@@ -43,7 +43,7 @@ class TrainingModel:
                 'tesstrain.sh',
                 '--fonts_dir', path,
                 '--fontlist', 'OCR-A',
-                '--lang', 'lav',
+                '--lang', self.lang,
                 '--noextract_font_properties',
                 '--linedata_only',
                 '--langdata_dir', f'{self.tesseract_env}/langdata_lstm',
@@ -131,7 +131,7 @@ class TrainingModel:
         pass
 
 
-train = TrainingModel('lav')
+train = TrainingModel('eng')
 train.generate_training_data(5)
 # print(train.evaluate(True))
 

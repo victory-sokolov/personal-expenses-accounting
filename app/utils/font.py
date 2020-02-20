@@ -47,6 +47,11 @@ def is_lang_supported(font: str, lang: str):
     arg1(string) font name without extension
     arg2(string) language code in ISO 639-1 standart
     """
+
+    # by default eng is suppiorted mostly for all fonts
+    if lang == 'eng' or lang == 'en':
+        return True
+
     # convert 639-2 to 639-1
     l = read_json('../tesseract/iso_639-2')[lang]['639-1']
     font = f'{font}.ttf'
