@@ -6,11 +6,9 @@ import sys
 from subprocess import PIPE, Popen, check_output
 
 from app.utils.decor import exectime
-from app.utils.font import font_path
+from app.utils.font import font_path, is_lang_supported
 from app.utils.helpers import read_file, read_json
 
-class MyException(Exception):
-    pass
 
 class TrainingModel:
     """Training tesseract model functions"""
@@ -28,11 +26,10 @@ class TrainingModel:
     @lang.setter
     def lang(self, lang):
         tess_lang = read_json('tesseract_langs')
-
         if lang in tess_lang:
             self._lang = lang
         else:
-            raise MyException('Language not supported')
+            raise KeyError('Language not supported')
 
     def generate_training_data(self, pages=250):
         """Generates training data"""
@@ -40,21 +37,23 @@ class TrainingModel:
         font_list = read_file('fonts.txt')
 
         # if language is supported then generate training data
-        # if is_lang_supported():
-
-        process = subprocess.call([
-            'tesstrain.sh',
-            '--fonts_dir', path,
-            '--fontlist', 'OCR-A',
-            '--lang', 'lav',
-            '--noextract_font_properties',
-            '--linedata_only',
-            '--langdata_dir', f'{self.tesseract_env}/langdata_lstm',
-            '--tessdata_dir', self.tesseract_env,
-            '--save_box_tiff',
-            '--maxpages', str(pages),
-            '--output_dir', self.train_folder
-        ])
+        font = 'OCR-A'
+        if is_lang_supported(font, self.lang):
+            process = subprocess.call([
+                'tesstrain.sh',
+                '--fonts_dir', path,
+                '--fontlist', 'OCR-A',
+                '--lang', 'lav',
+                '--noextract_font_properties',
+                '--linedata_only',
+                '--langdata_dir', f'{self.tesseract_env}/langdata_lstm',
+                '--tessdata_dir', self.tesseract_env,
+                '--save_box_tiff',
+                '--maxpages', str(pages),
+                '--output_dir', self.train_folder
+            ])
+        else:
+            print(f"Font {font} doesn't support {self.lang} language")
         # return process
 
     def extract_recognition_model(self):
