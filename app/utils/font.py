@@ -40,23 +40,24 @@ def font_name() -> list:
     return font_lst
 
 
-def is_lang_supported(font: str, lang: str):
+def convert_to_iso_639_1(lang: str):
+    """Converts iso_639-2 to iso_639-1."""
+    iso = read_json('iso_639-2')[lang]['639-1']
+    return iso
+
+
+def is_lang_supported(font: str, lang: str) -> bool:
     """
     Check if fonts supports specific language
     Parameters:
     arg1(string) font name without extension
-    arg2(string) language code in ISO 639-1 standart
+    arg2(string) language code in ISO 639-2 standart
     """
-
-    # by default eng is suppiorted mostly for all fonts
+    # by default eng is supported mostly for all fonts
     if lang == 'eng' or lang == 'en':
         return True
 
-    # convert 639-2 to 639-1
-    l = read_json('../tesseract/iso_639-2')[lang]['639-1']
-    font = f'{font}.ttf'
-    path = font_path()
-    full_path = os.path.join(path, font)
+    full_path = os.path.join(font_path(), f'{font}.ttf')
 
     process = Popen([
         'fc-query', full_path
@@ -68,7 +69,5 @@ def is_lang_supported(font: str, lang: str):
     process.wait()
     lang_list = langs.split('|')
 
-    return l in lang_list
-
-
-#print(is_lang_supported('Hypermarket W00 Light', 'lav'))
+    lang = convert_to_iso_639_1(lang)
+    return lang in lang_list
