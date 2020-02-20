@@ -9,12 +9,8 @@ from app.utils.decor import exectime
 from app.utils.font import font_path
 from app.utils.helpers import read_file, read_json
 
-LANG = "lav"
-
-
 class MyException(Exception):
     pass
-
 
 class TrainingModel:
     """Training tesseract model functions"""
