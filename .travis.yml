@@ -1,0 +1,17 @@
+matrix:
+  include:
+    - language: python
+    python:
+        - 3.7.3
+
+
+services:
+  - docker
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.21.1
+
+
+before_script:
+  - export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1
+  - npm install
