@@ -31,18 +31,18 @@ def font_name() -> list:
     fonts = get_fonts_names()
 
     for name in fonts:
-        process = Popen(
-            ['fc-scan', f'{font_path()}/{name}'], stdout=PIPE, stderr=PIPE)
-        full_name = check_output(('grep', 'fullname'), stdin=process.stdout)
-        process.wait()
-        font_name = re.findall(r'\"(.+?)\"', str(full_name).split(":")[1])[0]
-        font_lst.append(font_name)
+        with Popen(['fc-scan', f'{font_path()}/{name}'], stdout=PIPE, stderr=PIPE) as proc:
+            full_name = check_output(('grep', 'fullname'), stdin=proc.stdout)
+
+            font_name = re.findall(
+                r'\"(.+?)\"', str(full_name).split(":")[1])[0]
+            font_lst.append(font_name)
     return font_lst
 
 
-def convert_to_iso_639_1(lang: str):
+def convert_to_iso_639_1(lang: str) -> str:
     """Converts iso_639-2 to iso_639-1."""
-    iso = read_json('iso_639-2')[lang]['639-1']
+    iso = read_json('./iso_639-2')[lang]['639-1']
     return iso
 
 
@@ -59,15 +59,11 @@ def is_lang_supported(font: str, lang: str) -> bool:
 
     full_path = os.path.join(font_path(), f'{font}.ttf')
 
-    process = Popen([
-        'fc-query', full_path
-    ], stdout=PIPE, stderr=PIPE)
-
-    langs = check_output([
-        'grep', '-w', 'lang'
-    ], stdin=process.stdout, text=True)
-    process.wait()
+    with Popen(['fc-query', full_path], stdout=PIPE, stderr=PIPE) as proc:
+        langs = check_output([
+            'grep', '-w', 'lang'
+        ], stdin=proc.stdout, text=True)
+    proc.kill()
     lang_list = langs.split('|')
-
     lang = convert_to_iso_639_1(lang)
     return lang in lang_list
