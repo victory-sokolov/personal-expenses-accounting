@@ -1,9 +1,12 @@
 import os
 
 
-class ModelProperties:
+class ModelProperties(object):
 
-    def __init__(self, lang, model_path, model_name):
+    model_path = os.getenv('MODEl_PATH')
+    tesseract_env = os.getenv("TESSDATA_PREFIX")
+    training_data = os.getenv("TRAINING_DATA")
+
+    def __init__(self, lang):
         self.lang = lang
-        self.model_path = os.getenv('MODEl_PATH')
-        self.model_name = model_name
+        # self.model_name = model_name
