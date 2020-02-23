@@ -3,6 +3,7 @@ import os
 import re
 import subprocess
 from subprocess import PIPE, STDOUT, Popen, check_output
+from typing import Dict
 
 from app.services.tesseract.ModelProperties import ModelProperties
 from app.utils.decor import exectime
@@ -18,7 +19,7 @@ class ModelTraining(object):
         self._props = props
 
     @property
-    def lang(self):
+    def lang(self) -> str:
         return self._lang
 
     @lang.setter
@@ -36,14 +37,14 @@ class ModelTraining(object):
             f'{self._lang}.lstm'
         ])
 
-    def fine_tune(self, iterations: int):
+    def fine_tune(self):
         process = subprocess.Popen([
             'lstmtraining',
             '--continue_from', f'{self._lang}.lstm',
             '--model_output', f'{self._props.model_path}/font',
             '--traineddata', f'{self._props.tesseract_env}/{self._lang}.traineddata',
             '--train_listfile', f'{self._props.training_data}/{self._lang}.training_files.txt',
-            '--max_iterations', str(iterations)
+            '--max_iterations', str(self._props.iterations)
         ], stdout=PIPE, stderr=STDOUT, text=True)
 
         while process.poll() is None:
@@ -54,7 +55,8 @@ class ModelTraining(object):
 
         return self.get_model_statistics(stats)
 
-    def get_model_statistics(self, stats):
+    def get_model_statistics(self, stats: str) -> Dict:
+        """Parse string to get model statistics."""
         stats = stats.split("=")
         stats = list(
             filter(None, [re.findall("\d+\.\d+", stat) for stat in stats])
@@ -68,6 +70,7 @@ class ModelTraining(object):
         }
 
     def combine(self):
+        """Combine existing model with newly created."""
         process = subprocess.call([
             'lstmtraining',
             '--stop_training',
