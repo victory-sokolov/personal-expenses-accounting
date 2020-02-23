@@ -1,19 +1,19 @@
-from app.services.tesseract import (Evaluator,
-                                    ModelTrainer,
-                                    TrainingDataGenerator)
-from app.utils import TaskLoggerDecorator
+from app.services.tesseract.Evaluator import Evaluator
+from app.services.tesseract.ModelTraining import ModelTraining
+from app.services.tesseract.TrainingDataGenerator import TrainingDataGenerator
+from app.utils.TaskTimerDecorator import TaskTimerDecorator
 
 
-class PipelineBuilder:
+class PipelineBuilder(object):
 
     def __init__(self, props):
         self._props = props
 
     def create_pipeline(self):
-        lang = self.props.lang
+        lang = self._props.lang
 
         return [
-            TaskLoggerDecorator(TrainingDataGenerator(lang)),
-            TaskLoggerDecorator(Evaluator(lang)),
-            TaskLoggerDecorator(ModelTrainer(lang))
+            TrainingDataGenerator(lang, self._props),
+            #Evaluator(lang, self._props, True)
+            #ModelTraining(lang, self._props)
         ]
