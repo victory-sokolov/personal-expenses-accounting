@@ -7,7 +7,7 @@ import os
 
 
 def data_to_file(data, filename, path):
-    """Save passed data to text file"""
+    """Save passed data to file"""
     file_path = os.path.join(path, filename)
 
     # if func is passed as argument
