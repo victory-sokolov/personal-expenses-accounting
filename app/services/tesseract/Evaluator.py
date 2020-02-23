@@ -1,34 +1,30 @@
+import csv
 import re
 import subprocess
 from subprocess import PIPE, STDOUT, Popen, check_output
 from typing import Dict
 
 from app.services.tesseract.ModelProperties import ModelProperties
-from app.utils.TaskLoggerDecorator import TaskLoggerDecorator
+from app.utils.helpers import data_to_file
+from app.utils.TaskTimerDecorator import TaskTimerDecorator
 
 
-class Evaluator:
+class Evaluator(object):
 
-    def __init__(self, lang: str, props: ModelProperties):
+    eval_data = None
+
+    def __init__(self, lang: str, props: ModelProperties, default_model_eval: bool):
         self._lang = lang
-        self.props = props(self._lang, 'model')
+        self.props = props
+        self.default_model_eval = default_model_eval
 
-    def evaluate(self, default=False):
-        """
-        Evaluates Tesseract model for specified languages
-
-        Parameters:
-        arg1(boolean): True if need to evaluate default language model
-
-        Returns:
-        dict: result of evaluation
-        """
-        if default:
+    def evaluate(self):
+        """Evaluates Tesseract model for specified languages."""
+        if self.default_model_eval:
             model = f'{self._lang}.lstm'
             traineddata = f'{self.props.tesseract_env}/{self._lang}.traineddata'
         else:
-            font_checkpoint = "hypermarket"
-            model = f'{self.props.model_path}/{font_checkpoint}_checkpoint'
+            model = f'{self.props.model_path}/font_checkpoint'
             traineddata = f'{self.props.model_path}/{self._lang}.traineddata'
 
         process = subprocess.Popen([
@@ -41,26 +37,29 @@ class Evaluator:
         while process.poll() is None:
             line = process.stdout.readline()
             print(line)
-            if line.startswith('At iteration 0'):
-                last_line = line
+            if line.startswith('At iteration'):
+                statistics = line
+        self.eval_data = statistics
 
-        return self.evaluated_data(last_line)
+    def evaluated_data(self) -> Dict:
+        """Parse string of evaluated data"""
+        if self.eval_data is None:
+            return 'Evaluation Failed'
 
-    def evaluated_data(self, eval_data: str) -> Dict:
-        eval_data = eval_data.split("=")
+        eval_data = self.eval_data.split("=")
         char_error = re.findall("\d+\.\d+", eval_data[-2])[0]
         word_error = eval_data[-1]
-        return {
+        self.eval_data = {
             'character_error': float(char_error),
             'word_error': float(word_error)
         }
+        return self.eval_data
 
     def save_evaluated_data(self):
-        pass
+        with open('model_statistics.csv', 'w') as f:
+            w = csv.DictWriter(f, self.eval_data.keys())
+            w.writeheader()
+            w.writerow(self.eval_data)
 
     def plot_data(self):
         pass
-
-
-evaluator = Evaluator('lav', ModelProperties)
-print(evaluator.evaluate(True))
