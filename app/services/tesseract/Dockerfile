@@ -6,6 +6,8 @@ WORKDIR = /workspace
 RUN apt-get update && apt-get install -y \
     vim
 
-COPY start.sh ~
+COPY start.sh
+# copy fonts directory
+COPY ../../../fonts/*.ttf ~/.fonts
 
 CMD ['~/start.sh']
