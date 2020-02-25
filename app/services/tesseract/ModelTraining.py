@@ -1,5 +1,3 @@
-import asyncio
-import os
 import re
 import subprocess
 from subprocess import PIPE, STDOUT, Popen, check_output
@@ -36,6 +34,7 @@ class ModelTraining(object):
             f'{self._props.tesseract_env}/{self._lang}.traineddata',
             f'{self._lang}.lstm'
         ])
+        return process
 
     def fine_tune(self):
         process = subprocess.Popen([
@@ -45,7 +44,7 @@ class ModelTraining(object):
             '--traineddata', f'{self._props.tesseract_env}/{self._lang}.traineddata',
             '--train_listfile', f'{self._props.training_data}/{self._lang}.training_files.txt',
             '--max_iterations', str(self._props.iterations)
-        ], stdout=PIPE, stderr=STDOUT, text=True)
+        ], stdout=PIPE, stderr=STDOUT)
 
         while process.poll() is None:
             line = process.stdout.readline()
@@ -59,13 +58,13 @@ class ModelTraining(object):
         """Parse string to get model statistics."""
         stats = stats.split("=")
         stats = list(
-            filter(None, [re.findall("\d+\.\d+", stat) for stat in stats])
+            filter(None, [re.findall(r"\\d+\.\d+", stat) for stat in stats])
         )
         return {
             'Mean rms': stats[0][0],
             'delta': stats[1][0],
             'char train': stats[2][0],
-            'word trian': stats[3][0],
+            'word train': stats[3][0],
             'worst char error': stats[4][0]
         }
 
