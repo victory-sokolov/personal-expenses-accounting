@@ -32,7 +32,7 @@ class Evaluator(object):
             '--model', model,
             '--traineddata', traineddata,
             '--eval_listfile', f'{self.props.training_data}/{self._lang}.training_files.txt'
-        ], stdout=PIPE, stderr=STDOUT, text=True)
+        ], stdout=PIPE, stderr=STDOUT)
 
         while process.poll() is None:
             line = process.stdout.readline()
@@ -56,8 +56,8 @@ class Evaluator(object):
         return self.eval_data
 
     def save_evaluated_data(self):
-        with open('model_statistics.csv', 'w') as f:
-            w = csv.DictWriter(f, self.eval_data.keys())
+        with open('model_statistics.csv', 'w') as data:
+            w = csv.DictWriter(data, self.eval_data.keys())
             w.writeheader()
             w.writerow(self.eval_data)
 
