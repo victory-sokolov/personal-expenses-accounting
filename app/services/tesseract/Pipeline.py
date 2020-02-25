@@ -24,4 +24,4 @@ class Pipeline(object):
 model = ModelProperties('eng')
 pipeline_list = PipelineBuilder(model).create_pipeline()
 
-pipeline = Pipeline(pipeline_list).run_tasks()
+Pipeline(pipeline_list).run_tasks()
