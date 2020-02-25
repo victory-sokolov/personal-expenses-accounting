@@ -16,8 +16,7 @@ class TrainingDataGenerator(object):
     def generate_training_data(self):
         """Generates training data"""
         path = font_path()
-        font_support = supported_fonts(get_fonts_names_in_dir(), self._lang)
-        font_list = get_font_names(font_support)
+        font_list = supported_fonts(get_fonts_names_in_dir(), self._lang)
 
         process = subprocess.call([
             'tesstrain.sh',
