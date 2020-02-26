@@ -1,7 +1,7 @@
 import os
 import re
 from pathlib import Path, PurePosixPath
-from subprocess import PIPE, Popen, check_output, subprocess
+from subprocess import PIPE, Popen, check_output
 from typing import List
 
 from app.utils.helpers import read_json
