@@ -34,7 +34,7 @@ class ModelTraining(object):
         process_params = [
             'lstmtraining',
             '--continue_from', f'{self._lang}.lstm',
-            '--model_output', f'{self._props.model_path}/font',
+            '--model_output', f'{self._props.model_path}',
             '--traineddata', f'{self._props.tesseract_env}/{self._lang}.traineddata',
             '--train_listfile', f'{self._props.training_data}/{self._lang}.training_files.txt',
             '--max_iterations', str(self._props.iterations)
@@ -76,6 +76,6 @@ class ModelTraining(object):
     #     return process
 
 
-model = ModelProperties('eng')
-train = ModelTraining("eng", model, ProcessManager)
+model = ModelProperties('lav')
+train = ModelTraining("lav", model, ProcessManager)
 train.fine_tune()
