@@ -1,22 +1,24 @@
 import csv
+import os
 import re
 import subprocess
-from subprocess import PIPE, STDOUT, Popen, check_output
 from typing import Dict
 
 from app.services.tesseract.ModelProperties import ModelProperties
+from app.services.tesseract.ProcessManager import ProcessManager
 from app.utils.helpers import data_to_file
 from app.utils.TaskTimerDecorator import TaskTimerDecorator
 
 
 class Evaluator(object):
 
-    eval_data = None
+    eval_data = []
 
-    def __init__(self, lang: str, props: ModelProperties, default_model_eval: bool):
+    def __init__(self, lang: str, props: ModelProperties, proc: ProcessManager, default_model_eval: bool):
         self._lang = lang
         self.props = props
         self.default_model_eval = default_model_eval
+        self._proc = proc
 
     def evaluate(self):
         """Evaluates Tesseract model for specified languages."""
@@ -27,39 +29,60 @@ class Evaluator(object):
             model = f'{self.props.model_path}/font_checkpoint'
             traineddata = f'{self.props.model_path}/{self._lang}.traineddata'
 
-        process = subprocess.Popen([
-            'lstmeval',
-            '--model', model,
-            '--traineddata', traineddata,
-            '--eval_listfile', f'{self.props.training_data}/{self._lang}.training_files.txt'
-        ], stdout=PIPE, stderr=STDOUT)
+        training_file = f'{self.props.training_data}/{self._lang}.training_files.txt'
 
-        while process.poll() is None:
-            line = process.stdout.readline()
-            print(line)
-            if line.startswith('At iteration'):
-                statistics = line
-        self.eval_data = statistics
+        if os.path.exists(training_file):
+            with open(training_file) as file:
+                for lstmf in file:
+                    with open('training.txt', 'w') as fs:
+                        fs.write(lstmf)
+
+                    process_params = [
+                        'lstmeval',
+                        '--model', model,
+                        '--traineddata', traineddata,
+                        '--eval_listfile', 'training.txt'
+                    ]
+                    process = self._proc.create_process(process_params)
+
+                    while process.poll() is None:
+                        line = process.stdout.readline()
+                        print(line)
+                        if line.startswith('At iteration'):
+                            statistics = line
+
+                    process.kill()
+                    os.remove('training.txt')
+                    font = re.split("[/,.]", lstmf)[-3]
+                    self.eval_data.append(
+                        {'font': font, 'statistics': statistics})
+                    self.eval_data.append(
+                        {'font': font, 'statistics': statistics})
 
     def evaluated_data(self) -> Dict:
         """Parse string of evaluated data"""
-        if self.eval_data is None:
+        if not self.eval_data:
             return 'Evaluation Failed'
 
-        eval_data = self.eval_data.split("=")
-        char_error = re.findall("\d+\.\d+", eval_data[-2])[0]
-        word_error = eval_data[-1]
-        self.eval_data = {
-            'character_error': float(char_error),
-            'word_error': float(word_error)
-        }
+        statistics = [stat['statistics'] for stat in self.eval_data]
+        for count, stat in enumerate(statistics):
+            eval_data = stat.split("=")
+            char_error = re.findall(r"\d+\.\d+", eval_data[-2])[0]
+            word_error = eval_data[-1]
+
+            self.eval_data[count]['character_error'] = float(char_error)
+            self.eval_data[count]['word_error'] = float(word_error)
+            del self.eval_data[count]['statistics']
+
         return self.eval_data
 
     def save_evaluated_data(self):
-        with open('model_statistics.csv', 'w') as data:
-            w = csv.DictWriter(data, self.eval_data.keys())
-            w.writeheader()
-            w.writerow(self.eval_data)
+        if self.eval_data:
+            with open('model_statistics.csv', 'a') as data:
+                write = csv.DictWriter(
+                    data, fieldnames=self.eval_data[0].keys())
+                write.writeheader()
+                write.writerows(self.eval_data)
 
     def plot_data(self):
         pass

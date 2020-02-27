@@ -1,24 +1,26 @@
 import subprocess
 
 from app.services.tesseract.ModelProperties import ModelProperties
-from app.utils.font import (font_path, fonts_names, get_font_names,
-                            get_fonts_names_in_dir, supported_fonts)
+from app.services.tesseract.ProcessManager import ProcessManager
+from app.utils.font import (font_path, fonts_names, get_fonts_names_in_dir,
+                            supported_fonts)
 from app.utils.helpers import read_file
 from app.utils.TaskTimerDecorator import TaskTimerDecorator
 
 
 class TrainingDataGenerator(object):
 
-    def __init__(self, lang: str, props: ModelProperties):
+    def __init__(self, lang: str, props: ModelProperties, proc: ProcessManager):
         self._lang = lang
         self._props = props
+        self._proc = proc
 
     def generate_training_data(self):
         """Generates training data"""
         path = font_path()
         font_list = supported_fonts(get_fonts_names_in_dir(), self._lang)
 
-        process = subprocess.call([
+        process_params = [
             'tesstrain.sh',
             '--fonts_dir', path,
             '--fontlist', *font_list,
@@ -30,6 +32,13 @@ class TrainingDataGenerator(object):
             '--save_box_tiff',
             '--maxpages', str(self._props.pages),
             '--output_dir', self._props.training_data
-        ])
+        ]
+        process = self._proc.create_process(process_params)
+        while process.poll() is None:
+            line = process.stdout.readline()
+            print(line)
+        process.kill()
 
         return process
+
+
