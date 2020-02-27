@@ -14,9 +14,9 @@ class PipelineBuilder(object):
         lang = self._props.lang
 
         return [
-            #TrainingDataGenerator(lang, self._props, ProcessManager),
-            #ModelExtractor(lang, self._props, ProcessManager),
-            #Evaluator(lang, self._props, ProcessManager, True),
+            TrainingDataGenerator(lang, self._props, ProcessManager),
+            ModelExtractor(lang, self._props, ProcessManager),
+            Evaluator(lang, self._props, ProcessManager, True),
             ModelTraining(lang, self._props, ProcessManager),
             #Evaluator(lang, self._props, ProcessManager, False)
         ]

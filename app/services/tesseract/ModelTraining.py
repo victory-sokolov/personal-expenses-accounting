@@ -5,7 +5,6 @@ from typing import Dict
 
 from app.services.tesseract.ModelProperties import ModelProperties
 from app.services.tesseract.ProcessManager import ProcessManager
-from app.utils.decor import exectime
 from app.utils.font import font_path
 from app.utils.helpers import read_file, read_json
 
@@ -34,7 +33,7 @@ class ModelTraining(object):
         process_params = [
             'lstmtraining',
             '--continue_from', f'{self._lang}.lstm',
-            '--model_output', f'{self._props.model_path}',
+            '--model_output', f'{self._props.model_path}/font',
             '--traineddata', f'{self._props.tesseract_env}/{self._lang}.traineddata',
             '--train_listfile', f'{self._props.training_data}/{self._lang}.training_files.txt',
             '--max_iterations', str(self._props.iterations)
@@ -69,7 +68,7 @@ class ModelTraining(object):
     #         '--stop_training',
     #         '--continue_from', f'model_output/font_checkpoint',
     #         '--traineddata', f'{self._props.tesseract_env}/{self._lang}.traineddata',
-    #         '--model_output', f'{self._props.model_path}/{self._lang}.traineddata'
+    #         '--model_outputservices/tesseract/PipelineBuilder.py', f'{self._props.model_path}/{self._lang}.traineddata'
     #     ]
     #     process = self._proc.create_process(process_params)
     #     process.kill()
