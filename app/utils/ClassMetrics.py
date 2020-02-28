@@ -1,8 +1,5 @@
 from typing import List
 
-from app.services.tesseract.TrainingDataGenerator import TrainingDataGenerator
-
-
 class ClassMetrics(object):
 
     @staticmethod
@@ -11,5 +8,10 @@ class ClassMetrics(object):
             func for func in dir(class_name)
             if callable(
                 getattr(class_name, func)
-            ) and not func.startswith("__")
+            ) and not func.startswith("_")
         ]
+
+    @staticmethod
+    def get_class_name_from_instance(class_name):
+        return type(class_name).__name__
+
