@@ -12,11 +12,11 @@ class PipelineBuilder(object):
 
     def create_pipeline(self):
         lang = self._props.lang
-
+        self._props.init_setup()
         return [
             TrainingDataGenerator(lang, self._props, ProcessManager),
             ModelExtractor(lang, self._props, ProcessManager),
             Evaluator(lang, self._props, ProcessManager, True),
             ModelTraining(lang, self._props, ProcessManager),
-            #Evaluator(lang, self._props, ProcessManager, False)
+            Evaluator(lang, self._props, ProcessManager, False)
         ]
