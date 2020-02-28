@@ -6,9 +6,10 @@ from app.utils.font import (font_path, fonts_names, get_fonts_names_in_dir,
                             supported_fonts)
 from app.utils.helpers import read_file
 from app.utils.TaskTimerDecorator import TaskTimerDecorator
+from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
 
 
-class TrainingDataGenerator(object):
+class TrainingDataGenerator(metaclass=OrderedClassMembers):
 
     def __init__(self, lang: str, props: ModelProperties, proc: ProcessManager):
         self._lang = lang

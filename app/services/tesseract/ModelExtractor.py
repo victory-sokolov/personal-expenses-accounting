@@ -1,8 +1,9 @@
 import subprocess
 from app.services.tesseract.ProcessManager import ProcessManager
 from app.services.tesseract.ModelProperties import ModelProperties
+from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
 
-class ModelExtractor(object):
+class ModelExtractor(metaclass=OrderedClassMembers):
 
     def __init__(self, lang: str, props: ModelProperties, proc: ProcessManager):
         self._lang = lang
