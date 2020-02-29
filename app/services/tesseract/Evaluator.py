@@ -19,7 +19,7 @@ class Evaluator(metaclass=OrderedClassMembers):
         self._lang = lang
         self.props = props
         self.default_model_eval = default_model_eval
-        self.proc = proc
+        self._proc = proc
 
     def evaluate(self):
         """Evaluates Tesseract model for specified languages."""
@@ -44,21 +44,14 @@ class Evaluator(metaclass=OrderedClassMembers):
                         '--traineddata', traineddata,
                         '--eval_listfile', 'training.txt'
                     ]
-                    process = self.proc.create_process(process_params)
+                    process = self._proc.create_process(process_params)
+                    statistics = self._proc.process_output(process)
 
-                    while process.poll() is None:
-                        line = process.stdout.readline()
-                        print(line)
-                        if line.startswith('At iteration'):
-                            statistics = line
-
-                    process.kill()
                     os.remove('training.txt')
                     font = re.split("[/,.]", lstmf)[-3]
                     self.eval_data.append(
                         {'font': font, 'statistics': statistics}
                     )
-                    print(self.eval_data)
 
     def evaluated_data(self) -> Dict:
         """Parse string of evaluated data"""
@@ -78,7 +71,7 @@ class Evaluator(metaclass=OrderedClassMembers):
         return self.eval_data
 
     def save_evaluated_data(self):
-        file = 'model_statistics.csv'
+        file = f'{self.props.stats}/{self._lang}_model_statistics.csv'
         file_exists = os.path.isfile(file)
         if self.eval_data:
             with open(file, 'a') as data:
