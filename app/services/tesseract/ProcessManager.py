@@ -10,3 +10,14 @@ class ProcessManager(object):
         return subprocess.Popen(
             params, stdout=PIPE, stderr=STDOUT, text=True
         )
+
+    @staticmethod
+    def process_output(process):
+        statistics = None
+        while process.poll() is None:
+            line = process.stdout.readline()
+            print(line)
+            if line.startswith('At iteration'):
+                statistics = line
+        process.kill()
+        return statistics
