@@ -14,4 +14,4 @@ class TaskTimerDecorator:
         start = datetime.now()
         self.task.run_tasks()
         elapsed_time = datetime.now() - start
-        logging.info('Elapsed time: {:.4f} '.format(elapsed_time))
+        logging.info('Elapsed time: %s', elapsed_time)
