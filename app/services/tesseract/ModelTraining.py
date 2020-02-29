@@ -40,12 +40,7 @@ class ModelTraining(metaclass=OrderedClassMembers):
             '--max_iterations', str(self._props.iterations)
         ]
         process = self._proc.create_process(process_params)
-
-        while process.poll() is None:
-            line = process.stdout.readline()
-            print(line)
-        process.kill()
-        return process
+        statistics = self._proc.process_output(process)
 
     # def __get_model_statistics(self, stats: str) -> Dict:
     #     """Parse string to get model statistics."""
