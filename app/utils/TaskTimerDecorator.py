@@ -10,8 +10,8 @@ class TaskTimerDecorator:
     def __init__(self, task):
         self.task = task
 
-    def execute(self):
+    def timer(self):
         start = datetime.now()
-        self.task.execute()
-        end = datetime.now() - start
-        logging.info(f'Execution time: {end}')
+        self.task.run_tasks()
+        elapsed_time = datetime.now() - start
+        logging.info('Elapsed time: {:.4f} '.format(elapsed_time))
