@@ -1,7 +1,10 @@
 import subprocess
-from app.services.tesseract.ProcessManager import ProcessManager
+
 from app.services.tesseract.ModelProperties import ModelProperties
 from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
+
+from app.services.tesseract.ProcessManager import ProcessManager
+
 
 class ModelExtractor(metaclass=OrderedClassMembers):
 
@@ -17,4 +20,4 @@ class ModelExtractor(metaclass=OrderedClassMembers):
             f'{self._lang}.lstm'
         ]
         process = self._proc.create_process(process_params)
-        return process
+        return process.returncode
