@@ -11,8 +11,9 @@ from app.utils.TaskTimerDecorator import TaskTimerDecorator
 
 class TrainingDataGenerator(metaclass=OrderedClassMembers):
 
-    def __init__(self, lang: str, props: ModelProperties, proc: ProcessManager):
+    def __init__(self, lang: str, pages: str, props: ModelProperties, proc: ProcessManager):
         self._lang = lang
+        self._pages = pages
         self._props = props
         self._proc = proc
 
@@ -31,7 +32,7 @@ class TrainingDataGenerator(metaclass=OrderedClassMembers):
             '--langdata_dir', f'{self._props.tesseract_env}/langdata_lstm',
             '--tessdata_dir', self._props.tesseract_env,
             '--save_box_tiff',
-            '--maxpages', str(self._props.pages),
+            '--maxpages', str(self._pages),
             '--output_dir', self._props.training_data
         ]
         process = self._proc.create_process(process_params)

@@ -13,8 +13,9 @@ from app.utils.helpers import read_file, read_json
 class ModelTraining(metaclass=OrderedClassMembers):
     """Training tesseract model"""
 
-    def __init__(self, lang: str, props: ModelProperties, proc: ProcessManager):
+    def __init__(self, lang: str, iterations: str, props: ModelProperties, proc: ProcessManager):
         self._lang = lang
+        self._iterations = iterations
         self._props = props
         self._proc = proc
 
@@ -37,7 +38,7 @@ class ModelTraining(metaclass=OrderedClassMembers):
             '--model_output', f'{self._props.model_path}/font',
             '--traineddata', f'{self._props.tesseract_env}/{self._lang}.traineddata',
             '--train_listfile', f'{self._props.training_data}/{self._lang}.training_files.txt',
-            '--max_iterations', str(self._props.iterations)
+            '--max_iterations', str(self._iterations)
         ]
         process = self._proc.create_process(process_params)
         statistics = self._proc.process_output(process)
