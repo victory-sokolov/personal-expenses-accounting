@@ -7,10 +7,9 @@ class ModelProperties(object):
     tesseract_env = os.getenv("TESSDATA_PREFIX")
     training_data = os.getenv("TRAINING_DATA")
     stats = os.getenv("STATS_PATH")
-    iterations = 500
-    pages = 5  # amount of training data (pages)
 
-    def __init__(self, lang, iterations=500, pages=5):
+
+    def __init__(self, lang, iterations=4500, pages=250):
         self.lang = lang
         self.iterations = iterations
         self.pages = pages
