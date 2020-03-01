@@ -20,5 +20,4 @@ print(text)
 
 file = open("data-result.txt", "w")
 file.write(text)
-
 #os.remove(filename)
