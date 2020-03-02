@@ -43,21 +43,6 @@ class ModelTraining(metaclass=OrderedClassMembers):
         process = self._proc.create_process(process_params)
         statistics = self._proc.process_output(process)
 
-    # def __get_model_statistics(self, stats: str) -> Dict:
-    #     """Parse string to get model statistics."""
-    #     stat_list = stats.split("=")
-    #     stats = list(
-    #         filter(None, [re.findall(r"\\d+\.\d+", stat)
-    #             for stat in stat_list])
-    #     )
-    #     return {
-    #         'Mean rms': stats[0][0],
-    #         'delta': stats[1][0],
-    #         'char train': stats[2][0],
-    #         'word train': stats[3][0],
-    #         'worst char error': stats[4][0]
-    #    }
-
     def combine(self):
         """Combine existing model with newly created."""
         process_params = [
