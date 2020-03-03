@@ -14,6 +14,7 @@ from app.utils.TaskTimerDecorator import TaskTimerDecorator
 class Evaluator(metaclass=OrderedClassMembers):
 
     eval_data = []
+    file_prefix = None
 
     def __init__(self, lang: str, props: ModelProperties, proc: ProcessManager, default_model_eval: bool):
         self._lang = lang
@@ -26,9 +27,11 @@ class Evaluator(metaclass=OrderedClassMembers):
         if self.default_model_eval:
             model = f'{self._lang}.lstm'
             traineddata = f'{self.props.tesseract_env}/{self._lang}.traineddata'
+            self.file_prefix = "before_"
         else:
             model = f'{self.props.model_path}/font_checkpoint'
             traineddata = f'{self.props.model_path}/{self._lang}.traineddata'
+            self.file_prefix = "after_"
 
         training_file = f'{self.props.training_data}/{self._lang}.training_files.txt'
 
@@ -71,7 +74,7 @@ class Evaluator(metaclass=OrderedClassMembers):
         return self.eval_data
 
     def save_evaluated_data(self):
-        file = f'{self.props.stats}/{self._lang}_model_statistics.csv'
+        file = f'{self.file_prefix}{self.props.stats}/{self._lang}_model_statistics.csv'
         file_exists = os.path.isfile(file)
         if self.eval_data:
             with open(file, 'a') as data:
