@@ -1,7 +1,6 @@
 import csv
 import os
 import re
-import subprocess
 from typing import Dict
 
 from app.services.tesseract.ModelProperties import ModelProperties
@@ -27,11 +26,11 @@ class Evaluator(metaclass=OrderedClassMembers):
         if self.default_model_eval:
             model = f'{self._lang}.lstm'
             traineddata = f'{self.props.tesseract_env}/{self._lang}.traineddata'
-            self.file_prefix = "before_"
+            self.file_prefix = "before"
         else:
             model = f'{self.props.model_path}/font_checkpoint'
             traineddata = f'{self.props.model_path}/{self._lang}.traineddata'
-            self.file_prefix = "after_"
+            self.file_prefix = "after"
 
         training_file = f'{self.props.training_data}/{self._lang}.training_files.txt'
 
@@ -62,6 +61,7 @@ class Evaluator(metaclass=OrderedClassMembers):
             return 'Evaluation Failed'
 
         statistics = [stat['statistics'] for stat in self.eval_data]
+
         for count, stat in enumerate(statistics):
             eval_data = stat.split("=")
             char_error = re.findall(r"\d+\.\d+", eval_data[-2])[0]
@@ -74,7 +74,7 @@ class Evaluator(metaclass=OrderedClassMembers):
         return self.eval_data
 
     def save_evaluated_data(self):
-        file = f'{self.file_prefix}{self.props.stats}/{self._lang}_model_statistics.csv'
+        file = f'{self.props.stats}/{self.file_prefix}_{self._lang}_model_statistics.csv'
         file_exists = os.path.isfile(file)
         if self.eval_data:
             with open(file, 'a') as data:
