@@ -5,6 +5,7 @@ import shutil
 class ModelProperties(object):
 
     model_path = os.getenv('MODEL_PATH')
+    default_model_path = f'{model_path}/{os.getenv("DEFAULT_MODEL_PATH")}'
     tesseract_env = os.getenv("TESSDATA_PREFIX")
     training_data = os.getenv("TRAINING_DATA")
     stats = os.getenv("STATS_PATH")
@@ -15,10 +16,8 @@ class ModelProperties(object):
         self.pages = pages
 
     def init_setup(self):
-        # empty folder and create new
-        shutil.rmtree(self.stats)
-        dirs = [self.model_path, self.training_data, self.stats]
+        dirs = [self.model_path, self.training_data, self.stats,
+                self.default_model_path]
         for dirr in dirs:
             if not os.path.exists(dirr):
-                # shutil.rmtree(dirr)
                 os.mkdir(dirr)
