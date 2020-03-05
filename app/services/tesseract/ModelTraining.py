@@ -1,3 +1,4 @@
+import os
 import re
 import subprocess
 from subprocess import PIPE, STDOUT, Popen, check_output
@@ -34,7 +35,7 @@ class ModelTraining(metaclass=OrderedClassMembers):
     def fine_tune(self):
         process_params = [
             'lstmtraining',
-            '--continue_from', f'{self._lang}.lstm',
+            '--continue_from', f'{self._props.default_model_path}/{self._lang}.lstm',
             '--model_output', f'{self._props.model_path}/font',
             '--traineddata', f'{self._props.tesseract_env}/{self._lang}.traineddata',
             '--train_listfile', f'{self._props.training_data}/{self._lang}.training_files.txt',
@@ -45,14 +46,14 @@ class ModelTraining(metaclass=OrderedClassMembers):
 
     def combine(self):
         """Combine existing model with newly created."""
+        model_output = f'{self._props.model_path}/{self._lang}.traineddata'
         process_params = [
             'lstmtraining',
             '--stop_training',
             '--continue_from', f'{self._props.model_path}/font_checkpoint',
             '--traineddata', f'{self._props.tesseract_env}/{self._lang}.traineddata',
-            '--model_output', f'{self._props.model_path}/{self._lang}.traineddata'
+            '--model_output', model_output
         ]
-
         proc = check_output(
             process_params, text=True
         )
