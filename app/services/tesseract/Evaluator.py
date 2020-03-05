@@ -25,11 +25,11 @@ class Evaluator(metaclass=OrderedClassMembers):
         """Evaluates Tesseract model for specified languages."""
         if self.default_model_eval:
             model = f'{self._props.default_model_path}/{self._lang}.lstm'
-            traineddata = f'{self._props.tesseract_env}/{self._lang}.traineddata'
+            # traineddata = f'{self._props.tesseract_env}/{self._lang}.traineddata'
             self.file_prefix = "before"
         else:
             model = f'{self._props.model_path}/font_checkpoint'
-            traineddata = f'{self._props.model_path}/{self._lang}.traineddata'
+            # traineddata = f'{self._props.trained_data}/{self._lang}.traineddata'
             self.file_prefix = "after"
 
         training_file = f'{self._props.training_data}/{self._lang}.training_files.txt'
@@ -43,7 +43,7 @@ class Evaluator(metaclass=OrderedClassMembers):
                     process_params = [
                         'lstmeval',
                         '--model', model,
-                        '--traineddata', traineddata,
+                        '--traineddata', f'{self._props.trained_data}/{self._lang}.traineddata',
                         '--eval_listfile', 'training.txt'
                     ]
                     process = self._proc.create_process(process_params)
@@ -85,6 +85,3 @@ class Evaluator(metaclass=OrderedClassMembers):
                     write.writeheader()
                 write.writerows(self.eval_data)
             del self.eval_data[:]
-
-    def plot_data(self):
-        pass

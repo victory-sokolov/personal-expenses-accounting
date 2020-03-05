@@ -37,7 +37,7 @@ class ModelTraining(metaclass=OrderedClassMembers):
             'lstmtraining',
             '--continue_from', f'{self._props.default_model_path}/{self._lang}.lstm',
             '--model_output', f'{self._props.model_path}/font',
-            '--traineddata', f'{self._props.tesseract_env}/{self._lang}.traineddata',
+            '--traineddata', f'{self._props.trained_data}/{self._lang}.traineddata',
             '--train_listfile', f'{self._props.training_data}/{self._lang}.training_files.txt',
             '--max_iterations', str(self._iterations)
         ]
