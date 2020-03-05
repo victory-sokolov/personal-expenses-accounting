@@ -17,22 +17,22 @@ class Evaluator(metaclass=OrderedClassMembers):
 
     def __init__(self, lang: str, props: ModelProperties, proc: ProcessManager, default_model_eval: bool):
         self._lang = lang
-        self.props = props
+        self._props = props
         self.default_model_eval = default_model_eval
         self._proc = proc
 
     def evaluate(self):
         """Evaluates Tesseract model for specified languages."""
         if self.default_model_eval:
-            model = f'{self._lang}.lstm'
-            traineddata = f'{self.props.tesseract_env}/{self._lang}.traineddata'
+            model = f'{self._props.default_model_path}/{self._lang}.lstm'
+            traineddata = f'{self._props.tesseract_env}/{self._lang}.traineddata'
             self.file_prefix = "before"
         else:
-            model = f'{self.props.model_path}/font_checkpoint'
-            traineddata = f'{self.props.model_path}/{self._lang}.traineddata'
+            model = f'{self._props.model_path}/font_checkpoint'
+            traineddata = f'{self._props.model_path}/{self._lang}.traineddata'
             self.file_prefix = "after"
 
-        training_file = f'{self.props.training_data}/{self._lang}.training_files.txt'
+        training_file = f'{self._props.training_data}/{self._lang}.training_files.txt'
 
         if os.path.exists(training_file):
             with open(training_file) as file:
@@ -74,7 +74,7 @@ class Evaluator(metaclass=OrderedClassMembers):
         return self.eval_data
 
     def save_evaluated_data(self):
-        file = f'{self.props.stats}/{self.file_prefix}_{self._lang}_model_statistics.csv'
+        file = f'{self._props.stats}/{self.file_prefix}_{self._lang}_model_statistics.csv'
         file_exists = os.path.isfile(file)
         if self.eval_data:
             with open(file, 'a') as data:
