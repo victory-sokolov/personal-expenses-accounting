@@ -3,10 +3,10 @@ import subprocess
 from app.services.tesseract.ModelProperties import ModelProperties
 from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
 from app.services.tesseract.ProcessManager import ProcessManager
-from app.utils.font import (font_path, fonts_names, get_fonts_names_in_dir,
-                            supported_fonts)
-from app.utils.helpers import read_file
-from app.utils.TaskTimerDecorator import TaskTimerDecorator
+from app.services.tesseract.utils.font import (
+    font_path, fonts_names, supported_fonts, get_fonts_names_in_dir)
+from app.services.tesseract.utils.helpers import read_file
+from app.services.tesseract.utils.TaskTimerDecorator import TaskTimerDecorator
 
 
 class TrainingDataGenerator(metaclass=OrderedClassMembers):

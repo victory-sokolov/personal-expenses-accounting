@@ -6,8 +6,8 @@ from typing import Dict
 from app.services.tesseract.ModelProperties import ModelProperties
 from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
 from app.services.tesseract.ProcessManager import ProcessManager
-from app.utils.helpers import data_to_file
-from app.utils.TaskTimerDecorator import TaskTimerDecorator
+from app.services.tesseract.utils.helpers import data_to_file
+from app.services.tesseract.utils.TaskTimerDecorator import TaskTimerDecorator
 
 
 class Evaluator(metaclass=OrderedClassMembers):

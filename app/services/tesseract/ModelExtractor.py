@@ -14,15 +14,18 @@ class ModelExtractor(metaclass=OrderedClassMembers):
         self._proc = proc
 
     def extract_recognition_model(self):
-        self.trained_data = self._props.model_path
+        self._props.trained_data = self._props.model_path
         # get default model on first run
-        if not os.path.exists(self._props.default_model_path):
+        lstm_file = f'{self._props.lstm}/{self._lang}.lstm'
+        if not os.path.isfile(lstm_file):
+            if not os.path.exists(self._props.lstm):
+                os.mkdir(self._props.lstm)
             self._props.trained_data = self._props.tesseract_env
 
         process_params = [
             'combine_tessdata', '-e',
             f'{self._props.trained_data}/{self._lang}.traineddata',
-            f'{self._props.default_model_path}'
+            f'{self._props.lstm}/{self._lang}.lstm'
         ]
         process = self._proc.create_process(process_params)
         return process.returncode

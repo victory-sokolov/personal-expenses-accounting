@@ -7,8 +7,8 @@ from typing import Dict
 from app.services.tesseract.ModelProperties import ModelProperties
 from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
 from app.services.tesseract.ProcessManager import ProcessManager
-from app.utils.font import font_path
-from app.utils.helpers import read_file, read_json
+from app.services.tesseract.utils.helpers import read_file, read_json
+from app.services.tesseract.utils.font import font_path
 
 
 class ModelTraining(metaclass=OrderedClassMembers):
@@ -26,7 +26,7 @@ class ModelTraining(metaclass=OrderedClassMembers):
 
     @lang.setter
     def lang(self, lang: str):
-        tesseract_langs = read_json('tesseract_langs')
+        tesseract_langs = read_json('utils/tesseract_langs')
         if lang in tesseract_langs:
             self._lang = lang
         else:
@@ -51,7 +51,7 @@ class ModelTraining(metaclass=OrderedClassMembers):
             'lstmtraining',
             '--stop_training',
             '--continue_from', f'{self._props.model_path}/font_checkpoint',
-            '--traineddata', f'{self._props.tesseract_env}/{self._lang}.traineddata',
+            '--traineddata', f'{self._props.trained_data}/{self._lang}.traineddata',
             '--model_output', model_output
         ]
         proc = check_output(
