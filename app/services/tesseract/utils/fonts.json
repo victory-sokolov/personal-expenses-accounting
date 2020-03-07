@@ -1,0 +1,17 @@
+{
+    "DPix_8pt": {
+        "skip": true
+    },
+    "OCR-A": {
+        "skip": false
+    },
+    "OCRB": {
+        "skip": false
+    },
+    "Merchant Copy": {
+        "skip": true
+    },
+    "HypermarketW00-Light Light": {
+        "skip": false
+    }
+}
