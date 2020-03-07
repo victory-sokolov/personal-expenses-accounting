@@ -35,14 +35,14 @@ class ModelTraining(metaclass=OrderedClassMembers):
     def fine_tune(self):
         process_params = [
             'lstmtraining',
-            '--continue_from', f'{self._props.default_model_path}/{self._lang}.lstm',
+            '--continue_from', f'{self._props.lstm}/{self._lang}.lstm',
             '--model_output', f'{self._props.model_path}/font',
             '--traineddata', f'{self._props.trained_data}/{self._lang}.traineddata',
             '--train_listfile', f'{self._props.training_data}/{self._lang}.training_files.txt',
             '--max_iterations', str(self._iterations)
         ]
         process = self._proc.create_process(process_params)
-        statistics = self._proc.process_output(process)
+        self._proc.process_output(process)
 
     def combine(self):
         """Combine existing model with newly created."""
