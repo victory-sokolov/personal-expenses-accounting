@@ -16,9 +16,8 @@ class PipelineBuilder(object):
         pages = self._props.pages
         interations = self._props.iterations
 
-
         return[
-            TrainingDataGenerator(lang, pages,self._props, ProcessManager),
+            TrainingDataGenerator(lang, pages, self._props, ProcessManager),
             ModelExtractor(lang, self._props, ProcessManager),
             Evaluator(lang, self._props, ProcessManager, True),
             ModelTraining(lang, interations, self._props, ProcessManager),
