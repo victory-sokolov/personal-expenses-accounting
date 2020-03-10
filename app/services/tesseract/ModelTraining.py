@@ -1,3 +1,4 @@
+import json
 import os
 import re
 import subprocess
@@ -7,8 +8,8 @@ from typing import Dict
 from app.services.tesseract.ModelProperties import ModelProperties
 from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
 from app.services.tesseract.ProcessManager import ProcessManager
-from app.services.tesseract.utils.helpers import read_file, read_json
 from app.services.tesseract.utils.font import font_path
+from app.services.tesseract.utils.helpers import read_file, read_json
 
 
 class ModelTraining(metaclass=OrderedClassMembers):
@@ -58,3 +59,15 @@ class ModelTraining(metaclass=OrderedClassMembers):
             process_params, text=True
         )
         return proc
+
+    def mark_font(self):
+        fonts = read_json('fonts')
+        trained_fonts = self._props.fonts
+        print(trained_fonts)
+
+        for font in trained_fonts:
+            fonts[font]['skip'] = True
+        # write data
+        with open('fonts.json', 'w') as file:
+            json.dump(fonts, file)
+            print("Data has been written")
