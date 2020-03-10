@@ -25,14 +25,14 @@ class TrainingDataGenerator(metaclass=OrderedClassMembers):
         fonts_to_json()
         fonts = read_json('fonts')
         #font_list = supported_fonts(get_fonts_names_in_dir(), self._lang)
-        font_list = supported_fonts(fonts, self._lang)
-        if not font_list:
+        self._props.fonts = supported_fonts(fonts, self._lang)
+        if not self._props.fonts:
             raise ValueError('No fonts found.')
 
         process_params = [
             'tesstrain.sh',
             '--fonts_dir', path,
-            '--fontlist', *font_list,
+            '--fontlist', *self._props.fonts,
             '--lang', self._lang,
             '--noextract_font_properties',
             '--linedata_only',
