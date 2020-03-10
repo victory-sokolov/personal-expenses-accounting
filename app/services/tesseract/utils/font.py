@@ -21,7 +21,6 @@ def get_fonts_names_in_dir() -> List:
     with extension: .ttf
     """
     directory = f'{font_path()}'
-    print(directory)
     dir_content = os.listdir(directory)
     font_list = [font for font in dir_content if font.endswith('.ttf', -4)]
     return font_list
@@ -42,7 +41,6 @@ def get_font_names() -> List:
 def fonts_to_json():
     fonts = get_font_names()
     data = None
-
     json_file = 'fonts.json'
     # if file exists reads it content
     if os.path.isfile(json_file):
@@ -68,7 +66,6 @@ def fonts_to_json():
 def fonts_names(font_list: List) -> List:
     """Get fonts names from fc-scan command"""
     font_lst = []
-
     for name in font_list:
         with Popen(['fc-scan', f'{font_path()}/{name}.ttf'], stdout=PIPE, stderr=PIPE) as proc:
             full_name = check_output(('grep', 'fullname'), stdin=proc.stdout)
@@ -106,10 +103,20 @@ def is_lang_supported(font: str, lang: str) -> bool:
     return lang in lang_list
 
 
-def supported_fonts(fonts: List, lang: str) -> List:
+def supported_fonts(fonts, lang: str) -> List:
     """Return list of supported fonts for passed language."""
     fonts_list = []
-    for font in fonts:
-        if is_lang_supported(font, lang):
-            fonts_list.append(font.split(".")[0])
+    if isinstance(fonts, dict):
+        keys = fonts.keys()
+        for font in keys:
+            skip = fonts[font]['skip']
+            # if skip is false
+            font = f'{font}.ttf'
+            if not skip and is_lang_supported(font, lang):
+                fonts_list.append(font.split(".")[0])
+    else:
+        for font in fonts:
+            if is_lang_supported(font, lang):
+                fonts_list.append(font.split(".")[0])
+
     return fonts_list
