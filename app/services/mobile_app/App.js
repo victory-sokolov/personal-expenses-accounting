@@ -1,12 +1,8 @@
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
 import CameraActivity from './components/CameraActivity';
-import HomeScreen from './components/HomeScreen';
+import Home from './components/HomeScreen';
 
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
-import Home from './components/HomeScreen';
-import CameraActivity from './components/CameraActivity';
 
 const Navigator = createStackNavigator({
   Home: {screen: Home},
