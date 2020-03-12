@@ -7,7 +7,9 @@ from app.services.tesseract.ModelProperties import ModelProperties
 from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
 from app.services.tesseract.ProcessManager import ProcessManager
 from app.services.tesseract.utils.helpers import data_to_file
+from app.services.tesseract.utils.Logger import Logger
 from app.services.tesseract.utils.TaskTimerDecorator import TaskTimerDecorator
+
 
 
 class Evaluator(metaclass=OrderedClassMembers):
@@ -23,14 +25,15 @@ class Evaluator(metaclass=OrderedClassMembers):
 
     def evaluate(self):
         """Evaluates Tesseract model for specified languages."""
+        Logger.info('Evaluating model...')
         if self.default_model_eval:
-            model = f'{self._props.lstm}/{self._lang}.lstm'
+            model = f'{ModelProperties.lstm}/{self._lang}.lstm'
             self.file_prefix = "before"
         else:
-            model = f'{self._props.model_path}/font_checkpoint'
+            model = f'{ModelProperties.model_path}/font_checkpoint'
             self.file_prefix = "after"
 
-        training_file = f'{self._props.training_data}/{self._lang}.training_files.txt'
+        training_file = f'{ModelProperties.training_data}/{self._lang}.training_files.txt'
 
         if os.path.exists(training_file):
             with open(training_file) as file:
@@ -41,7 +44,7 @@ class Evaluator(metaclass=OrderedClassMembers):
                     process_params = [
                         'lstmeval',
                         '--model', model,
-                        '--traineddata', f'{self._props.trained_data}/{self._lang}.traineddata',
+                        '--traineddata', f'{ModelProperties.trained_data}/{self._lang}.traineddata',
                         '--eval_listfile', 'training.txt'
                     ]
                     process = self._proc.create_process(process_params)
