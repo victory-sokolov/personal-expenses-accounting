@@ -36,12 +36,13 @@ class ModelTraining(metaclass=OrderedClassMembers):
 
     def fine_tune(self):
         Logger.info('Finetuning Model...')
+
         process_params = [
             'lstmtraining',
-            '--continue_from', f'{self._props.lstm}/{self._lang}.lstm',
-            '--model_output', f'{self._props.model_path}/font',
-            '--traineddata', f'{self._props.trained_data}/{self._lang}.traineddata',
-            '--train_listfile', f'{self._props.training_data}/{self._lang}.training_files.txt',
+            '--continue_from', f'{ModelProperties.lstm}/{self._lang}.lstm',
+            '--model_output', f'{ModelProperties.model_path}/font',
+            '--traineddata', f'{ModelProperties.trained_data}/{self._lang}.traineddata',
+            '--train_listfile', f'{ModelProperties.training_data}/{self._lang}.training_files.txt',
             '--max_iterations', str(self._iterations)
         ]
         process = self._proc.create_process(process_params)
@@ -50,12 +51,12 @@ class ModelTraining(metaclass=OrderedClassMembers):
     def combine(self):
         """Combine existing model with newly created."""
         Logger.info('Combining Model...')
-        model_output = f'{self._props.model_path}/{self._lang}.traineddata'
+        model_output = f'{ModelProperties.model_path}/{self._lang}.traineddata'
         process_params = [
             'lstmtraining',
             '--stop_training',
-            '--continue_from', f'{self._props.model_path}/font_checkpoint',
-            '--traineddata', f'{self._props.trained_data}/{self._lang}.traineddata',
+            '--continue_from', f'{ModelProperties.model_path}/font_checkpoint',
+            '--traineddata', f'{ModelProperties.trained_data}/{self._lang}.traineddata',
             '--model_output', model_output
         ]
         proc = check_output(
@@ -65,10 +66,11 @@ class ModelTraining(metaclass=OrderedClassMembers):
 
     def mark_font(self):
         fonts = read_json('fonts')
-        trained_fonts = self._props.fonts
+        trained_fonts = ModelProperties.fonts
 
         for font in trained_fonts:
             fonts[font]['skip'] = True
         # write data
         with open('fonts.json', 'w') as file:
             json.dump(fonts, file)
+
