@@ -2,7 +2,7 @@ import os
 import shutil
 
 
-class ModelProperties(object):
+class ModelProperties:
 
     model_path = os.getenv('MODEL_PATH')
     lstm = f'{model_path}/{os.getenv("LSTM")}'
@@ -12,7 +12,7 @@ class ModelProperties(object):
     trained_data = model_path
     font = None
 
-    def __init__(self, lang, iterations=4500, pages=300):
+    def __init__(self, lang, iterations=3000, pages=300):
         self.lang = lang
         self.iterations = iterations
         self.pages = pages
