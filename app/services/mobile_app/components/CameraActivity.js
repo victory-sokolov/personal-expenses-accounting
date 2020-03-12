@@ -1,25 +1,23 @@
 import React from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
-import {Camera} from 'react-native-camera';
+import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { RNCamera } from 'react-native-camera';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class CameraActivity extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Camera
+        <RNCamera
           ref={cam => {
             this.camera = cam;
           }}
-          style={styles.preview}
-          aspect={Camera.constants.Aspect.fill}
-        />
-        <Icon
-          name="camera-iris"
-          size={45}
-          color="#fff"
-          onPress={this.takePicture.bind(this)}
-        />
+          style={styles.preview}>
+          <TouchableOpacity
+            onPress={() => this.takePicture(this.camera)}
+            style={styles.capture}
+          />
+          <Icon name="camera-iris" size={45} color="#fff" />
+        </RNCamera>
       </View>
     );
   }
