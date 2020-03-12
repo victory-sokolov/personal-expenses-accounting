@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
 class HomeScreen extends React.Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={styles.container}>
         <TouchableOpacity
           style={styles.cameraButton}
           onPress={() => navigate('Camera')}>
@@ -18,6 +18,11 @@ class HomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   cameraButton: {
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.2)',
