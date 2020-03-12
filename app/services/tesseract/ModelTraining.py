@@ -10,6 +10,7 @@ from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
 from app.services.tesseract.ProcessManager import ProcessManager
 from app.services.tesseract.utils.font import font_path
 from app.services.tesseract.utils.helpers import read_file, read_json
+from app.services.tesseract.utils.Logger import Logger
 
 
 class ModelTraining(metaclass=OrderedClassMembers):
@@ -34,6 +35,7 @@ class ModelTraining(metaclass=OrderedClassMembers):
             raise KeyError('Language not supported')
 
     def fine_tune(self):
+        Logger.info('Finetuning Model...')
         process_params = [
             'lstmtraining',
             '--continue_from', f'{self._props.lstm}/{self._lang}.lstm',
@@ -47,6 +49,7 @@ class ModelTraining(metaclass=OrderedClassMembers):
 
     def combine(self):
         """Combine existing model with newly created."""
+        Logger.info('Combining Model...')
         model_output = f'{self._props.model_path}/{self._lang}.traineddata'
         process_params = [
             'lstmtraining',
@@ -63,11 +66,9 @@ class ModelTraining(metaclass=OrderedClassMembers):
     def mark_font(self):
         fonts = read_json('fonts')
         trained_fonts = self._props.fonts
-        print(trained_fonts)
 
         for font in trained_fonts:
             fonts[font]['skip'] = True
         # write data
         with open('fonts.json', 'w') as file:
             json.dump(fonts, file)
-            print("Data has been written")

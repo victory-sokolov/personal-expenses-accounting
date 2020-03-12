@@ -4,7 +4,7 @@ import subprocess
 from app.services.tesseract.ModelProperties import ModelProperties
 from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
 from app.services.tesseract.ProcessManager import ProcessManager
-
+from app.services.tesseract.utils.Logger import Logger
 
 class ModelExtractor(metaclass=OrderedClassMembers):
 
@@ -14,6 +14,7 @@ class ModelExtractor(metaclass=OrderedClassMembers):
         self._proc = proc
 
     def extract_recognition_model(self):
+        Logger.info('Extracting recognition model...')
         self._props.trained_data = self._props.model_path
         # get default model on first run
         lstm_file = f'{self._props.lstm}/{self._lang}.lstm'
