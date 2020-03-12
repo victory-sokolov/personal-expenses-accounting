@@ -31,12 +31,14 @@ class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
 
   cameraButton: {
-    borderWidth:1,
+    shadowColor: 'black',
+    shadowOpacity: 0.9,
+    elevation: 12,
     borderColor:'rgba(0,0,0,0.2)',
     alignItems:'center',
     justifyContent:'center',
-    width:50,
-    height:50,
+    width:60,
+    height:60,
     backgroundColor:'#1E90FF',
     borderRadius:50,
   },
