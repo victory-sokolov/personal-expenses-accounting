@@ -11,7 +11,6 @@ from app.services.tesseract.utils.Logger import Logger
 from app.services.tesseract.utils.TaskTimerDecorator import TaskTimerDecorator
 
 
-
 class Evaluator(metaclass=OrderedClassMembers):
 
     eval_data = []
@@ -25,7 +24,7 @@ class Evaluator(metaclass=OrderedClassMembers):
 
     def evaluate(self):
         """Evaluates Tesseract model for specified languages."""
-        Logger.info('Evaluating model...')
+        Logger.info('Evaluating model...', Logger.log.info)
         if self.default_model_eval:
             model = f'{ModelProperties.lstm}/{self._lang}.lstm'
             self.file_prefix = "before"
@@ -86,3 +85,4 @@ class Evaluator(metaclass=OrderedClassMembers):
                     write.writeheader()
                 write.writerows(self.eval_data)
             del self.eval_data[:]
+

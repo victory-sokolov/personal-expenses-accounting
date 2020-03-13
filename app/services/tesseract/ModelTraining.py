@@ -35,7 +35,7 @@ class ModelTraining(metaclass=OrderedClassMembers):
             raise KeyError('Language not supported')
 
     def fine_tune(self):
-        Logger.info('Finetuning Model...')
+        Logger.info('Finetuning Model...', Logger.log.info)
 
         process_params = [
             'lstmtraining',
@@ -50,14 +50,14 @@ class ModelTraining(metaclass=OrderedClassMembers):
 
     def combine(self):
         """Combine existing model with newly created."""
-        Logger.info('Combining Model...')
-        model_output = f'{ModelProperties.model_path}/{self._lang}.traineddata'
+        Logger.info('Combining Model...', Logger.log.info)
+        #model_output = f'{ModelProperties.model_path}/{self._lang}.traineddata'
         process_params = [
             'lstmtraining',
             '--stop_training',
             '--continue_from', f'{ModelProperties.model_path}/font_checkpoint',
             '--traineddata', f'{ModelProperties.trained_data}/{self._lang}.traineddata',
-            '--model_output', model_output
+            '--model_output', f'./{self._lang}.traineddata'
         ]
         proc = check_output(
             process_params, text=True
@@ -73,4 +73,3 @@ class ModelTraining(metaclass=OrderedClassMembers):
         # write data
         with open('fonts.json', 'w') as file:
             json.dump(fonts, file)
-
