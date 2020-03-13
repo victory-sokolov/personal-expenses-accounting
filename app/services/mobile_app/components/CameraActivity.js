@@ -15,8 +15,9 @@ class CameraActivity extends React.Component {
           <TouchableOpacity
             onPress={() => this.takePicture(this.camera)}
             style={styles.capture}
-          />
-          <Icon name="camera-iris" size={45} color="#fff" />
+          >
+          <Icon name="camera-iris" size={60} style={styles.cameraIcon} />
+          </TouchableOpacity>
         </RNCamera>
       </View>
     );
@@ -42,6 +43,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
+  },
+  cameraIcon: {
+    color: "#fff",
+    paddingBottom: 20,
   },
 });
 
