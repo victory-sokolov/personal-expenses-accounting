@@ -1,30 +1,23 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
-
-import CameraIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 
 
 class HomeScreen extends React.Component {
 
   render() {
-
     const { navigate } = this.props.navigation;
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <View style={styles.footer}>
           <TouchableOpacity
-              style={styles.cameraButton} 
-              onPress = {() => navigate(
-              'Camera'
-            )} >
-            <Icon name="camera" size={32} color='#fff'/>
-          </TouchableOpacity>       
+            style={styles.cameraButton}
+            onPress={() => navigate('Camera')}>
+            <Icon name="camera" size={35} color="#fff" />
+          </TouchableOpacity>
         </View>
-
       </View>
-    )
+    );
   }
 }
 
