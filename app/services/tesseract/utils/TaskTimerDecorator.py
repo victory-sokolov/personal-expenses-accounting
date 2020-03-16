@@ -2,6 +2,9 @@ import logging
 from datetime import datetime
 from functools import wraps
 
+logging.basicConfig(level=logging.INFO,
+                    format='%(message)s')
+
 
 def timing(func):
     @wraps(func)
