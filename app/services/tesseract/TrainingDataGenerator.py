@@ -8,8 +8,6 @@ from app.services.tesseract.utils.font import (font_path, fonts_names,
                                                get_fonts_names_in_dir,
                                                supported_fonts)
 from app.services.tesseract.utils.helpers import read_file, read_json
-from app.services.tesseract.utils.TaskTimerDecorator import TaskTimerDecorator
-
 
 class TrainingDataGenerator(metaclass=OrderedClassMembers):
 
@@ -25,7 +23,7 @@ class TrainingDataGenerator(metaclass=OrderedClassMembers):
         fonts_to_json()
         fonts = read_json('fonts')
         #font_list = supported_fonts(get_fonts_names_in_dir(), self._lang)
-        self._props.fonts = supported_fonts(fonts, self._lang)
+        ModelProperties.fonts = supported_fonts(fonts, self._lang)
         if not self._props.fonts:
             raise ValueError('No fonts found.')
 
