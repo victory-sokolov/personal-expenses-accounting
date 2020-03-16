@@ -2,6 +2,7 @@ import json
 import os
 import re
 import subprocess
+import uuid
 from subprocess import PIPE, STDOUT, Popen, check_output
 from typing import Dict
 
@@ -36,7 +37,6 @@ class ModelTraining(metaclass=OrderedClassMembers):
 
     def fine_tune(self):
         Logger.info('Finetuning Model...', Logger.log.info)
-
         process_params = [
             'lstmtraining',
             '--continue_from', f'{ModelProperties.lstm}/{self._lang}.lstm',
@@ -51,25 +51,26 @@ class ModelTraining(metaclass=OrderedClassMembers):
     def combine(self):
         """Combine existing model with newly created."""
         Logger.info('Combining Model...', Logger.log.info)
-        #model_output = f'{ModelProperties.model_path}/{self._lang}.traineddata'
+        traineddata = f'{self._lang}-{uuid.uuid4()}.traineddata'
         process_params = [
             'lstmtraining',
             '--stop_training',
             '--continue_from', f'{ModelProperties.model_path}/font_checkpoint',
             '--traineddata', f'{ModelProperties.trained_data}/{self._lang}.traineddata',
-            '--model_output', f'./{self._lang}.traineddata'
+            '--model_output', f'{ModelProperties.model_path}/traineddata/{traineddata}'
         ]
         proc = check_output(
             process_params, text=True
         )
+        # save traineddata file name
+        with open('model/traineddata/traineddata.txt', 'a') as file:
+            file.write(traineddata + '\n')
         return proc
 
     def mark_font(self):
         fonts = read_json('fonts')
         trained_fonts = ModelProperties.fonts
-
         for font in trained_fonts:
             fonts[font]['skip'] = True
-        # write data
         with open('fonts.json', 'w') as file:
             json.dump(fonts, file)
