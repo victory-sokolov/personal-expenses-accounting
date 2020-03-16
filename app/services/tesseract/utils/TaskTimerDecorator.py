@@ -1,17 +1,14 @@
 import logging
 from datetime import datetime
+from functools import wraps
 
 
-class TaskTimerDecorator:
-
-    def __init__(self, task):
-        self.task = task
-
-    def timer(self):
+def timing(func):
+    @wraps(func)
+    def wrap(*args, **kwargs):
         start = datetime.now()
-        self.task.run_tasks()
+        result = func(*args, **kwargs)
         elapsed_time = datetime.now() - start
-        logging.basicConfig(level=logging.INFO,
-                            format='%(asctime)s - %(levelname)s - %(message)s'
-                            )
         logging.info('Elapsed time: %s', elapsed_time)
+        return result
+    return wrap
