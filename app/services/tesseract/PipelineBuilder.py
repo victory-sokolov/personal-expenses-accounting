@@ -13,13 +13,13 @@ class PipelineBuilder(object):
     def create_pipeline(self):
         lang = self._props.lang
         self._props.init_setup()
-        pages = self._props.pages
-        interations = self._props.iterations
+        iterations = self._props.iterations
 
         return[
-            TrainingDataGenerator(lang, pages, self._props, ProcessManager),
+            TrainingDataGenerator(lang, self._props.pages,
+                                  self._props, ProcessManager),
             ModelExtractor(lang, self._props, ProcessManager),
+            ModelTraining(lang, iterations, self._props, ProcessManager),
             Evaluator(lang, self._props, ProcessManager, True),
-            ModelTraining(lang, interations, self._props, ProcessManager),
             Evaluator(lang, self._props, ProcessManager, False)
         ]
