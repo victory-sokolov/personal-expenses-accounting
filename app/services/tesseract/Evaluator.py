@@ -8,7 +8,6 @@ from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
 from app.services.tesseract.ProcessManager import ProcessManager
 from app.services.tesseract.utils.helpers import data_to_file
 from app.services.tesseract.utils.Logger import Logger
-from app.services.tesseract.utils.TaskTimerDecorator import TaskTimerDecorator
 
 
 class Evaluator(metaclass=OrderedClassMembers):
@@ -58,18 +57,18 @@ class Evaluator(metaclass=OrderedClassMembers):
     def evaluated_data(self) -> Dict:
         """Parse string of evaluated data"""
         if not self.eval_data:
-            return 'Evaluation Failed'
+            raise Exception("Evaluation Failed")
 
         statistics = [stat['statistics'] for stat in self.eval_data]
-
         for count, stat in enumerate(statistics):
-            eval_data = stat.split("=")
-            char_error = re.findall(r"\d+\.\d+", eval_data[-2])[0]
-            word_error = eval_data[-1]
+            if stat:
+                eval_data = stat.split("=")
+                char_error = re.findall(r"\d+\.\d+", eval_data[-2])[0]
+                word_error = eval_data[-1]
 
-            self.eval_data[count]['character_error'] = float(char_error)
-            self.eval_data[count]['word_error'] = float(word_error)
-            del self.eval_data[count]['statistics']
+                self.eval_data[count]['character_error'] = float(char_error)
+                self.eval_data[count]['word_error'] = float(word_error)
+                del self.eval_data[count]['statistics']
 
         return self.eval_data
 
