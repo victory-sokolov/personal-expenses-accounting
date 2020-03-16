@@ -1,6 +1,4 @@
 import os
-import shutil
-
 
 class ModelProperties:
 
@@ -12,13 +10,13 @@ class ModelProperties:
     trained_data = model_path
     fonts = []
 
-    def __init__(self, lang, iterations=3000, pages=300):
+    def __init__(self, lang, iterations=2000, pages=200):
         self.lang = lang
         self.iterations = iterations
         self.pages = pages
 
     def init_setup(self):
-        dirs = [self.model_path, self.training_data, self.stats]
+        dirs = [self.model_path, self.training_data, self.stats, 'traineddata']
         for dirr in dirs:
             if not os.path.exists(dirr):
                 os.mkdir(dirr)
