@@ -1,7 +1,7 @@
 import json
 import os
 import re
-from pathlib import Path, PurePosixPath
+from pathlib import PurePosixPath
 from subprocess import PIPE, Popen, check_output
 from typing import List
 
@@ -15,7 +15,7 @@ def font_path() -> str:
     return f'{path}/fonts'
 
 
-def get_fonts_names_in_dir() -> List:
+def get_fonts_from_dir() -> List:
     """
     Get font names in directory
     with extension: .ttf
@@ -63,18 +63,6 @@ def fonts_to_json():
             json.dump(data, file)
 
 
-def fonts_names(font_list: List) -> List:
-    """Get fonts names from fc-scan command"""
-    font_lst = []
-    for name in font_list:
-        with Popen(['fc-scan', f'{font_path()}/{name}.ttf'], stdout=PIPE, stderr=PIPE) as proc:
-            full_name = check_output(('grep', 'fullname'), stdin=proc.stdout)
-            font_name = re.findall(
-                r'\"(.+?)\"', str(full_name).split(":")[1])[0]
-            font_lst.append(font_name)
-    proc.kill()
-    return font_lst
-
 
 def convert_to_iso_639_1(lang: str) -> str:
     """Converts iso_639-2 to iso_639-1."""
@@ -92,11 +80,13 @@ def is_lang_supported(font: str, lang: str) -> bool:
     # by default eng is supported mostly for all fonts
     if lang == 'eng' or lang == 'en':
         return True
+
     full_path = os.path.join(font_path(), f'{font}')
     with Popen(['fc-query', full_path], stdout=PIPE, stderr=PIPE) as proc:
         langs = check_output([
             'grep', '-w', 'lang'
         ], stdin=proc.stdout, text=True)
+
     proc.kill()
     lang_list = langs.split('|')
     lang = convert_to_iso_639_1(lang)
