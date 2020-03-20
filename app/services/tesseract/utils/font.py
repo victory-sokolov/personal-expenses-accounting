@@ -34,7 +34,7 @@ def get_font_names() -> List:
         '--fonts_dir', path,
         '--list_available_fonts'
     ], text=True)
-    fonts = re.sub('\\d:', '', fonts_output).split("\n")
+    fonts=re.sub('[0-9]*:', '', fonts_output).split("\n")
     return [font.strip() for font in fonts if font]
 
 
@@ -61,7 +61,6 @@ def fonts_to_json():
     if data:
         with open(json_file, 'w') as file:
             json.dump(data, file)
-
 
 
 def convert_to_iso_639_1(lang: str) -> str:
