@@ -3,6 +3,7 @@ import re
 import subprocess
 
 import cv2
+import imutils
 import numpy as np
 import pytesseract
 from PIL import Image
@@ -20,25 +21,36 @@ class Recogniser(object):
         process_params = [
             "mogrify", "-set", "density", "300", image
         ]
-        process = ProcessManager.create_process(process_params)
+        ProcessManager.create_process(process_params)
 
     def binarize_image(self, image):
         img = cv2.imread(image)
         kernel = np.ones((5, 5), np.uint8)
 
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        median = cv2.medianBlur(gray, 5)
+        #median = cv2.medianBlur(gray, 5)
+        median = cv2.GaussianBlur(gray, (5, 5), 0)
         thresh = cv2.threshold(
-            median, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+            median, 127, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
 
         #dilatate = cv2.dilate(thresh, kernel, iterations=1)
         img_erosion = cv2.erode(thresh, kernel, iterations=1)
 
-        cv2.imwrite('output.png', img_erosion)
+        cv2.imwrite('output.png', thresh)
 
     def recognise_image(self, filename):
         tessdata_dir = r'--tessdata-dir "data/"'
-        config = (f'-l {self._lang}+"eng" --oem 1 --psm 3 {tessdata_dir}')
+        lang = []
+        # with open('./traineddata/traineddata.txt', 'r') as file:
+        #     lang.append(file.read().split(".")[0])
+
+        traineddata = f'{self._lang}+eng+lav-8e87d4e0-d1a4-4543-b483-6d2535678bb4'
+        black_list_chars = '#~_|!?+'
+
+        config = (
+            f'-l {traineddata} -c tessedit_char_blacklist={black_list_chars} \
+            --oem 1 --psm 3 {tessdata_dir}'
+        )
         text = pytesseract.image_to_string(
             Image.open(filename), config=config
         )
@@ -61,20 +73,29 @@ class Recogniser(object):
 
     def get_price(self, text):
         for line in text:
-            price = re.search(r'\bKopā\b', line)
-            if price:
-                print(line)
+            #price = re.search(r'\bKopā\b', line)
+            price = re.compile(".*(KUPĀ|KOPĀ|SUMMA){1}.*")
+            if price.match(line):
                 return line
 
 
 image = "IMG_20200215_234244.jpg"
+#image = "IMG_20200123_175929.jpg"
+
 recogniser = Recogniser("lav")
 recogniser.change_image_DPI(image)
 recogniser.binarize_image(image)
 
-output_text = recogniser.recognise_image('output.png').split("\n")
+output_text = list(
+    filter(None, recogniser.recognise_image('output.png').split("\n"))
+)
+
+text = pytesseract.image_to_boxes(Image.open(
+    'output.png'), lang='lav')
+
 
 print(output_text)
+# print(pytesseract.image_to_osd("result.png"))
 
 print(recogniser.get_vendor(output_text))
 print(recogniser.get_date(output_text))
