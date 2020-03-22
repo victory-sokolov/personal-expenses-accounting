@@ -44,8 +44,8 @@ class Recogniser(object):
         # with open('./traineddata/traineddata.txt', 'r') as file:
         #     lang.append(file.read().split(".")[0])
 
-        traineddata = f'{self._lang}+eng+lav-8e87d4e0-d1a4-4543-b483-6d2535678bb4'
-        black_list_chars = '#~_|!?+'
+        traineddata = f'{self._lang}+eng+lav-9bc56f04-e9fa-4046-8118-788a91cb4e92'
+        black_list_chars = '#~_|!?+»='
 
         config = (
             f'-l {traineddata} -c tessedit_char_blacklist={black_list_chars} \
@@ -57,7 +57,7 @@ class Recogniser(object):
         return text
 
     def get_date(self, text):
-        date_pattern = r'^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$'
+        date_pattern = r'^([0-9]{2}.[0-9]{2}.[0-9]{4})'
         text = " ".join(text).split(" ")
         for line in text:
             date = re.search(date_pattern, line)
@@ -76,8 +76,8 @@ class Recogniser(object):
             #price = re.search(r'\bKopā\b', line)
             price = re.compile(".*(KUPĀ|KOPĀ|SUMMA){1}.*")
             if price.match(line):
-                return line
-
+                price = re.findall(r'\d+\.\d{2}', line)[0]
+                return price
 
 image = "IMG_20200215_234244.jpg"
 #image = "IMG_20200123_175929.jpg"
