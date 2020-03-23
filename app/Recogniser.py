@@ -25,18 +25,14 @@ class Recogniser(object):
 
     def binarize_image(self, image):
         img = cv2.imread(image)
-        kernel = np.ones((5, 5), np.uint8)
-
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        #median = cv2.medianBlur(gray, 5)
         median = cv2.GaussianBlur(gray, (5, 5), 0)
         thresh = cv2.threshold(
-            median, 127, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
-
-        #dilatate = cv2.dilate(thresh, kernel, iterations=1)
-        img_erosion = cv2.erode(thresh, kernel, iterations=1)
-
+            median, 127, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU
+        )[1]
         cv2.imwrite('output.png', thresh)
+
+
 
     def recognise_image(self, filename):
         tessdata_dir = r'--tessdata-dir "data/"'
@@ -45,7 +41,7 @@ class Recogniser(object):
         #     lang.append(file.read().split(".")[0])
 
         traineddata = f'{self._lang}+eng+lav-9bc56f04-e9fa-4046-8118-788a91cb4e92'
-        black_list_chars = '#~_|!?+»='
+        black_list_chars = '#~_|!?+»=<>[]();,:'
 
         config = (
             f'-l {traineddata} -c tessedit_char_blacklist={black_list_chars} \
@@ -62,7 +58,7 @@ class Recogniser(object):
         for line in text:
             date = re.search(date_pattern, line)
             if date:
-                return date.group(0)
+                return date.group(0).replace(',', '.')
 
     def get_vendor(self, text):
         pattern = ["SIA", "As"]
@@ -79,8 +75,8 @@ class Recogniser(object):
                 price = re.findall(r'\d+\.\d{2}', line)[0]
                 return price
 
-image = "IMG_20200215_234244.jpg"
-#image = "IMG_20200123_175929.jpg"
+#image = "IMG_20200215_234244.jpg"
+image = "IMG_20200123_175929.jpg"
 
 recogniser = Recogniser("lav")
 recogniser.change_image_DPI(image)
