@@ -15,7 +15,8 @@ RUN apt-get update && apt-get install -y \
     android-sdk \
     openjdk-8-jdk \
     yarn \
-    git
+    git \
+    openssh-client
 
 # Define  JAVA_HOME variable
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
@@ -40,6 +41,26 @@ ENV ANDROID_NDK=${ANDROID_HOME}/ndk/$NDK_VERSION
 
 ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:/opt/buck/bin/:${PATH}
 
+
+# install latest Ruby using ruby-install
+RUN apt-get update -qq \
+  && apt-get install -qq -y --no-install-recommends \
+          bison \
+          zlib1g-dev \
+          libyaml-dev \
+          libssl-dev \
+          libgdbm-dev \
+          libreadline-dev \
+          libncurses5-dev \
+          libffi-dev \
+  && curl -L https://github.com/postmodern/ruby-install/archive/v0.7.0.tar.gz | tar -zxvf - -C /tmp/ \
+  && cd /tmp/ruby-install-* \
+  && make install \
+  && ruby-install --latest --system --cleanup ruby \
+  && gem install bundler -N \
+  && rm -rf /var/lib/apt/lists/*
+
+
 # download and install buck using debian package
 RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSION}/buck.${BUCK_VERSION}_all.deb -o /tmp/buck.deb \
     && dpkg -i /tmp/buck.deb \
@@ -62,7 +83,7 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "extras;android;m2repository" \
         "ndk;$NDK_VERSION" \
     && rm -rf /opt/android/.android
-RUN "android update sdk --no-ui"
+
 
 # GRADLE
 RUN curl -sL -o gradle.zip https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip &&\
