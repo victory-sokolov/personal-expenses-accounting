@@ -1,0 +1,33 @@
+{
+    "Fees": [],
+    "Food": [
+        "Restaurant",
+        "Grocery",
+        "food trade"
+    ],
+    "Insurance": [],
+    "Materials": [
+        "building materials",
+        "construction materials"
+    ],
+    "Travel": [
+        "Airpoirt",
+        "Airlines",
+        "Hotel"
+    ],
+    "Interesets": [
+        "Music",
+        "Movies",
+        "Cinema"
+    ],
+    "Medicine": [
+        "Medical supplies",
+        "Stomatology",
+        "Pharmacies",
+        "Veterinary pharmacy",
+        "Veterinary clinic",
+    ],
+    "Home Supplies": [
+        ""
+    ]
+}
