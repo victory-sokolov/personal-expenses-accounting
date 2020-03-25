@@ -20,10 +20,9 @@ class Pipeline():
 
     @timing
     def run_tasks(self, evaluate) -> None:
-        tasks = self.pipeline_tasks[0]
+        tasks = self.pipeline_tasks
         if evaluate == "False":
-            tasks = [task for task in tasks if "Evaluator" not in str(task)]
-
+            tasks = [task[0] for task in tasks if "Evaluator" not in str(task[0])]
         for task in tasks:
             methods = task.__ordered__
             for method in methods:
@@ -35,10 +34,16 @@ class Pipeline():
 @click.command()
 @click.option('--evaluate', default=True, help='Evaluate model before and after training.')
 def main(evaluate):
-    PIPELINE_LIST = [
-        # PipelineBuilder(ModelProperties('lav')).create_pipeline(),
-        PipelineBuilder(ModelProperties('eng', 50, 10)).create_pipeline()
-    ]
+    langs = ['lav', 'eng']
+    PIPELINE_LIST = []
+    for lang in langs:
+        PIPELINE_LIST.append(PipelineBuilder(
+            ModelProperties(lang)).create_pipeline()
+        )
+    if not PIPELINE_LIST:
+        print("No supported fonts found")
+        return
+
     Pipeline(PIPELINE_LIST).run_tasks(evaluate)
 
 
