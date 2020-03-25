@@ -3,11 +3,9 @@ import subprocess
 from app.services.tesseract.ModelProperties import ModelProperties
 from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
 from app.services.tesseract.ProcessManager import ProcessManager
-from app.services.tesseract.utils.font import (font_path, fonts_names,
-                                               fonts_to_json,
-                                               get_fonts_names_in_dir,
-                                               supported_fonts)
+from app.services.tesseract.utils.font import fonts_to_json, supported_fonts
 from app.services.tesseract.utils.helpers import read_file, read_json
+
 
 class TrainingDataGenerator(metaclass=OrderedClassMembers):
 
@@ -19,13 +17,13 @@ class TrainingDataGenerator(metaclass=OrderedClassMembers):
 
     def generate_training_data(self):
         """Generates training data"""
-        path = font_path()
+        path = './fonts/'
         fonts_to_json()
         fonts = read_json('fonts')
-        #font_list = supported_fonts(get_fonts_names_in_dir(), self._lang)
         ModelProperties.fonts = supported_fonts(fonts, self._lang)
+        # skip to next language
         if not self._props.fonts:
-            raise ValueError('No fonts found.')
+            print(f'No supported fonts found for {self._lang} language')
 
         process_params = [
             'tesstrain.sh',
