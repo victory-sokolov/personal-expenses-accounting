@@ -1,13 +1,41 @@
-FROM tesseractshadow/tesseract4cmp
+FROM ubuntu:19.10
 
 ENV DEBIAN_FRONTEND=noninteractive
-WORKDIR /tesseract
+ENV TESSERACT=/usr/share/tesseract
+ENV TESSDATA_PREFIX=/usr/share/tesseract/tessdata
 
+WORKDIR /tesseract
 COPY . /tesseract/
 
+
 RUN apt-get update && apt-get install -y \
-    vim \
+    build-essential \
+    software-properties-common \
+    python3.7 \
+    python3-pip \
+    cmake \
+    autoconf \
+    automake \
+    libtool \
+    pkg-config \
+    libpng-dev \
+    tesseract-ocr \
+    libtesseract-dev \
+    libpango1.0-dev \
+    libicu-dev \
+    libcairo2-dev \
+    libjpeg8-dev \
+    zlib1g-dev \
+    libtiff5-dev \
+    wget \
     git \
-    wget
+    g++ \
+    git \
+    vim
 
+RUN git clone https://github.com/tesseract-ocr/tesseract $TESSERACT
+RUN pip3 install -r requirements.txt
 
+RUN chmod +x scripts/*
+RUN scripts/langdata_lstm.sh scripts/start.sh
+RUN scripts/compile_tesseract.sh
