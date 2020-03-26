@@ -6,12 +6,12 @@ import uuid
 from subprocess import PIPE, STDOUT, Popen, check_output
 from typing import Dict
 
-from app.services.tesseract.ModelProperties import ModelProperties
-from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
-from app.services.tesseract.ProcessManager import ProcessManager
-from app.services.tesseract.utils.font import font_path
-from app.services.tesseract.utils.helpers import read_file, read_json
-from app.services.tesseract.utils.Logger import Logger
+from ModelProperties import ModelProperties
+from OrderedClassMembers import OrderedClassMembers
+from ProcessManager import ProcessManager
+from utils.font import font_path
+from utils.helpers import read_file, read_json
+from utils.Logger import Logger
 
 
 class ModelTraining(metaclass=OrderedClassMembers):
