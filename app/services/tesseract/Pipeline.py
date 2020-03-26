@@ -5,12 +5,12 @@ from typing import List
 
 import click
 
-from app.services.tesseract.ModelProperties import ModelProperties
-from app.services.tesseract.PipelineBuilder import PipelineBuilder
-from app.services.tesseract.ProcessManager import ProcessManager
-from app.services.tesseract.TrainingDataGenerator import TrainingDataGenerator
-from app.services.tesseract.utils.ClassMetrics import ClassMetrics
-from app.services.tesseract.utils.TaskTimerDecorator import timing
+from ModelProperties import ModelProperties
+from PipelineBuilder import PipelineBuilder
+from ProcessManager import ProcessManager
+from TrainingDataGenerator import TrainingDataGenerator
+from utils.ClassMetrics import ClassMetrics
+from utils.TaskTimerDecorator import timing
 
 
 class Pipeline():
@@ -20,10 +20,11 @@ class Pipeline():
 
     @timing
     def run_tasks(self, evaluate) -> None:
-        tasks = self.pipeline_tasks
+        tasks = [task[0] for task in self.pipeline_tasks]
         if evaluate == "False":
-            tasks = [task[0] for task in tasks if "Evaluator" not in str(task[0])]
+            tasks = [task for task in tasks if "Evaluator" not in str(task)]
         for task in tasks:
+            print(task)
             methods = task.__ordered__
             for method in methods:
                 func = getattr(task, method)
