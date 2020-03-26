@@ -1,9 +1,7 @@
 #!/bin/bash
 
-mkdir $TESSDATA_PREFIX/langdata_lstm
-
-cd $TESSDATA_PREFIX/langdata_lstm && \
-    wget https://raw.githubusercontent.com/tesseract-ocr/langdata_lstm/master/Latin.unicharset \
+mkdir $TESSERACT/langdata_lstm && cd $TESSERACT/langdata_lstm
+wget https://raw.githubusercontent.com/tesseract-ocr/langdata_lstm/master/Latin.unicharset \
     https://raw.githubusercontent.com/tesseract-ocr/langdata_lstm/master/Latin.xheights \
     https://raw.githubusercontent.com/tesseract-ocr/langdata_lstm/master/common.punc \
     https://raw.githubusercontent.com/tesseract-ocr/langdata_lstm/master/common.unicharambigs \
