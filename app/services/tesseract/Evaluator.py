@@ -3,11 +3,11 @@ import os
 import re
 from typing import Dict
 
-from app.services.tesseract.ModelProperties import ModelProperties
-from app.services.tesseract.OrderedClassMembers import OrderedClassMembers
-from app.services.tesseract.ProcessManager import ProcessManager
-from app.services.tesseract.utils.helpers import data_to_file
-from app.services.tesseract.utils.Logger import Logger
+from ModelProperties import ModelProperties
+from OrderedClassMembers import OrderedClassMembers
+from ProcessManager import ProcessManager
+from utils.helpers import data_to_file
+from utils.Logger import Logger
 
 
 class Evaluator(metaclass=OrderedClassMembers):

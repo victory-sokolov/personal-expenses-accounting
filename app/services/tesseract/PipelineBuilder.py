@@ -1,8 +1,8 @@
-from app.services.tesseract.Evaluator import Evaluator
-from app.services.tesseract.ModelExtractor import ModelExtractor
-from app.services.tesseract.ModelTraining import ModelTraining
-from app.services.tesseract.ProcessManager import ProcessManager
-from app.services.tesseract.TrainingDataGenerator import TrainingDataGenerator
+from Evaluator import Evaluator
+from ModelExtractor import ModelExtractor
+from ModelTraining import ModelTraining
+from ProcessManager import ProcessManager
+from TrainingDataGenerator import TrainingDataGenerator
 
 
 class PipelineBuilder(object):
