@@ -1,6 +1,5 @@
 import os
-
-
+import settings
 
 class ModelProperties:
 
@@ -12,11 +11,10 @@ class ModelProperties:
     trained_data = model_path
     fonts = []
 
-    def __init__(self, lang, iterations=2000, pages=200):
+    def __init__(self, lang, iterations=50000, pages=1000):
         self.lang = lang
         self.iterations = iterations
         self.pages = pages
-
 
     def init_setup(self):
         dirs = [self.model_path, self.training_data,
