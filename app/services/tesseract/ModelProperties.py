@@ -1,10 +1,7 @@
 import os
-
-import settings
-
-
+from dotenv import load_dotenv
 class ModelProperties:
-
+    load_dotenv()
     model_path = os.getenv('MODEL_PATH')
     training_data = os.getenv("TRAINING_DATA")
     stats = os.getenv("STATS_PATH")
