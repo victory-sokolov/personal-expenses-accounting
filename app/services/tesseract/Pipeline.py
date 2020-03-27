@@ -1,6 +1,5 @@
 import inspect
 import os
-from multiprocessing import Process, current_process
 from typing import List
 
 import click
@@ -8,9 +7,8 @@ import click
 from ModelProperties import ModelProperties
 from PipelineBuilder import PipelineBuilder
 from ProcessManager import ProcessManager
-from TrainingDataGenerator import TrainingDataGenerator
 from utils.ClassMetrics import ClassMetrics
-from utils.font import supported_fonts, fonts_to_json
+from utils.font import fonts_to_json, supported_fonts
 from utils.helpers import read_json
 from utils.TaskTimerDecorator import timing
 
