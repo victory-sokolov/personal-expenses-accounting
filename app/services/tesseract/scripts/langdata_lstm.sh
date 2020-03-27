@@ -1,6 +1,8 @@
 #!/bin/bash
 
-mkdir $TESSERACT/langdata_lstm && cd $TESSERACT/langdata_lstm
+cd $TESSERACT/tessdata
+mkdir langdata_lstm && cd langdata_lstm
+
 wget https://raw.githubusercontent.com/tesseract-ocr/langdata_lstm/master/Latin.unicharset \
     https://raw.githubusercontent.com/tesseract-ocr/langdata_lstm/master/Latin.xheights \
     https://raw.githubusercontent.com/tesseract-ocr/langdata_lstm/master/common.punc \
@@ -37,6 +39,6 @@ wget https://raw.githubusercontent.com/tesseract-ocr/langdata_lstm/master/lav/de
 cd ..
 
 # traineddata_best
-mkdir traineddata && cd traineddata
+cd ..
 wget https://raw.githubusercontent.com/tesseract-ocr/tessdata_best/master/eng.traineddata \
     https://raw.githubusercontent.com/tesseract-ocr/tessdata_best/master/lav.traineddata

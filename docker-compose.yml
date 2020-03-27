@@ -17,9 +17,15 @@ services:
     ports:
       - 4022:4022
 
+  recogniser:
+    container_name: recogniser
+    build:
+      context: ./app/services/recogniser/
+      dockerfile: Dockerfile
+
   mobile_app:
     build:
-      context: "./app/services/mobile_app/"
+      context: ./app/services/mobile_app/
       dockerfile: Dockerfile
     env_file: ./app/services/mobile_app/.env
     ports:
