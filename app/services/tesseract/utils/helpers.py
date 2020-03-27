@@ -31,5 +31,7 @@ def read_file(file_name) -> list:
 
 
 def read_json(file):
-    with open(f'{file}.json') as f:
-        return json.load(f)
+    file = f'{file}.json'
+    if os.path.isfile(file):
+        with open(file) as f:
+            return json.load(f)
