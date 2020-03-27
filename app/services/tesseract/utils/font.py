@@ -101,7 +101,6 @@ def supported_fonts(fonts, lang: str) -> List:
             skip = fonts[font]['skip']
             # if skip is false
             font = f'{font}.ttf'
-            #print(font)
             if not skip and is_lang_supported(font, lang):
                 fonts_list.append(font.split(".")[0])
     else:
