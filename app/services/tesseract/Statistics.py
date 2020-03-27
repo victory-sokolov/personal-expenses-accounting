@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.ticker import FormatStrFormatter
 
-from app.services.tesseract.utils.helpers import read_file
+from utils.helpers import read_file
 
 
 class Statistics(object):
