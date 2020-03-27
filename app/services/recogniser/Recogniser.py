@@ -3,13 +3,12 @@ import re
 import subprocess
 
 import cv2
-import imutils
 import numpy as np
 import pytesseract
 from PIL import Image
 
-from app.ImageProcessing import ImageProcessing
-from app.services.tesseract.ProcessManager import ProcessManager
+from ImageProcessing import ImageProcessing
+from services.tesseract.ProcessManager import ProcessManager
 
 
 class Recogniser(object):
