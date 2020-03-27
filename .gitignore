@@ -128,7 +128,7 @@ venv.bak/
 dmypy.json
 
 .vscode/
+app/services/tesseract/fonts.json
 
 # Javascript
-
 client/node_modules/
