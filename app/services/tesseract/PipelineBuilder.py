@@ -14,10 +14,10 @@ class PipelineBuilder(object):
         lang = self._props.lang
         self._props.init_setup()
         iterations = self._props.iterations
+        pages = self._props.pages
 
         return[
-            TrainingDataGenerator(lang, self._props.pages,
-                                  self._props, ProcessManager),
+            TrainingDataGenerator(lang, pages, self._props, ProcessManager),
             ModelExtractor(lang, self._props, ProcessManager),
             ModelTraining(lang, iterations, self._props, ProcessManager),
             Evaluator(lang, self._props, ProcessManager, True),
