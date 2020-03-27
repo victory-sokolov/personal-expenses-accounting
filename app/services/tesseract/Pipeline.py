@@ -10,8 +10,9 @@ from PipelineBuilder import PipelineBuilder
 from ProcessManager import ProcessManager
 from TrainingDataGenerator import TrainingDataGenerator
 from utils.ClassMetrics import ClassMetrics
+from utils.font import supported_fonts, fonts_to_json
+from utils.helpers import read_json
 from utils.TaskTimerDecorator import timing
-
 
 class Pipeline():
 
@@ -20,11 +21,14 @@ class Pipeline():
 
     @timing
     def run_tasks(self, evaluate) -> None:
-        tasks = [task[0] for task in self.pipeline_tasks]
+        tasks = []
+        for t in self.pipeline_tasks:
+            for task in t:
+                tasks.append(task)
         if evaluate == "False":
             tasks = [task for task in tasks if "Evaluator" not in str(task)]
+
         for task in tasks:
-            print(task)
             methods = task.__ordered__
             for method in methods:
                 func = getattr(task, method)
@@ -38,9 +42,12 @@ def main(evaluate):
     langs = ['lav', 'eng']
     PIPELINE_LIST = []
     for lang in langs:
-        PIPELINE_LIST.append(PipelineBuilder(
-            ModelProperties(lang)).create_pipeline()
-        )
+        fonts_to_json()
+        fonts = read_json('fonts')
+        if supported_fonts(fonts, lang):
+            PIPELINE_LIST.append(PipelineBuilder(
+                ModelProperties(lang)).create_pipeline()
+            )
     if not PIPELINE_LIST:
         print("No supported fonts found")
         return
