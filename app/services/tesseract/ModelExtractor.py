@@ -18,8 +18,8 @@ class ModelExtractor(metaclass=OrderedClassMembers):
         Logger.info('Extracting recognition model...', Logger.log.info)
         process_params = [
             'combine_tessdata', '-e',
-            f'{self._props.training_data}/{self._lang}.traineddata',
-            f'{self._props.lstm}/{self._lang}.lstm'
+            f'{self._props.tessdata}/{self._lang}.traineddata',
+            f'{self._props.model_path}/{self._lang}.lstm'
         ]
         process = self._proc.create_process(process_params)
         return process.returncode

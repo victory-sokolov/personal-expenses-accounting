@@ -32,8 +32,8 @@ class TrainingDataGenerator(metaclass=OrderedClassMembers):
             '--lang', self._lang,
             '--noextract_font_properties',
             '--linedata_only',
-            '--langdata_dir', f'{self._props.tesseract_env}/langdata_lstm',
-            '--tessdata_dir', self._props.tesseract_env,
+            '--langdata_dir', f'{self._props.tessdata}/langdata_lstm',
+            '--tessdata_dir', self._props.tessdata,
             '--save_box_tiff',
             '--maxpages', str(self._pages),
             '--output_dir', self._props.training_data

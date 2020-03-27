@@ -25,7 +25,7 @@ class Evaluator(metaclass=OrderedClassMembers):
         """Evaluates Tesseract model for specified languages."""
         Logger.info('Evaluating model...', Logger.log.info)
         if self.default_model_eval:
-            model = f'{ModelProperties.lstm}/{self._lang}.lstm'
+            model = f'{self._props.model_path}/{self._lang}.lstm'
             self.file_prefix = "before"
         else:
             model = f'{ModelProperties.model_path}/font_checkpoint'
@@ -42,7 +42,7 @@ class Evaluator(metaclass=OrderedClassMembers):
                     process_params = [
                         'lstmeval',
                         '--model', model,
-                        '--traineddata', f'{ModelProperties.trained_data}/{self._lang}.traineddata',
+                        '--traineddata', f'{ModelProperties.tessdata}/{self._lang}.traineddata',
                         '--eval_listfile', 'training.txt'
                     ]
                     process = self._proc.create_process(process_params)

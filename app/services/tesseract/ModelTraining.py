@@ -1,5 +1,6 @@
 import json
 import os
+from time import sleep
 import re
 import subprocess
 import uuid
@@ -37,12 +38,13 @@ class ModelTraining(metaclass=OrderedClassMembers):
 
     def fine_tune(self):
         Logger.info('Finetuning Model...', Logger.log.info)
+        sleep(2)
         process_params = [
             'lstmtraining',
-            '--continue_from', f'{ModelProperties.lstm}/{self._lang}.lstm',
-            '--model_output', f'{ModelProperties.model_path}/font',
-            '--traineddata', f'{ModelProperties.trained_data}/{self._lang}.traineddata',
-            '--train_listfile', f'{ModelProperties.training_data}/{self._lang}.training_files.txt',
+            '--continue_from', f'{self._props.model_path}/{self._lang}.lstm',
+            '--model_output', f'{self._props.model_path}/font',
+            '--traineddata', f'{self._props.tessdata}/{self._lang}.traineddata',
+            '--train_listfile', f'{self._props.training_data}/{self._lang}.training_files.txt',
             '--max_iterations', str(self._iterations)
         ]
         process = self._proc.create_process(process_params)
@@ -56,7 +58,7 @@ class ModelTraining(metaclass=OrderedClassMembers):
             'lstmtraining',
             '--stop_training',
             '--continue_from', f'{ModelProperties.model_path}/font_checkpoint',
-            '--traineddata', f'{ModelProperties.trained_data}/{self._lang}.traineddata',
+            '--traineddata', f'{ModelProperties.tessdata}/{self._lang}.traineddata',
             '--model_output', f'{ModelProperties.model_path}/traineddata/{traineddata}'
         ]
         proc = check_output(
