@@ -1,20 +1,21 @@
 from functools import reduce
+
 import cv2
 import numpy as np
-from PIL import Image
-#from app.services.tesseract.ProcessManager import ProcessManager
+from app.services.tesseract.ProcessManager import ProcessManager
 
 
 class ImageProcessing:
 
     def __init__(self, image):
+        self.change_image_DPI(image)
         self.image = cv2.imread(image)
 
     def change_image_DPI(self, image):
         process_params = [
             "mogrify", "-set", "density", "300", image
         ]
-        #process = ProcessManager.create_process(process_params)
+        process = ProcessManager.create_process(process_params)
 
     def gray_scale(self, image):
         return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -29,9 +30,6 @@ class ImageProcessing:
 
     def save_image(self, image):
         cv2.imwrite('output.png', image)
-
-    #skew correction
-
 
     def deskew(self, image):
         coords = np.column_stack(np.where(image > 0))
@@ -48,7 +46,7 @@ class ImageProcessing:
         return rotated
 
     def run_pipeline(self):
-        #self.change_image_DPI(self.image)
+
         return reduce(
             lambda image, function: function(image), (
                 self.gray_scale,
