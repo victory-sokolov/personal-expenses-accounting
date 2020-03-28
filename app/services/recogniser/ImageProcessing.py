@@ -14,7 +14,7 @@ class ImageProcessing:
         process_params = [
             "mogrify", "-set", "density", "300", image
         ]
-        process = ProcessManager.create_process(process_params)
+        #process = ProcessManager.create_process(process_params)
 
     def gray_scale(self, image):
         return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -30,6 +30,22 @@ class ImageProcessing:
     def save_image(self, image):
         cv2.imwrite('output.png', image)
 
+    #skew correction
+
+
+    def deskew(self, image):
+        coords = np.column_stack(np.where(image > 0))
+        angle = cv2.minAreaRect(coords)[-1]
+        if angle < -45:
+            angle = -(90 + angle)
+        else:
+            angle = -angle
+        (h, w) = image.shape[:2]
+        center = (w // 2, h // 2)
+        M = cv2.getRotationMatrix2D(center, angle, 1.0)
+        rotated = cv2.warpAffine(
+            image, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+        return rotated
 
     def run_pipeline(self):
         #self.change_image_DPI(self.image)
@@ -38,7 +54,11 @@ class ImageProcessing:
                 self.gray_scale,
                 self.noise_removal,
                 self.binarize_image,
+                self.deskew,
                 self.save_image
             ),
             self.image
         )
+
+
+ImageProcessing("IMG_20200215_234244.jpg").run_pipeline()
