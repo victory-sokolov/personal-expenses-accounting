@@ -6,9 +6,7 @@ import cv2
 import numpy as np
 import pytesseract
 from PIL import Image
-
 from ImageProcessing import ImageProcessing
-from services.tesseract.ProcessManager import ProcessManager
 
 
 class Recogniser(object):
@@ -69,7 +67,6 @@ class Recogniser(object):
 
 image = "IMG_20200215_234244.jpg"
 
-ImageProcessing().run_pipeline(image)
+ImageProcessing(image).run_pipeline()
 recogniser = Recogniser("lav")
-
 print(recogniser.return_receitps_as_dict())
