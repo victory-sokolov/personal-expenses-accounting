@@ -1,11 +1,14 @@
+from functools import reduce
 import cv2
 import numpy as np
 from PIL import Image
-
-from app.services.tesseract.ProcessManager import ProcessManager
+#from app.services.tesseract.ProcessManager import ProcessManager
 
 
 class ImageProcessing:
+
+    def __init__(self, image):
+        self.image = cv2.imread(image)
 
     def change_image_DPI(self, image):
         process_params = [
@@ -13,19 +16,29 @@ class ImageProcessing:
         ]
         process = ProcessManager.create_process(process_params)
 
+    def gray_scale(self, image):
+        return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    def noise_removal(self, image):
+        return cv2.GaussianBlur(image, (5, 5), 0)
+
     def binarize_image(self, image):
-        img = cv2.imread(image)
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        median = cv2.GaussianBlur(gray, (5, 5), 0)
-        thresh = cv2.threshold(
-            median, 127, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU
+        return cv2.threshold(
+            image, 127, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU
         )[1]
-        cv2.imwrite('output.png', thresh)
+
+    def save_image(self, image):
+        cv2.imwrite('output.png', image)
 
 
-    def run_pipeline(self, image):
-        return [
-            self.change_image_DPI(image),
-            self.binarize_image(image)
-        ]
-
+    def run_pipeline(self):
+        #self.change_image_DPI(self.image)
+        return reduce(
+            lambda image, function: function(image), (
+                self.gray_scale,
+                self.noise_removal,
+                self.binarize_image,
+                self.save_image
+            ),
+            self.image
+        )
