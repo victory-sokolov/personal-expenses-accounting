@@ -17,6 +17,7 @@ class CameraActivity extends React.Component {
               this.camera = cam;
             }}
             flashMode={RNCamera.Constants.FlashMode.auto}
+            playSoundOnCapture={true}
             style={styles.preview}>
             <TouchableOpacity
               onPress={this.takePicture.bind(this)}
