@@ -2,7 +2,7 @@ from functools import reduce
 
 import cv2
 import numpy as np
-from app.services.tesseract.ProcessManager import ProcessManager
+from base.ProcessManager import ProcessManager
 
 
 class ImageProcessing:
