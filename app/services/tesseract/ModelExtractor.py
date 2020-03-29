@@ -1,9 +1,9 @@
 import os
 import subprocess
 
+from base.ProcessManager import ProcessManager
 from ModelProperties import ModelProperties
 from OrderedClassMembers import OrderedClassMembers
-from ProcessManager import ProcessManager
 from utils.Logger import Logger
 
 

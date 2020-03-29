@@ -5,7 +5,7 @@ from typing import Dict
 
 from ModelProperties import ModelProperties
 from OrderedClassMembers import OrderedClassMembers
-from ProcessManager import ProcessManager
+from base.ProcessManager import ProcessManager
 from utils.helpers import data_to_file
 from utils.Logger import Logger
 

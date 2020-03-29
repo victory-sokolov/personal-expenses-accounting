@@ -9,7 +9,7 @@ from typing import Dict
 
 from ModelProperties import ModelProperties
 from OrderedClassMembers import OrderedClassMembers
-from ProcessManager import ProcessManager
+from base.ProcessManager import ProcessManager
 from utils.font import font_path
 from utils.helpers import read_file, read_json
 from utils.Logger import Logger

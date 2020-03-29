@@ -2,7 +2,7 @@ import subprocess
 
 from ModelProperties import ModelProperties
 from OrderedClassMembers import OrderedClassMembers
-from ProcessManager import ProcessManager
+from base.ProcessManager import ProcessManager
 from utils.font import fonts_to_json, supported_fonts
 from utils.helpers import read_file, read_json
 

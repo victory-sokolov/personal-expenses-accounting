@@ -1,7 +1,7 @@
+from base.ProcessManager import ProcessManager
 from Evaluator import Evaluator
 from ModelExtractor import ModelExtractor
 from ModelTraining import ModelTraining
-from ProcessManager import ProcessManager
 from TrainingDataGenerator import TrainingDataGenerator
 
 
