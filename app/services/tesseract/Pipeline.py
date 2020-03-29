@@ -6,8 +6,6 @@ import click
 
 from ModelProperties import ModelProperties
 from PipelineBuilder import PipelineBuilder
-from ProcessManager import ProcessManager
-from utils.ClassMetrics import ClassMetrics
 from utils.font import fonts_to_json, supported_fonts
 from utils.helpers import read_json
 from utils.TaskTimerDecorator import timing
