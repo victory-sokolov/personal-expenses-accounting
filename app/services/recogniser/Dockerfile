@@ -8,11 +8,13 @@ RUN apt update && apt install -y \
     libavcodec-dev \
     libavformat-dev \
     libswscale-dev \
+    imagemagick \
     vim \
     git \
     wget
 
 WORKDIR /recogniser
-COPY . /recogniser
-
+COPY requirements.txt /recogniser
 RUN pip3 install -r requirements.txt
+
+COPY . /recogniser
