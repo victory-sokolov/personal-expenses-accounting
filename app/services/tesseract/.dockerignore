@@ -1,6 +1,7 @@
 __pycache__
-model/*.checkpoint
 model/font_checkpoint
 training_data/
+model/
+stats/
 fonts.json
 Dockerfile
