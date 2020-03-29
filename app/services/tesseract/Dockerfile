@@ -3,6 +3,8 @@ FROM ubuntu:19.10
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TESSERACT=/usr/share/tesseract
 
+WORKDIR /tesseract
+
 RUN apt-get update && apt-get install -y \
     build-essential \
     software-properties-common \
@@ -25,17 +27,18 @@ RUN apt-get update && apt-get install -y \
     wget \
     git \
     g++ \
-    git \
     vim
 
 RUN git clone https://github.com/tesseract-ocr/tesseract $TESSERACT
 
-WORKDIR /tesseract
-COPY . /tesseract/
-
+COPY requirements.txt /tesseract
 RUN pip3 install -r requirements.txt
-RUN chmod +x scripts/*
-RUN scripts/compile_tesseract.sh
-RUN scripts/langdata_lstm.sh scripts/start.sh
 
+COPY scripts/ /tesseract/scripts
+
+RUN chmod +x scripts/*
+RUN ./scripts/compile_tesseract.sh
+RUN ./scripts/langdata_lstm.sh
+
+COPY . /tesseract/
 ENV TESSDATA_PREFIX=/usr/share/tesseract/tessdata
