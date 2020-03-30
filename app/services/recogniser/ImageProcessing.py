@@ -2,13 +2,13 @@ from functools import reduce
 
 import cv2
 import numpy as np
+
 from base.ProcessManager import ProcessManager
 
 
 class ImageProcessing:
 
     def __init__(self, image):
-        self.change_image_DPI(image)
         self.image = cv2.imread(image)
 
     def change_image_DPI(self, image):
@@ -46,17 +46,12 @@ class ImageProcessing:
         return rotated
 
     def run_pipeline(self):
-
         return reduce(
             lambda image, function: function(image), (
                 self.gray_scale,
                 self.noise_removal,
                 self.binarize_image,
-                self.deskew,
                 self.save_image
             ),
             self.image
         )
-
-
-ImageProcessing("IMG_20200215_234244.jpg").run_pipeline()
