@@ -1,11 +1,14 @@
+import json
 import os
 import re
-import subprocess
+from time import sleep
 
 import cv2
 import numpy as np
 import pytesseract
+import requests
 from PIL import Image
+
 from ImageProcessing import ImageProcessing
 
 
@@ -53,20 +56,23 @@ class Recogniser(object):
                 price = re.findall(r'\d+\.\d{2}', line)[0]
                 return price
 
-    def return_receitps_as_dict(self):
+    def receipt_data(self):
         data = self.recognise_image('output.png')
         vendor = self.get_vendor(data)
         date = self.get_date(data)
         price = self.get_price(data)
-        return {
+        receipt_data = {
             'vendor': vendor,
             'date': date,
             'price': price
         }
+        headers = {'Content-Type': 'application/json'}
+        r = requests.post("http://localhost:5000/addreceipt",
+                    data=json.dumps(receipt_data),
+                    headers=headers
+        )
 
 
-image = "IMG_20200215_234244.jpg"
-
-ImageProcessing(image).run_pipeline()
-recogniser = Recogniser("lav")
-print(recogniser.return_receitps_as_dict())
+def recognise_factory(image):
+    ImageProcessing(image).run_pipeline()
+    Recogniser("lav").receipt_data()
