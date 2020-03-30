@@ -10,18 +10,22 @@ services:
   # 		- 5001:5000
 
   tesseract:
-    container_name: tesseract
+    #container_name: tesseract
     build:
       context: ./app/services/tesseract/
       dockerfile: Dockerfile
-    ports:
-      - 4022:4022
+    volumes:
+      - tesseract:/tesseract/model/traineddata
 
   recogniser:
     container_name: recogniser
     build:
       context: ./app/services/recogniser/
       dockerfile: Dockerfile
+    # volumes:
+    #   - type: bind
+    #     source: ./app/services/tesseract/data/
+    #     target: /recogniser/model/traineddata
 
   mobile_app:
     build:
@@ -40,3 +44,6 @@ services:
     restart: always
     ports:
       - 80:80
+
+volumes:
+  tesseract:
