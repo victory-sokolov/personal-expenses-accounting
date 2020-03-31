@@ -5,25 +5,15 @@ class AddNewReceipt extends Component {
 		super(props);
 	}
 
+
 	render() {
 		return (
 			<form method="POST" onSubmit={this.props.handleImageUpload}>
 				<div className="form-group">
-					<input
-						type="text"
-						ref={ref => {
-							this.fileName = ref;
-						}}
-						className="form-control"
-						name="vendor"
-						placeholder="Vendor"
-					/>
 				</div>
 				<div className="form-group">
 					<input
-						ref={ref => {
-							this.uploadInput = ref;
-						}}
+						onChange={this.props.onChangeHandler}
 						type="file"
 						className="form-control btn btn-primary"
 					></input>
