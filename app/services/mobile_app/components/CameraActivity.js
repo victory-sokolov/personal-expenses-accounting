@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import { HOST_IP } from 'react-native-dotenv';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { withNavigationFocus } from 'react-navigation';
 import { dirPictures } from '../utils/dirStorage';
@@ -18,6 +19,7 @@ class CameraActivity extends React.Component {
             }}
             flashMode={RNCamera.Constants.FlashMode.auto}
             playSoundOnCapture={true}
+            captureAudio={false}
             style={styles.preview}>
             <TouchableOpacity
               onPress={this.takePicture.bind(this)}
@@ -30,6 +32,22 @@ class CameraActivity extends React.Component {
     );
   }
 
+  handleImageUpload = async image => {
+    const base64image = await RNFS.readFile(image, 'base64');
+    await fetch(`http://${HOST_IP}:5000/addreceipt`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({image: base64image}),
+    })
+      .then(response => {
+        let res = response.json();
+        return res;
+      })
+      .catch(err => console.log(err));
+  };
+
   takePicture = async () => {
     if (this.camera) {
       const options = {
@@ -38,8 +56,8 @@ class CameraActivity extends React.Component {
         fixOrientation: true,
       };
       const data = await this.camera.takePictureAsync(options);
-      this.saveImage(data.uri);
-      console.log(data.uri);
+      const image = data.uri;
+      this.saveImage(image);
     }
   };
 
@@ -72,9 +90,11 @@ class CameraActivity extends React.Component {
       const newFilepath = `${dirPictures}/${newImageName}`;
       // move and save image to new filepath
       const imageMoved = await this.moveAttachment(filePath, newFilepath);
+      // send image to server
+      this.handleImageUpload(newFilepath);
       console.log('image moved', imageMoved);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 }
