@@ -1,6 +1,9 @@
 package com.receiptapp;
 
 import com.facebook.react.ReactActivity;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 public class MainActivity extends ReactActivity {
 
@@ -12,4 +15,15 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "ReceiptApp";
   }
+
+
+  @Override
+  protected void onCreate(Bundle state){
+        super.onCreate(state);
+
+        SharedPreferences preferences =
+            PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        preferences.edit().putString("debug_http_host", "localhost:8081").apply();
+  }
+
 }
