@@ -7,13 +7,14 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "release-build": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/build/intermediates/res/merged/release/ && rm -rf android/app/src/main/res/drawable-* && rm -rf android/app/src/main/res/raw/* && cd android && ./gradlew assembleRelease && cd .."
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.7",
     "react": "16.9.0",
     "react-native": "0.61.5",
-    "react-native-camera": "^3.19.0",
+    "react-native-camera": "^3.21.0",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.6.0",
     "react-native-reanimated": "^1.7.0",
@@ -24,13 +25,14 @@
     "react-navigation-stack": "^2.2.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.7",
-    "@babel/runtime": "^7.8.7",
+    "@babel/core": "^7.9.0",
+    "@babel/runtime": "^7.9.2",
     "@react-native-community/eslint-config": "^0.0.7",
-    "babel-jest": "^25.1.0",
+    "babel-jest": "^25.2.4",
     "eslint": "^6.8.0",
-    "jest": "^25.1.0",
+    "jest": "^25.2.4",
     "metro-react-native-babel-preset": "^0.58.0",
+    "react-native-dotenv": "^0.2.0",
     "react-test-renderer": "16.9.0"
   },
   "jest": {
