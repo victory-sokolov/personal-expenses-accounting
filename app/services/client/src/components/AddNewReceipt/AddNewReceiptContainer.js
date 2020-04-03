@@ -5,7 +5,7 @@ class AddNewReceiptContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			fileInput: ''
+			fileInput: ""
 		};
 		this.handleImageUpload = this.handleImageUpload.bind(this);
 		this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -18,15 +18,30 @@ class AddNewReceiptContainer extends Component {
 		});
 	}
 
+	readFile(file) {
+		return new Promise(function(resolve, reject) {
+			let myReader = new FileReader();
+			myReader.onloadend = function (e) {
+				resolve(myReader.result);
+			};
+			myReader.readAsDataURL(file);
+		});
+	};
+
+
 	handleImageUpload(e) {
 		e.preventDefault();
 
-		const data = new FormData();
-		data.append("file", this.state.fileInput);
-		fetch("http://localhost:5000/addreceipt", {
-			method: "POST",
-			body: data
+		const image = this.state.fileInput;
+		this.readFile(image).then(function(base64string) {
+			const img = base64string.split(',')[1];
+			fetch("http://localhost:5000/addreceipt", {
+				method: "POST",
+				body: JSON.stringify({'image' : img})
+			});
 		});
+
+
 	}
 
 	render() {
