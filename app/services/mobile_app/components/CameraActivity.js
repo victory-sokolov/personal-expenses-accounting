@@ -39,7 +39,7 @@ class CameraActivity extends React.Component {
       headers: {
         Accept: 'application/json',
       },
-      body: JSON.stringify({image: base64image}),
+      body: JSON.stringify({'image': base64image}),
     })
       .then(response => {
         let res = response.json();
