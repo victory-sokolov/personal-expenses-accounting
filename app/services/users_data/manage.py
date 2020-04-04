@@ -3,8 +3,8 @@ import unittest
 
 import coverage
 from flask.cli import FlaskGroup
-from src import create_app
-from src.controller.AddReceipt import AddReceipt
+from project import create_app, db
+from project.controller.AddReceipt import AddReceipt
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
@@ -17,6 +17,13 @@ def test():
     if result.wasSuccessful():
         return 0
     return 1
+
+
+@cli.command()
+def recreate_db():
+    db.drop_all()
+    db.create_all()
+    db.session.commit()
 
 
 # Routings
