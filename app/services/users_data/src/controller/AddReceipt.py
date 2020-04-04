@@ -40,16 +40,9 @@ class AddReceipt(MethodView):
             return jsonify({'status': 200})
         else:
             receipt_data = request.get_json()
-            print(receipt_data)
-            # if date is not recognised set todays
             date = datetime.date.today()
-            print(date)
             if not receipt_data['date']:
                 receipt_data['date'] = str(date)
-            print(receipt_data)
             return jsonify(receipt_data)
 
         return jsonify({'status': 400})
-
-    def get(self):
-        return 'Get Data'
