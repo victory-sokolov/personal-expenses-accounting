@@ -21,7 +21,7 @@ class Recogniser(object):
         tessdata_dir = r'--tessdata-dir "data/"'
 
         traineddata = f'{self._lang}+eng+lav-9bc56f04-e9fa-4046-8118-788a91cb4e92'
-        black_list_chars = '#~_|!?+»=<>[]();,:*'
+        black_list_chars = '#~_|!?+»=<>[]();,:*”'
 
         config = (
             f'-l {traineddata} -c tessedit_char_blacklist={black_list_chars} \
@@ -36,7 +36,7 @@ class Recogniser(object):
         )
 
     def get_date(self, text):
-        date_pattern = r'^([0-9]{2,4}(\.|-)[0-9]{2}(\.|-)[0-9]{2,4})'
+        date_pattern = r'^(0?[1-9]|[12][0-9]|3[01])(-|\.)(0?[1-9]|1[012])(-|\.)([19|20]\d\d\d)'
         text = " ".join(text).split(" ")
         for line in text:
             date = re.search(date_pattern, line)
@@ -64,15 +64,18 @@ class Recogniser(object):
         receipt_data = {
             'vendor': vendor,
             'date': date,
-            'price': price
+            'price': price,
+            'category': ''
         }
+        print(receipt_data)
         headers = {'Content-Type': 'application/json'}
         r = requests.post("http://localhost:5000/addreceipt",
-                    data=json.dumps(receipt_data),
-                    headers=headers
-        )
+                          data=json.dumps(receipt_data),
+                          headers=headers
+                          )
 
 
 def recognise_factory(image):
+    sleep(10)
     ImageProcessing(image).run_pipeline()
     Recogniser("lav").receipt_data()
