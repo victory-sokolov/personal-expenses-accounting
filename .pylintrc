@@ -17,7 +17,7 @@ ignore-patterns=
 # pygtk.require().
 #init-hook=
 
-# Use multiple processes to speed up Pylint. Specifying 0 will auto-detect the
+# Use multiple processes to speed up Pylint. Specifying 0 will auto-detect theignore
 # number of processors available to use.
 jobs=1
 
@@ -237,7 +237,7 @@ ignored-classes=optparse.Values,thread._local,_thread._local
 # (useful for modules/projects where namespaces are manipulated during runtime
 # and thus existing member attributes cannot be deduced by static analysis). It
 # supports qualified module names, as well as Unix pattern matching.
-ignored-modules=sqlalchemy
+ignored-modules=sqlalchemy,flask_sqlalchemy
 
 # Show a hint with possible names when a member name was not found. The aspect
 # of finding the hint is based on edit distance.
