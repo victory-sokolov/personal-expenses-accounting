@@ -41,7 +41,6 @@ class AddNewReceiptContainer extends Component {
 			});
 		});
 
-
 	}
 
 	render() {
