@@ -5,7 +5,6 @@ import cv2
 import numpy as np
 from wand.image import Image as WandImage
 
-
 from base.ProcessManager import ProcessManager
 
 
@@ -33,6 +32,8 @@ class ImageProcessing:
             if img_buffer is not None:
                 retval = cv2.imdecode(img_buffer, cv2.IMREAD_UNCHANGED)
                 return retval
+        else:
+            return self.image
 
     def gray_scale(self, image):
         return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
