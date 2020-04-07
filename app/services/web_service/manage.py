@@ -32,7 +32,7 @@ def recreate_db():
 
 # Routings
 app.add_url_rule(
-    '/createuser', view_func=CreateUser.as_view('createuser'))
+    '/register', view_func=CreateUser.as_view('createuser'))
 app.add_url_rule('/addreceipt', view_func=AddReceipt.as_view('addreceipt'))
 
 if __name__ == "main":
