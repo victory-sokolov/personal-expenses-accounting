@@ -2,20 +2,20 @@ import React, { Component } from 'react';
 import RegistrationForm from './RegistrationForm';
 
 class RegistrationFormContainer extends Component {
-	constructor(props) {
-        super(props);
-        this.state = {
-            name: "",
-            email: "",
-            password: "",
-        };
+	constructor() {
+		super();
+		this.state = {
+			name: '',
+			email: '',
+			password: ''
+		};
 	}
 
-	handleInputChange(event) {
+	handleInputChange = (event) => {
 		this.setState({
-			[event.target.name]: event.target.value,
+			[event.target.name]: event.target.value
 		});
-	}
+	};
 
 	handleSubmit = async (event) => {
 		event.preventDefault();
@@ -41,9 +41,9 @@ class RegistrationFormContainer extends Component {
 				<RegistrationForm
 					handleInputChange={this.handleInputChange}
 					handleSubmit={this.handleSubmit}
-					name={this.props.name}
-					email={this.props.email}
-					password={this.props.password}
+					name={this.state.name}
+					email={this.state.email}
+					password={this.state.password}
 				/>
 			</div>
 		);

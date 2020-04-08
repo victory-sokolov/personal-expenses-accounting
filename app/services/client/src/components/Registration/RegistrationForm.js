@@ -7,63 +7,67 @@ class RegistrationForm extends Component {
     }
 
     render() {
-        const { name, email, password} = this.props;
+
+        const {name, email, password} = this.props;
 
         return (
-            <form method="POST" onSubmit={this.props.handleSubmit}>
-                <div className="input-container">
-                    <input
-                        type="text"
-                        id="#{label}"
-                        required="required"
-                        placeholder="Name"
-                        value={name}
-                        onChange={this.props.handleInputChange}
-                    />
-                    <label htmlFor="#{label}">Name</label>
-                    <div className="bar"></div>
-                </div>
-                <div className="input-container">
-                    <input
-                        type="email"
-                        id="#{label}"
-                        required="required"
-                        placeholder="Email"
-                        value={email}
-                        onChange={this.props.handleInputChange}
-                    />
-                    <label htmlFor="#{label}">Email</label>
-                    <div className="bar"></div>
-                </div>
-                <div className="input-container">
-                    <input
-                        type="password"
-                        id="#{label}"
-                        required="required"
-                        placeholder="Password"
-                        value={password}
-                        onChange={this.props.handleInputChange}
-                    />
-                    <label htmlFor="#{label}">Password</label>
-                    <div className="bar"></div>
-                </div>
-                <div className="input-container">
-                    <input
-                        type="password"
-                        id="#{label}"
-                        required="required"
-                        placeholder="Password"
-                        value={password}
-                        onChange={this.props.handleInputChange}
-                    />
-                    <label htmlFor="#{label}">Repeat Password</label>
-                    <div className="bar"></div>
-                </div>
-                <div className="button-container">
-                    <input type="submit" value="Create account" />
-                </div>
-            </form>
-        );
+					<form method="POST" onSubmit={this.props.handleSubmit}>
+						<div className="input-container">
+							<label htmlFor="name"> Name</label>
+							<input
+								type="text"
+								id="name"
+								placeholder="Name"
+								value={name.value}
+								onChange={this.props.handleInputChange}
+							/>
+							<div className="bar"></div>
+						</div>
+						<div className="input-container">
+							<label htmlFor="email">
+								Email
+								<input
+									type="email"
+									id="email"
+									placeholder="Email"
+									value={email.value}
+									onChange={this.props.handleInputChange}
+								/>
+							</label>
+							<div className="bar"></div>
+						</div>
+						<div className="input-container">
+							<label htmlFor="password">
+								Password
+								<input
+									type="password"
+									id="password"
+									value={password}
+									placeholder="Password"
+									value={password.value}
+									onChange={this.props.handleInputChange}
+								/>
+							</label>
+							<div className="bar"></div>
+						</div>
+						<div className="input-container">
+							<label htmlFor="repeat-password">
+								Repeat Password
+								<input
+									type="password"
+									id="repeat-password"
+									placeholder="Password"
+									value={password.value}
+									onChange={this.props.handleInputChange}
+								/>
+							</label>
+							<div className="bar"></div>
+						</div>
+						<div className="button-container">
+							<input type="submit" value="Create account" />
+						</div>
+					</form>
+				);
     }
 }
 
