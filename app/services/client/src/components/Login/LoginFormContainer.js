@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
+
 import LoginForm from './LoginForm';
 import Welcome from './Welcome';
-
 class LoginFormContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			email: "",
-			password: "",
+			password: ""
 		};
 	}
 
-	handleInputChange(event) {
+	handleInputChange = (event) => {
 		this.setState({
 			[event.target.name]: event.target.value,
 		});
@@ -19,7 +19,7 @@ class LoginFormContainer extends Component {
 
 	handleSubmit = async (event) => {
 		event.preventDefault();
-		await fetch("/register", {
+		await fetch("/login", {
 			method: "POST",
 			redirect: "follow",
 			cache: "no-cache",
@@ -30,7 +30,7 @@ class LoginFormContainer extends Component {
 		}).then((response) => {
 			if (response.status == 200) {
 				// redirect to dashboard
-				//this.props.history.push("/dashboard");
+				this.props.history.push("/dashboard");
 			}
 		});
 	};
@@ -39,7 +39,12 @@ class LoginFormContainer extends Component {
 		return (
 			<div className="form-card">
 				<Welcome />
-				<LoginForm email={this.state.email} password={this.state.password}/>
+				<LoginForm
+					handleInputChange={this.handleInputChange}
+					handleSubmit={this.handleSubmit}
+					email={this.state.email}
+					password={this.state.password}
+				/>
 			</div>
 		);
 	}
