@@ -31,7 +31,7 @@ class RegistrationFormContainer extends Component {
 		}).then((response) => {
 			if (response.status == 200) {
 				// redirect to dashboard
-				//this.props.history.push("/dashboard");
+				this.props.history.push("/dashboard");
 			}
 		});
 	};
