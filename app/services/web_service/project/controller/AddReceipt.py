@@ -54,7 +54,7 @@ class AddReceipt(MethodView):
             date = receipt_data['date']
             category = receipt_data['category']
 
-            new_receipt = ReceiptData(vendor, price, date, category)
+            new_receipt = ReceiptData(vendor=vendor, price=price, date=date, category=category)
             db.session.add(new_receipt)
             db.session.commit()
             return jsonify({'status': 'Receipt has been added'}, 200)
