@@ -5,9 +5,10 @@ class RegistrationFormContainer extends Component {
 	constructor() {
 		super();
 		this.state = {
-			name: '',
-			email: '',
-			password: ''
+			name: "",
+			email: "",
+			password: "",
+			repeatPassword: ""
 		};
 	}
 
@@ -44,6 +45,7 @@ class RegistrationFormContainer extends Component {
 					name={this.state.name}
 					email={this.state.email}
 					password={this.state.password}
+					repeatPassword={this.state.repeatPassword}
 				/>
 			</div>
 		);
