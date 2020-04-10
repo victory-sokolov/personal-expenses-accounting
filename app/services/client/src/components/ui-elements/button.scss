@@ -1,0 +1,31 @@
+@import "./colors.scss";
+
+.button {
+	outline: 0;
+	position: relative;
+	display: inline-block;
+	background: 0;
+	width: 100%;
+	border: 2px solid $primary-color;
+	padding: 10px 0;
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 1;
+	text-transform: uppercase;
+	overflow: hidden;
+	transition: 0.3s ease;
+	cursor: pointer;
+	letter-spacing: 1.5px;
+
+	&:active:before,
+	&:active:focus:before {
+		opacity: 1;
+	}
+
+	&:hover,
+	&:active,
+	&:focus {
+		background: $primary-color;
+		color: #fff;
+	}
+}

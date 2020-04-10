@@ -1,0 +1,67 @@
+@import "./colors.scss";
+
+.input {
+	outline: none;
+	z-index: 10;
+	position: relative;
+	background: none;
+	width: 100%;
+	height: 60px;
+	border: 0;
+	color: #212121;
+	font-size: 20px;
+	font-weight: 400;
+
+	+ label {
+		position: absolute;
+		top: 0;
+		left: 0;
+		color: #757575;
+		font-size: 20px;
+		font-weight: 300;
+		line-height: 60px;
+		z-index: 1;
+	}
+
+	&:focus ~ label,
+	&:valid ~ label {
+		color: #9d9d9d;
+		transform: translate(-12%, -50%) scale(0.75);
+	}
+
+	&:focus ~ .bar:before,
+	&:focus ~ .bar:after {
+		width: 50%;
+	}
+}
+
+.bar {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	background: $primary-color;
+	width: 100%;
+	height: 1px;
+
+	&:before {
+		left: 50%;
+	}
+	&:after {
+		right: 50%;
+	}
+}
+
+.bar:before,
+.bar:after {
+	content: "";
+	position: absolute;
+	background: $primary-color;
+	width: 0;
+	height: 2px;
+	transition: 0.2s ease;
+}
+
+.inputContainer {
+	position: relative;
+	margin: 0 10px 50px;
+}
