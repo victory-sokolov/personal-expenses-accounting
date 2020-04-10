@@ -13,7 +13,7 @@ function srcPathExtend(subpath) {
 module.exports = {
 	output: {
 		path: path.join(__dirname, "/dist"),
-		filename: "bundle.js",
+		filename: "bundle.js"
 	},
 	module: {
 		rules: [
@@ -28,21 +28,37 @@ module.exports = {
 								"@babel/preset-env",
 								{
 									targets: {
-										esmodules: true,
-									},
-								},
+										esmodules: true
+									}
+								}
 							],
 							"@babel/react",
 							{
-								plugins: ["@babel/plugin-proposal-class-properties"],
-							},
-						],
-					},
-				},
+								plugins: ["@babel/plugin-proposal-class-properties"]
+							}
+						]
+					}
+				}
 			},
 			{
-				test: /\.css$/,
-				loader: "style-loader!css-loader",
+				test: /\.(css|scss)/,
+				use: [
+					"style-loader",
+					{
+						loader: "css-loader",
+						options: {
+							modules: {
+								localIdentName: "[path][name]__[local]--[hash:base64:5]"
+							}
+						}
+					},
+					{
+						loader: "sass-loader",
+						options: {
+							sourceMap: true,
+						}
+					},
+				]
 			},
 			{
 				test: /\.(png|jpg|gif)$/i,
@@ -51,16 +67,16 @@ module.exports = {
 						loader: "url-loader",
 						options: {
 							// limit: 8192,
-						},
-					},
-				],
-			},
-		],
+						}
+					}
+				]
+			}
+		]
 	},
 	plugins: [
 		// new htmlWebPackPlugin({
 		//   template: srcPathExtend("index.html")
 		// })
 	],
-	watch: true,
+	watch: true
 };
