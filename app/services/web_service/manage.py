@@ -8,6 +8,7 @@ from project import create_app, db
 from project.controller.AddReceipt import AddReceipt
 from project.controller.Authenticate import Authenticate
 from project.controller.CreateUser import CreateUser
+from project.controller.Dashboard import Dashboard
 
 app = create_app()
 
@@ -36,6 +37,7 @@ app.add_url_rule(
     '/register', view_func=CreateUser.as_view('createuser'))
 app.add_url_rule('/addreceipt', view_func=AddReceipt.as_view('addreceipt'))
 app.add_url_rule('/login', view_func=Authenticate.as_view('authenticate'))
+app.add_url_rule('/dashboard', view_func=Dashboard.as_view('dashboard'))
 
 
 if __name__ == "main":
