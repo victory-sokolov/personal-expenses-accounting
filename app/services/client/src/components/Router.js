@@ -1,17 +1,18 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import App from "./App";
-import LoginFormContainer from "./Login/LoginFormContainer";
+import Dashboard from "./Dashboard/Dashboard";
+import LoginPageContainer from "./Login/LoginPageContainer";
 import PageNotFound from './PageNotFound';
-import RegistrationFormContainer from "./Registration/RegistrationFormContainer";
+import RegistrationPageContainer from "./Registration/RegistrationPageContainer";
 
 const Router = () => (
 	<BrowserRouter>
 		<Switch>
 			<Route exact path="/" component={App} />
-			<Route path="/login" component={LoginFormContainer} />
-			<Route path="/register" component={RegistrationFormContainer} />
-			{/* <Route path="/dashboard" component={DashboardContainer} /> */}
+			<Route path="/login" component={LoginPageContainer} />
+			<Route path="/register" component={RegistrationPageContainer} />
+			<Route path="/dashboard" component={Dashboard} />
 			<Route component={PageNotFound} />
 		</Switch>
 	</BrowserRouter>
