@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-
+import buttonStyle from "../ui-elements/button.scss";
+import inputStyle from '../ui-elements/input.scss';
+import login from '../ui-elements/login.scss';
 class LoginForm extends Component {
 
 	constructor(props) {
@@ -11,44 +13,43 @@ class LoginForm extends Component {
 
         return (
 			<form method="POST" onSubmit={this.props.handleSubmit}>
-				<div className="input-container">
-					<label htmlFor="email">Email</label>
+				<div className={inputStyle.inputContainer}>
 					<input
-						type="email"
+						type="text"
 						id="email"
+						className={inputStyle.input}
 						name="email"
 						required="required"
-						placeholder="Email"
 						autoComplete="off"
 						value={email.value}
 						onChange={this.props.handleInputChange}
 					/>
-					<div className="bar"></div>
+					<label htmlFor="email">Email</label>
+					<div className={inputStyle.bar}></div>
 				</div>
-				<div className="input-container">
-					<label htmlFor="password">Password</label>
+				<div className={inputStyle.inputContainer}>
 					<input
 						type="password"
 						id="password"
+						className={inputStyle.input}
 						name="password"
 						required="required"
-						placeholder="Password"
 						autoComplete="off"
 						value={password.value}
 						onChange={this.props.handleInputChange}
 					/>
-
-					<div className="bar"></div>
+					<label htmlFor="password">Password</label>
+					<div className={inputStyle.bar}></div>
 				</div>
-				<div className="login-block">
-					<input type="checkbox" id="remember" name="remember" />
-					<label htmlFor="remember">Remember me</label>
+				<div className={login.loginBlock}>
+					<div className={login.rememberMeBlock}>
+						<input type="checkbox" id="remember" name="remember" />
+						<label htmlFor="remember">Remember me</label>
+					</div>
 					<a href="#">Forgot password?</a>
 				</div>
-				<div className="button-container">
-					<input type="submit" value="Login" name="submit" />
-				</div>
-				<div className="footer">
+				<button className={buttonStyle.button}>Login</button>
+				<div className={login.loginFooter}>
 					<p>
 						Don’t have an account?
 						<a href="#">Click here</a>
