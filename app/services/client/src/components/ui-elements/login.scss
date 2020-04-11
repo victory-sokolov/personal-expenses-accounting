@@ -1,0 +1,29 @@
+@import "./colors.scss";
+
+form a {
+	text-decoration: none;
+	color: darken($primary-color, 20%);
+}
+
+.loginBlock {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 25px;
+	letter-spacing: 1.2px;
+}
+
+.rememberMeBlock label {
+	margin-left: 12px;
+	color: darken($primary-color, 20%);
+}
+
+.loginFooter {
+	margin-top: 20px;
+}
+
+.loginFooter p a {
+	margin-left: 5px;
+	&:hover {
+		text-decoration: underline;
+	}
+}
