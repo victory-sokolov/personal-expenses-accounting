@@ -1,0 +1,66 @@
+/* Cards */
+
+.container {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	width: 100%;
+	grid-gap: 20px;
+	margin-top: 30px;
+}
+
+.cardStyle {
+	box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.18);
+	background-color: #fff;
+}
+
+.smallCards {
+	@extend .cardStyle;
+	min-width: 350px;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	padding: 15px;
+}
+
+.smallCards p:first-child {
+	color: #676767;
+	letter-spacing: 0.02em;
+	font-size: 16px;
+}
+
+.smallCards p:nth-child(2) {
+	font-weight: bold;
+	font-size: 22px;
+}
+
+.smallCards .graphIcon {
+	filter: invert(46%) sepia(95%) saturate(385%) hue-rotate(93deg)
+		brightness(95%) contrast(95%);
+}
+
+.smallCards .receiptIcon {
+	width: 40px;
+	height: 40px;
+}
+
+.chartsWrapper {
+	margin-top: 50px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	grid-gap: 25px;
+}
+
+.spendingsCharCart {
+	@extend .cardStyle;
+	display: grid;
+	padding: 15px;
+}
+
+.piecChart > div {
+	margin: 0 auto;
+}
+
+@media screen and (max-width: 1260px) {
+	.piecChart svg foreignObject > div {
+		display: none;
+	}
+}
