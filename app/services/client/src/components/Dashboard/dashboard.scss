@@ -1,0 +1,58 @@
+@import "../ui-elements/colors.scss";
+@import "../ui-elements/button.scss";
+
+main {
+	position: relative;
+	height: 100vh;
+	padding-right: 25px;
+	padding-left: 25px;
+}
+
+.heading {
+	margin-top: 30px;
+
+	h1 {
+		letter-spacing: 1.5px;
+	}
+}
+
+.divider {
+	border-bottom: 1px solid grey;
+	padding-bottom: 25px;
+}
+
+.filterandexpens {
+	display: flex;
+	margin-top: 20px;
+
+	a {
+		text-decoration: none;
+		font-size: 18px;
+		color: #222;
+		position: relative;
+		top: 8px;
+		left: 10px;
+	}
+}
+
+.buttonContainer {
+	margin-left: auto;
+	padding-right: 10px;
+
+	button {
+		@extend .button;
+		background: $primary-color;
+		color: #fff;
+		border-radius: 5px;
+		width: 170px;
+		font-size: 14px;
+		text-transform: none;
+	}
+}
+
+.filterIcon {
+	background-image: url("./icons/sliders-h-solid 1.svg");
+	background-repeat: no-repeat;
+	height: 45px;
+	width: 30px;
+}
