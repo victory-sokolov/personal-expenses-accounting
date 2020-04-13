@@ -15,15 +15,28 @@
 
 .smallCards {
 	@extend .cardStyle;
-	min-width: 350px;
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	padding: 15px;
+	padding: 15px 0 0 15px;
+
+	img {
+		margin-left: auto;
+		padding-right: 10px;
+	}
+
+	p {
+		letter-spacing: 0.02em;
+	}
+
+	.receiptIcon,
+	.tagIcon {
+		width: 45px;
+		height: 45px;
+	}
 }
 
 .smallCards p:first-child {
 	color: #676767;
-	letter-spacing: 0.02em;
 	font-size: 16px;
 }
 
@@ -35,11 +48,6 @@
 .smallCards .graphIcon {
 	filter: invert(46%) sepia(95%) saturate(385%) hue-rotate(93deg)
 		brightness(95%) contrast(95%);
-}
-
-.smallCards .receiptIcon {
-	width: 40px;
-	height: 40px;
 }
 
 .chartsWrapper {
