@@ -23,6 +23,9 @@
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
     "regenerator-runtime": "^0.13.5",
+    "sass-extract": "^2.1.0",
+    "sass-extract-js": "^0.4.0",
+    "sass-extract-loader": "^1.1.0",
     "styled-components": "^5.1.0"
   },
   "devDependencies": {
