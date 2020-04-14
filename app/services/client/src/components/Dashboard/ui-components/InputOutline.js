@@ -115,4 +115,7 @@ const InputContainer = styled.div`
 	margin: 0 10px 50px;
 `;
 
-export default InputOutline;
+export {
+	InputOutline,
+	InputContainer
+}
