@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import cards from './cards.scss';
 import recieptIcon from './icons/receipt-solid.svg';
+import tagIcon from './icons/tags-solid.svg';
 import graphIcon from './icons/today_graph.svg';
 
 class SmallCard extends Component {
@@ -22,14 +23,19 @@ class SmallCard extends Component {
 					<img src={graphIcon} className={cards.graphIcon} alt="" />
 				</div>
 				<div className={cards.smallCards}>
-					<p>Frequently Used Category</p>
-					<p>Grocerry</p>
+					<div className={cards.title}>
+						<p>Frequently Used Category</p>
+						<p>Grocerry</p>
+					</div>
+					<img src={tagIcon} className={cards.tagIcon} alt="" />
 				</div>
 				<div className={cards.smallCards}>
-					<p>
-						Amount Of <br /> Receipts / Month
-					</p>
-					<p>32</p>
+					<div className={cards.title}>
+						<p>
+							Amount Of <br /> Receipts / Month
+						</p>
+						<p>32</p>
+					</div>
 					<img src={recieptIcon} className={cards.receiptIcon} alt="" />
 				</div>
 			</div>
