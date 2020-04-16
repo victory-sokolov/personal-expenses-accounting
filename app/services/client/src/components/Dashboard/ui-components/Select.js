@@ -19,7 +19,7 @@ export default function NativeSelects() {
 	const classes = useStyles();
 	const [state, setState] = React.useState({
 		age: "",
-		name: "hai"
+		name: "category"
 	});
 
 	const handleChange = event => {
@@ -33,20 +33,20 @@ export default function NativeSelects() {
 	return (
 		<div>
 			<FormControl className={classes.formControl}>
-				<InputLabel htmlFor="age-native-simple">Age</InputLabel>
+				<InputLabel htmlFor="cate-native">Category</InputLabel>
 				<Select
 					native
 					value={state.age}
 					onChange={handleChange}
 					inputProps={{
-						name: "age",
-						id: "age-native-simple"
+						name: "Category",
+						id: "cate-native",
 					}}
 				>
 					<option aria-label="None" value="" />
-					<option value={10}>Ten</option>
-					<option value={20}>Twenty</option>
-					<option value={30}>Thirty</option>
+					<option value={10}>Cat 1</option>
+					<option value={20}>Cat 2</option>
+					<option value={30}>Cat 3</option>
 				</Select>
 			</FormControl>
 		</div>
