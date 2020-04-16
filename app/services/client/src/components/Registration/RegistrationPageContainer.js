@@ -45,7 +45,9 @@ class RegistrationFormContainer extends Component {
 					<img src={pcIcon} alt="" />
 				</div>
 				<div className={Main.formCard}>
-					<h1>Create new account</h1>
+					<h1>
+						<span className={Main.underline}>Create new account</span>
+					</h1>
 					<RegistrationForm
 						handleInputChange={this.handleInputChange}
 						handleSubmit={this.handleSubmit}
