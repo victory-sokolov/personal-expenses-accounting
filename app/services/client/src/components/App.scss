@@ -31,12 +31,17 @@ body {
 .formCard {
 	flex: 12%;
 	margin-right: 80px;
+
+	.underline {
+		border-bottom: 2px solid lighten($primary-color, 45%);
+		display: inline-block;
+		line-height: 1.5;
+	}
 }
 
 .formCard h1 {
 	text-align: center;
 	margin-bottom: 60px;
-	border-bottom: 2px solid lighten($primary-color, 25%);
 }
 
 .imageBlock {
@@ -46,7 +51,7 @@ body {
 
 .imageBlock img {
 	margin: 60px 0 0 40px;
-	max-width: 420px;
+	width: 500px;
 }
 
 .welcome {
