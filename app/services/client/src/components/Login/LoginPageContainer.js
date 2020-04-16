@@ -29,13 +29,16 @@ class LoginFormContainer extends Component {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(this.state),
-		}).then((response) => {
-			if (response.status == 200) {
-				// redirect to dashboard
+		})
+		.then(response => response.json()
+		.then(data => ({status: response.status, body: data}))
+		.then(res => {
+			let status = res.body[1];
+			if (status == 200) {
 				this.props.history.push("/dashboard");
 			}
-		});
-	};
+		}))
+	}
 
 	render() {
 		return (
