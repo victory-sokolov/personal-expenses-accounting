@@ -10,7 +10,8 @@ class ReceiptData(db.Model):
     vendor = db.Column(db.String(255))
     price = db.Column(db.String(20))
     date = db.Column(db.DateTime)
-    category = db.Column(db.String(255))
+    category = db.Column(db.String(50))
+    warranty = db.Column(db.DateTime)
 
     def __repr__(self):
         return '<ReceiptData vendor: {} \n price: {} \n date: {} category: {}>' \
