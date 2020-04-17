@@ -15,8 +15,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function FileUpload() {
+
+const FileUpload = (props) => {
 	const classes = useStyles();
+	const {
+		onChange
+	} = props;
+
 
 	return (
 		<div className={classes.root}>
@@ -25,6 +30,7 @@ export default function FileUpload() {
 				className={classes.input}
 				id="icon-button-file"
 				type="file"
+				onChange={onChange}
 			/>
 			<label htmlFor="icon-button-file">
 				<IconButton
@@ -32,9 +38,11 @@ export default function FileUpload() {
 					aria-label="upload picture"
 					component="span"
 				>
-				<PhotoCamera style={{ fontSize: 80 }} />
+					<PhotoCamera style={{ fontSize: 80 }} />
 				</IconButton>
 			</label>
 		</div>
 	);
 }
+
+export default FileUpload;
