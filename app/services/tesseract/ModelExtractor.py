@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from base.ProcessManager import ProcessManager
+from app.base.ProcessManager import ProcessManager
 from ModelProperties import ModelProperties
 from OrderedClassMembers import OrderedClassMembers
 from utils.Logger import Logger

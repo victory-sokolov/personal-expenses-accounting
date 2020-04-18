@@ -3,9 +3,9 @@ import os
 import re
 from typing import Dict
 
+from app.base.ProcessManager import ProcessManager
 from ModelProperties import ModelProperties
 from OrderedClassMembers import OrderedClassMembers
-from base.ProcessManager import ProcessManager
 from utils.helpers import data_to_file
 from utils.Logger import Logger
 
@@ -84,4 +84,3 @@ class Evaluator(metaclass=OrderedClassMembers):
                     write.writeheader()
                 write.writerows(self.eval_data)
             del self.eval_data[:]
-

@@ -1,8 +1,9 @@
-from base.ProcessManager import ProcessManager
 from Evaluator import Evaluator
 from ModelExtractor import ModelExtractor
 from ModelTraining import ModelTraining
 from TrainingDataGenerator import TrainingDataGenerator
+
+from app.base.ProcessManager import ProcessManager
 
 
 class PipelineBuilder(object):

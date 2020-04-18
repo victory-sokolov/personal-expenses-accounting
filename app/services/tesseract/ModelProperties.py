@@ -1,5 +1,8 @@
 import os
+
 from dotenv import load_dotenv
+
+
 class ModelProperties:
     load_dotenv()
     model_path = os.getenv('MODEL_PATH')
@@ -8,7 +11,7 @@ class ModelProperties:
     tessdata = os.getenv("TESSDATA_PREFIX")
     fonts = []
 
-    def __init__(self, lang, iterations=200, pages=5):
+    def __init__(self, lang, iterations=4500, pages=200):
         self.lang = lang
         self.iterations = iterations
         self.pages = pages
