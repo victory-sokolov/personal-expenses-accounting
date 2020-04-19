@@ -5,7 +5,7 @@ from pathlib import PurePosixPath
 from subprocess import PIPE, Popen, check_output
 from typing import List
 
-from utils.helpers import read_json
+from helpers import read_json
 
 
 def font_path() -> str:
@@ -64,23 +64,17 @@ def fonts_to_json():
 
 
 def convert_to_iso_639_1(lang: str) -> str:
-    """Converts iso_639-2 to iso_639-1."""
+    """Converts iso_639-2 to iso_639-1"""
     iso = read_json('./utils/iso_639-2')[lang]['639-1']
     return iso
 
 
 def is_lang_supported(font: str, lang: str) -> bool:
-    """
-    Check if fonts supports specific language
-    Parameters:
-    arg1(string) font name without extension
-    arg2(string) language code in ISO 639-2 standart
-    """
+    """Check if fonts supports specific language"""
     # by default eng is supported mostly for all fonts
     if lang == 'eng' or lang == 'en':
         return True
-    path = './fonts/'
-    full_path = os.path.join(path, f'{font}')
+    full_path = os.path.join('./fonts/', f'{font}')
     with Popen(['fc-query', full_path], stdout=PIPE, stderr=PIPE) as proc:
         langs = check_output([
             'grep', '-w', 'lang'
@@ -90,6 +84,14 @@ def is_lang_supported(font: str, lang: str) -> bool:
     lang_list = langs.split('|')
     lang = convert_to_iso_639_1(lang)
     return lang in lang_list
+
+
+def list_of_supported_fonts(fonts: List, lang: str) -> List:
+    font_list = []
+    for font in fonts:
+        if is_lang_supported(font, lang):
+            font_list.append(font)
+    return font_list
 
 
 def supported_fonts(fonts, lang: str) -> List:
@@ -108,3 +110,5 @@ def supported_fonts(fonts, lang: str) -> List:
             if is_lang_supported(font, lang):
                 fonts_list.append(font.split(".")[0])
     return fonts_list
+
+
