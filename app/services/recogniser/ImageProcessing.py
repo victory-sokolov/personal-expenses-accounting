@@ -43,8 +43,12 @@ class ImageProcessing:
 
     def thresh(self, image):
         return cv2.threshold(
-            image, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU
+            image, 127, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU
         )[1]
+
+
+    def adaptive_thresh(self, image):
+        return cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 121, 12)
 
     def save_image(self, image):
         cv2.imwrite('output.png', image)
@@ -63,16 +67,29 @@ class ImageProcessing:
             image, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
         return rotated
 
-    def run_pipeline(self):
-        # self.rotate(self.image)
 
+    def dilate(self, image):
+        kernel = np.ones((5,5),np.uint8)
+        return cv2.dilate(image, kernel, iterations = 1)
+
+
+    def erode(self, image):
+        kernel = np.ones((5,5),np.uint8)
+        return cv2.erode(image, kernel, iterations = 1)
+
+
+    def run_pipeline(self):
         return reduce(
             lambda image, function: function(image), (
                 self.rotate,
                 self.gray_scale,
-                self.noise_removal,
                 self.thresh,
+                self.noise_removal,
                 self.save_image
             ),
             self.image
         )
+
+
+
+
