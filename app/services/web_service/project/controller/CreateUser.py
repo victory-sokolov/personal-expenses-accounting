@@ -12,6 +12,7 @@ class CreateUser(MethodView):
     def post(self):
         """Create new account"""
         users_data = json.loads(request.data)
+        print(users_data)
         # add new user
         name = users_data['name']
         email = users_data['email']
@@ -19,8 +20,9 @@ class CreateUser(MethodView):
         repeat_password = users_data['repeatPassword']
 
         # check if user with that email exists
-        user_exists = User.query.filter_by(email=email)
-        if user_exists is None:
+        user_exists = User.query.filter_by(email=email).first()
+        if user_exists:
+            print("User exists")
             return jsonify({'status': 'User with that email already exists'}, 400)
 
         if password != repeat_password:
