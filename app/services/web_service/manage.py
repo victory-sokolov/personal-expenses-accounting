@@ -15,7 +15,7 @@ app = create_app()
 cli = FlaskGroup(create_app=create_app)
 
 
-@cli.command()
+@cli.command("test")
 def test():
     """Run tests without code coverage"""
     tests = unittest.TestLoader().discover('/tests', pattern='test*.py')
@@ -25,11 +25,13 @@ def test():
     return 1
 
 
-@cli.command()
+@cli.command("recreate_db")
 def recreate_db():
+    """Recreates Database"""
     db.drop_all()
     db.create_all()
     db.session.commit()
+    print("Database recreated")
 
 
 # Routings
@@ -40,5 +42,5 @@ app.add_url_rule('/login', view_func=Authenticate.as_view('authenticate'))
 app.add_url_rule('/dashboard', view_func=Dashboard.as_view('dashboard'))
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     cli()
