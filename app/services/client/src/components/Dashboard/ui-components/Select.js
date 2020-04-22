@@ -8,7 +8,7 @@ import React from "react";
 const useStyles = makeStyles(theme => ({
 	formControl: {
 		margin: theme.spacing(1),
-		minWidth: 265
+		minWidth: 335
 	},
 	selectEmpty: {
 		marginTop: theme.spacing(2)
