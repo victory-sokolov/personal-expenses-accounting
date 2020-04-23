@@ -9,6 +9,7 @@ from project.controller.AddReceipt import AddReceipt
 from project.controller.Authenticate import Authenticate
 from project.controller.CreateUser import CreateUser
 from project.controller.Dashboard import Dashboard
+from project.controller.LogOutAPI import LogOutAPI
 
 app = create_app()
 
@@ -40,7 +41,7 @@ app.add_url_rule(
 app.add_url_rule('/addreceipt', view_func=AddReceipt.as_view('addreceipt'))
 app.add_url_rule('/login', view_func=Authenticate.as_view('authenticate'))
 app.add_url_rule('/dashboard', view_func=Dashboard.as_view('dashboard'))
-
+app.add_url_rule('/logout', view_func=LogOutAPI.as_view('logout'))
 
 if __name__ == "__main__":
     cli()
