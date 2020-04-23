@@ -1,17 +1,19 @@
-from flask import jsonify, current_app
-from werkzeug.security import check_password_hash, generate_password_hash
+from flask import current_app, jsonify
+from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from project import db
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from project import db, login_manager
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
 
     __tablename__ = "users"
-    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255))
     email = db.Column(db.String(70))
     password = db.Column(db.String(255))
-    confirmed = db.Column(db.Boolean, default=False)
+    verified = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return '<User name: {} \n email: {} \n password:{}>' \
@@ -27,7 +29,6 @@ class User(db.Model):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'confirm': self.user_id}).decode("utf-8")
 
-
     def confirm(self, token):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
@@ -40,3 +41,8 @@ class User(db.Model):
         self.confirmed = True
         db.session.add(self)
         return True
+
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
