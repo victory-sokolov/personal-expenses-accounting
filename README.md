@@ -1,5 +1,4 @@
-# Personal expenses accounting
-Personal expenses accounting using Tesseract OCR.
+# Personal expenses accounting using Tesseract OCR.
 
 
 ## Dependencies
