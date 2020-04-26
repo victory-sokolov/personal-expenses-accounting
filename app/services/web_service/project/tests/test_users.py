@@ -4,8 +4,9 @@ import unittest
 import requests
 
 from project import create_app, db
-from project.models import User
+from project.models.User import User
 from project.tests.base import BaseTestCase
+from utils import create_user
 
 
 class TestUsers(BaseTestCase):
@@ -14,27 +15,44 @@ class TestUsers(BaseTestCase):
     def __init__(self, *args, **kwargs):
         self.app = create_app()
         self.app_test = self.app.test_client()
+
         super(TestUsers, self).__init__(*args, **kwargs)
 
     def test_add_user(self):
         """Ensure user is added to db"""
-        payload = {
-            "name": "viktor",
-            "email": "viktor@gmail.com",
-            "password": "123456",
-            "repeatPassword": "123456"
-        }
-
-        response = requests.post(
-            'http://localhost:5000/register', data=json.dumps(payload))
-        print(response.text)
+        response = create_user()
+        self.assertIn("success", response.json()['status'])
         self.assertEqual(response.status_code, 200)
 
     def test_add_dublicate_email(self):
-        pass
+        self.test_add_user()
+        response = create_user()
+        self.assertIn("User with that email already exists",
+                      response.json()['status']
+                      )
+        self.assertEqual(response.status_code, 400)
 
-    def test_get_single_user(self):
-        pass
+    def test_password_length(self):
+        payload = {
+            "name": "viktor",
+            "email": "viktor@gmail.com",
+            "password": "12345",
+            "repeatPassword": "12345"
+        }
+        response = create_user(payload)
+        self.assertIn("Password length must be 6 characters long",
+                      response.json()['status']
+                      )
+        self.assertEqual(response.status_code, 400)
+
+    def test_get_user_by_id(self):
+        user = User(name="viktor",
+                    email="viktorsokolov.and@gmail.com", password="123456")
+        db.session.add(user)
+        db.session.commit()
+        response = requests.get(f'http://localhost:5000/user/{user.id}')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('viktor', response.json()['name'])
 
     def test_get_all_users(self):
         pass
