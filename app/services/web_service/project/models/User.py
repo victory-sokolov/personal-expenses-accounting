@@ -1,19 +1,19 @@
-from flask import current_app, jsonify
-from flask_login import UserMixin
+from flask import current_app, g, jsonify
+from flask_login import UserMixin, current_user
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from project import db, login_manager
 
-
 class User(UserMixin, db.Model):
-
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(255))
-    email = db.Column(db.String(70))
-    password = db.Column(db.String(255))
+    name = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(70), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
     verified = db.Column(db.Boolean, default=False)
+    receipts = db.relationship(
+        'ReceiptData', backref='user', cascade='all,delete')
 
     def __repr__(self):
         return '<User name: {} \n email: {} \n password:{}>' \
@@ -44,5 +44,5 @@ class User(UserMixin, db.Model):
 
 
 @login_manager.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+def load_user(user_id):
+    return User.query.get(int(user_id))
