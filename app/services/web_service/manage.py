@@ -11,21 +11,23 @@ from project.controller.Authenticate import Authenticate
 from project.controller.CreateUser import CreateUser
 from project.controller.Dashboard import Dashboard
 from project.controller.LogOutAPI import LogOutAPI
+from project.controller.UploadImage import UploadImage
 from project.controller.UserAPI import UserAPI
 
-COV = coverage.coverage(
+test_dir = 'services/web_service/project/tests'
+
+COV = coverage.Coverage(
     branch=True,
-    include='project/*',
+    include="/home/viktor/Documents/personal-expenses-accounting/app/services/web_service/project/*",
     omit=[
         'project/tests/*',
-        'project/config.py',
+        'services/web_service/project/config.py'
     ]
 )
 COV.start()
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
-
 
 @cli.command("recreate_db")
 def recreate_db():
@@ -39,9 +41,8 @@ def recreate_db():
 @cli.command()
 def test():
     """Run tests without code coverage"""
-    print()
     tests = unittest.TestLoader().discover(
-        'services/web_service/project/tests', pattern='test*.py')
+        test_dir, pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0
@@ -51,7 +52,8 @@ def test():
 @cli.command()
 def cov():
     """Runs the unit tests with coverage."""
-    tests = unittest.TestLoader().discover('project/tests')
+    print(os.getcwd() + "/services/web_services/project/controller/*")
+    tests = unittest.TestLoader().discover(test_dir)
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         COV.stop()
@@ -68,6 +70,7 @@ def cov():
 app.add_url_rule(
     '/register', view_func=CreateUser.as_view('createuser'))
 app.add_url_rule('/addreceipt', view_func=AddReceipt.as_view('addreceipt'))
+app.add_url_rule('/upload', view_func=UploadImage.as_view('upload'))
 app.add_url_rule('/login', view_func=Authenticate.as_view('authenticate'))
 app.add_url_rule('/dashboard', view_func=Dashboard.as_view('dashboard'))
 app.add_url_rule('/logout', view_func=LogOutAPI.as_view('logout'))
