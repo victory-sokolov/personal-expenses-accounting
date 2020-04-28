@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
 import pcIcon from "../../../public/images/Business_SVG.svg";
 import Main from "../App.scss";
+import Alert from '../Dashboard/ui-components/Alert';
 import RegistrationForm from './RegistrationForm';
-
 class RegistrationFormContainer extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			name: "",
 			email: "",
 			password: "",
-			repeatPassword: ""
+			repeatPassword: "",
+			errors: ""
 		};
 	}
 
 	handleInputChange = (event) => {
 		this.setState({
-			[event.target.name]: event.target.value
+			[event.target.name]: event.target.value,
 		});
 	};
 
 	handleSubmit = async (event) => {
 		event.preventDefault();
+
 		await fetch("/register", {
 			method: "POST",
 			redirect: "follow",
@@ -30,19 +32,25 @@ class RegistrationFormContainer extends Component {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(this.state),
-		}).then((response) => {
-			if (response.status == 200) {
-				// redirect to dashboard
-				this.props.history.push("/dashboard");
-			}
-		});
+		}).then((response) =>
+			response
+				.json()
+				.then((data) => ({ status: response.status, body: data.status }))
+				.then((res) => {
+					if (res.status == 200) {
+						this.props.history.push("/dashboard");
+						return;
+					}
+					this.setState({ errors: res.body });
+				})
+		);
 	};
 
 	render() {
 		return (
 			<div className={Main.flexWrapper}>
 				<div className={Main.imageBlock}>
-					<img src={pcIcon} alt="" />
+					<img src={pcIcon} alt="Login Page" />
 				</div>
 				<div className={Main.formCard}>
 					<h1>
@@ -56,6 +64,9 @@ class RegistrationFormContainer extends Component {
 						password={this.state.password}
 						repeatPassword={this.state.repeatPassword}
 					/>
+					{(this.state.errors !== "") ? (
+						<Alert variant="danger" message={this.state.errors} show={true} />
+					) : ''}
 				</div>
 			</div>
 		);
