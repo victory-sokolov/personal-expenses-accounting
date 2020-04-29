@@ -31,7 +31,7 @@ class Statistics(object):
         after = [i[1] for i in dict_values_after]
 
         index = np.arange(len(fonts))
-        bar_width = 0.35
+        bar_width = 0.30
         fig, ax = plt.subplots()
         charErrorBar = ax.bar(index - bar_width/2,
                               before, bar_width, label='Before')
@@ -40,7 +40,7 @@ class Statistics(object):
 
         ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
         ax.set_title(label + ' statistics')
-        ax.set_ylabel(label)
+        ax.set_ylabel(label + " rate")
         ax.set_xticks(index)
         ax.set_xticklabels(fonts)
 
@@ -51,14 +51,14 @@ class Statistics(object):
         font_before = defaultdict(list)
         font_after = defaultdict(list)
 
-        with open('./stats/before_eng_model_statistics.csv') as f:
+        with open('./stats/before_lav_model_statistics.csv') as f:
             reader = csv.reader(f)
             next(reader, None)
             for line in reader:
                 font_before[line[0]].append(float(line[1]))
                 font_after[line[0]].append(float(line[2]))
 
-        with open('./stats/after_eng_model_statistics.csv') as f:
+        with open('./stats/after_lav_model_statistics.csv') as f:
             reader = csv.reader(f)
             next(reader, None)
             for line in reader:
@@ -70,4 +70,4 @@ class Statistics(object):
 
 stat = Statistics()
 data = stat.get_stats()
-stat.plot_data(data, "Character error", "word")
+stat.plot_data(data, "Character error", "char")
