@@ -13,6 +13,7 @@ class UserAPI(MethodView):
                 'id': user.id,
                 'name': user.name,
                 'email': user.email,
+                'avatar': user.gravatar(),
                 'receipts': user.receipts
             }
             return jsonify(user_object), 200
