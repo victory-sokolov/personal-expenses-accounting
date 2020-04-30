@@ -1,7 +1,6 @@
 import hashlib
 
-import requests
-from flask import current_app, g, jsonify
+from flask import current_app, jsonify, request
 from flask_login import UserMixin, current_user
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -56,8 +55,11 @@ class User(UserMixin, db.Model):
     def gravatar_hash(self):
         return hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
 
-    def gravatar(self, size=100, default='identicon', rating='g'):
-        url = 'https://secure.gravatar.com/avatar'
+    def gravatar(self, size=140, default='wavatar', rating='g'):
+        if request.is_secure:
+            url = 'https://secure.gravatar.com/avatar'
+        else:
+            url = 'http://secure.gravatar.com/avatar'
         hash = self.avatar or self.gravatar_hash()
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
             url=url, hash=hash, size=size, default=default, rating=rating)
