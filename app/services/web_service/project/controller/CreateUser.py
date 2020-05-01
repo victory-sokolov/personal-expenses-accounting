@@ -17,19 +17,20 @@ class CreateUser(MethodView):
 
         user_exists = User.query.filter_by(email=user_data['email']).first()
         if user_exists:
-            return jsonify({'status': 'User with that email already exists'}, 400)
+            return jsonify({'status': 'User with that email already exists'}), 400
 
         if user_data['password'] != user_data['repeatPassword']:
-            return jsonify({"status": "Password doesn't match"})
+            return jsonify({"status": "Password doesn't match"}), 400
 
         if len(user_data['password']) < 6:
-            return jsonify({'status': 'Password length must be 6 characters long'}, 400)
+            return jsonify({'status': 'Password length must be 6 characters long'}), 400
 
         user = User(
             name=user_data['name'],
-            email=user_data['email']
+            email=user_data['email'],
         )
         user.set_password(user_data['password'])
+        user.gravatar()
         db.session.add(user)
         db.session.commit()
         auth_token = encode_auth_token(user.id)
@@ -41,4 +42,4 @@ class CreateUser(MethodView):
         return jsonify(response), 200
 
     def get(self):
-        return render_template('index.html')
+        return render_template('index.html'), 200
