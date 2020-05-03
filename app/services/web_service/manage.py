@@ -6,12 +6,11 @@ import coverage
 from flask.cli import FlaskGroup
 
 from project import create_app, db
-from project.controller.AddReceipt import AddReceipt
+from project.controller.ReceiptAPI import ReceiptAPI
 from project.controller.Authenticate import Authenticate
 from project.controller.CreateUser import CreateUser
 from project.controller.Dashboard import Dashboard
 from project.controller.LogOutAPI import LogOutAPI
-from project.controller.UploadImage import UploadImage
 from project.controller.UserAPI import UserAPI
 
 test_dir = 'services/web_service/project/tests'
@@ -28,6 +27,7 @@ COV.start()
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
+
 
 @cli.command("recreate_db")
 def recreate_db():
@@ -69,11 +69,10 @@ def cov():
 # Routings
 app.add_url_rule(
     '/register', view_func=CreateUser.as_view('createuser'))
-app.add_url_rule('/addreceipt', view_func=AddReceipt.as_view('addreceipt'))
-app.add_url_rule('/upload', view_func=UploadImage.as_view('upload'))
-app.add_url_rule('/login', view_func=Authenticate.as_view('authenticate'))
-app.add_url_rule('/dashboard', view_func=Dashboard.as_view('dashboard'))
+app.add_url_rule('/receipt', view_func=ReceiptAPI.as_view('receipt'))
+app.add_url_rule('/login', view_func=Authenticate.as_view('login'))
 app.add_url_rule('/logout', view_func=LogOutAPI.as_view('logout'))
+app.add_url_rule('/dashboard', view_func=Dashboard.as_view('dashboard'))
 app.add_url_rule('/user/<id>', view_func=UserAPI.as_view('user'))
 
 
