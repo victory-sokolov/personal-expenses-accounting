@@ -6,6 +6,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from project import create_app, db, login_manager
+from project.models.ReceiptData import ReceiptData
 
 
 class User(UserMixin, db.Model):
@@ -18,7 +19,8 @@ class User(UserMixin, db.Model):
     verified = db.Column(db.Boolean, default=False)
     avatar = db.Column(db.String(50))
     receipts = db.relationship(
-        'ReceiptData', backref='user', cascade='all,delete')
+        'ReceiptData', backref='user', cascade='all,delete'
+    )
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -26,8 +28,8 @@ class User(UserMixin, db.Model):
             self.avatar = self.gravatar_hash()
 
     def __repr__(self):
-        return '<User name: {} \n email: {} \n password:{}>' \
-            .format(self.name, self.email, self.password)
+        return '<User name: {} \n email: {} \n password: {} \n receipts: {}>' \
+            .format(self.name, self.email, self.password, self.receipts)
 
     def set_password(self, password):
         self.password = generate_password_hash(password, method='sha256')
