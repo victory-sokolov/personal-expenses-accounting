@@ -1,7 +1,6 @@
 from flask import Flask, current_app, jsonify, render_template, request
 from flask.views import MethodView
-
-from flask_login import login_required, current_user
+from flask_login import current_user, login_required
 
 class Dashboard(MethodView):
     @login_required
