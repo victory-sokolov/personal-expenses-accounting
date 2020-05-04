@@ -13,7 +13,7 @@ const Router = () => (
 			<Route path="/login" component={LoginPageContainer} />
 			<Route path="/register" component={RegistrationPageContainer} />
 			<Route path="/dashboard" component={Dashboard} />
-			{/* <Route path="/addreceipt" component={Dashboard} /> */}
+			<Route path="/logout" component={LoginPageContainer} />
 			<Route component={PageNotFound} />
 		</Switch>
 	</BrowserRouter>
