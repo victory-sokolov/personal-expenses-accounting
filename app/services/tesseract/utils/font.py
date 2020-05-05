@@ -5,7 +5,7 @@ from pathlib import PurePosixPath
 from subprocess import PIPE, Popen, check_output
 from typing import List
 
-from helpers import read_json
+from utils.helpers import read_json
 
 
 def font_path() -> str:
@@ -38,7 +38,7 @@ def get_font_names() -> List:
     return [font.strip() for font in fonts if font]
 
 
-def fonts_to_json():
+def fonts_to_json() -> None:
     fonts = get_font_names()
     data = None
     json_file = 'fonts.json'
@@ -110,5 +110,3 @@ def supported_fonts(fonts, lang: str) -> List:
             if is_lang_supported(font, lang):
                 fonts_list.append(font.split(".")[0])
     return fonts_list
-
-
