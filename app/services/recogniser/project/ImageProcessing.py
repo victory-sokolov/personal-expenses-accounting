@@ -7,7 +7,6 @@ from wand.image import Image as WandImage
 
 from app.base.ProcessManager import ProcessManager
 
-
 class ImageProcessing:
 
     def __init__(self, image):
@@ -75,12 +74,44 @@ class ImageProcessing:
         kernel = np.ones((5, 5), np.uint8)
         return cv2.erode(image, kernel, iterations=1)
 
+    def cut_image(self, image):
+        """ Cut edges of receipt image"""
+        image_resized = cv2.resize(image, (800, 800))
+        blurred = cv2.GaussianBlur(image_resized, (5, 5), 0)
+        edge = cv2.Canny(blurred, 70, 200)
+        contours, hierarchy = cv2.findContours(
+            edge, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE
+        )
+        contours = sorted(contours, key=cv2.contourArea, reverse=True)
+        for contour in contours:
+            sq = cv2.arcLength(contour, True)
+            approx = cv2.approxPolyDP(contour, 0.02*sq, True)
+
+            if len(approx) == 4:
+                target = approx
+                break
+
+        approx = mapper.mapp(target)  # find endpoints of the sheet
+        pts = np.float32([[0, 0], [800, 0], [800, 800], [0, 800]])
+
+        op = cv2.getPerspectiveTransform(approx, pts)
+        dst = cv2.warpPerspective(image, op, (800, 800))
+        return res
+
     def run_pipeline(self):
         rotated_image = self.rotate(self.image)
         cv2.imwrite(
             f'recogniser/project/receipts/{self.image_name}', rotated_image
         )
         self.image = rotated_image
+        # Temp code: move image to assets folder
+        import shutil
+        import os
+        from os.path import expanduser
+        home = expanduser("~")
+        shutil.move(f'{os.getcwd()}/recogniser/project/receipts/{self.image_name}',
+                    f'{home}/Documents/personal-expenses-accounting/app/services/client/public/receipts')
+        # code end
         return reduce(
             lambda image, function: function(image), (
                 self.gray_scale,
