@@ -15,9 +15,9 @@ class ReceiptSection extends Component {
 
 	setCurrentReceiptState = () => {
 		this.setState({
-			currentReceipt: {}
+			currentReceipt: {},
 		});
-	}
+	};
 
 	modalClick = (e) => {
 		const receiptID = Number(e.target.getAttribute("receipt-id"));
@@ -29,6 +29,7 @@ class ReceiptSection extends Component {
 		});
 	};
 
+
 	render() {
 		const { receipts } = this.props.receipts;
 		return (
@@ -39,10 +40,10 @@ class ReceiptSection extends Component {
 					<h5>Amount</h5>
 					<h5>Category</h5>
 				</div>
-				{receipts.map((receipt) => {
+				{receipts.slice(0).reverse().map((receipt) => {
 					const d = new Date(receipt.date);
 					const date = `${d.getFullYear()}-${d.getUTCDay()}-${d.getUTCDate()}`;
-					const price = receipt.price == null ? 0.0 : receipt.price;
+					const price = receipt.price == "" ? 0.00 : receipt.price;
 					return (
 						<div
 							className={dashboard.receiptData}
