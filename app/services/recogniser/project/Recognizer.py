@@ -48,13 +48,16 @@ class Recogniser(object):
             vendor = re.search(r'\bSIA|As\b', line)
             if vendor:
                 return line
+        return ""
 
     def get_price(self, text):
         for line in text:
             price = re.compile(".*(KUPĀ|KOPĀ|SUMMA){1}.*")
             if price.match(line):
-                price = re.findall(r'\d+\.\d{2}', line)[0]
+                print(line)
+                price = re.findall(r'\d+\.\s\d{0,2}', line)[0]
                 return price
+        return ""
 
     def receipt_data(self, image, user_id):
         data = self.recognise_image('recogniser/project/output.png')
@@ -62,7 +65,7 @@ class Recogniser(object):
         date = self.get_date(data)
         price = self.get_price(data)
         receipt_data = {
-            'image': image,
+            'image': image.split("/")[-1],
             'vendor': vendor,
             'date': date,
             'price': price,
@@ -70,7 +73,7 @@ class Recogniser(object):
         }
         headers = {'Content-Type': 'application/json'}
         requests.post(
-            "http://localhost:5000/addreceipt",
+            "http://localhost:5000/receipt",
             data=json.dumps(receipt_data),
             headers=headers
         )
@@ -79,6 +82,3 @@ class Recogniser(object):
 def recognise_factory(image, user_id):
     ImageProcessing(image).run_pipeline()
     Recogniser("lav").receipt_data(image, user_id)
-
-
-recognise_factory('2020-05-01-18-12-24.jpg', 1)
