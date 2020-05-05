@@ -4,20 +4,20 @@ from pathlib import Path
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS, cross_origin
+from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
-from project import config
-
 db = SQLAlchemy()
 migrate = Migrate()
-
 bcrypt = Bcrypt()
+login_manager = LoginManager()
+login_manager.login_view = 'login'
 
 
 def create_app():
     app = Flask(__name__,
-                static_folder="../../client/dist",
+                static_folder="../../client",
                 template_folder="../../client")
 
     # enable CORS
@@ -31,13 +31,10 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     bcrypt.init_app(app)
-
-    with app.app_context():
-        db.create_all()
+    login_manager.init_app(app)
 
     os.chdir('..')
     UPLOAD_FOLDER = os.path.abspath(os.curdir) + '/recogniser'
-
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
     # shell context for flask cli
