@@ -6,11 +6,11 @@ import coverage
 from flask.cli import FlaskGroup
 
 from project import create_app, db
-from project.controller.ReceiptAPI import ReceiptAPI
 from project.controller.Authenticate import Authenticate
 from project.controller.CreateUser import CreateUser
 from project.controller.Dashboard import Dashboard
 from project.controller.LogOutAPI import LogOutAPI
+from project.controller.ReceiptAPI import ReceiptAPI
 from project.controller.UserAPI import UserAPI
 
 test_dir = 'services/web_service/project/tests'
@@ -69,7 +69,10 @@ def cov():
 # Routings
 app.add_url_rule(
     '/register', view_func=CreateUser.as_view('createuser'))
-app.add_url_rule('/receipt', view_func=ReceiptAPI.as_view('receipt'))
+app.add_url_rule('/receipt', methods=['POST'],
+                 view_func=ReceiptAPI.as_view('addreceipt'))
+app.add_url_rule(
+    '/receipt/<id>', methods=['PUT', 'DELETE'], view_func=ReceiptAPI.as_view('receipt'))
 app.add_url_rule('/login', view_func=Authenticate.as_view('login'))
 app.add_url_rule('/logout', view_func=LogOutAPI.as_view('logout'))
 app.add_url_rule('/dashboard', view_func=Dashboard.as_view('dashboard'))
