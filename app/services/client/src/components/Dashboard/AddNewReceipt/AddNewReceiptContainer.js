@@ -1,46 +1,31 @@
 import React, { Component } from 'react';
-import ModalWindow from '../ModalWindow';
-
+import AddNewReceipt from './AddNewReceipt';
 class AddNewReceiptContainer extends Component {
-	constructor(props, context) {
-		super(props, context);
-		this.state = {
-			vendor: "",
-			date: "",
-			amount: "",
-			category: "",
-			warranty: "",
-			image: null,
-			imagePath: null,
-			renderImageUpload: true,
-		};
-		this.handleFormUpload = this.handleFormUpload.bind(this);
-		this.onChangeHandler = this.onChangeHandler.bind(this);
-		this.onImageHandler = this.onImageHandler.bind(this);
-		this.componentMount = this.componentMount.bind(this);
+	constructor(props) {
+		super(props);
+		this.inputFileRef = React.createRef();
 	}
 
-	onImageHandler(event) {
+	// Trigger click input file when click is made on link
+	uploadInputHandler = (e) => {
+		e.preventDefault();
+		this.inputFileRef.current.click();
+	};
+
+	onImageHandler = (e) => {
+		e.preventDefault();
 		let file = event.target.files[0];
-		this.setState({ image: file });
-		if (file != null) {
-			let image = URL.createObjectURL(file);
-			this.componentMount(image););
-		}
-	}
-
-	componentMount(image) {
-		this.setState((prevState) => ({
-			renderImageUpload: !prevState.renderImageUpload,
-			imagePath: image,
-		}));
-	}
-
-	onChangeHandler() {
-		this.setState({
-			[event.target.name]: event.target.value,
+		this.readFile(file).then(function(base64string) {
+			const img = base64string.split(",")[1];
+			fetch("http://localhost:5001/recognize", {
+				method: "POST",
+				body: JSON.stringify({ image: img, id: localStorage.getItem("id") }),
+			}).catch(function(error) {
+				console.log(error);
+			});
 		});
-	}
+	};
+
 
 	readFile(file) {
 		return new Promise(function(resolve, reject) {
@@ -52,28 +37,28 @@ class AddNewReceiptContainer extends Component {
 		});
 	}
 
-	handleFormUpload(e) {
+	handleFormUpload = (e) => {
 		e.preventDefault();
-
 		this.readFile(image).then(function(base64string) {
 			const img = base64string.split(",")[1];
 			this.setState({ image: img });
-			fetch("http://localhost:5000/addreceipt", {
+			fetch("http://localhost:5001/recognize", {
 				method: "POST",
 				body: JSON.stringify(this.state),
 			});
 		});
-	}
+	};
 
 	render() {
 		return (
-			<ModalWindow
-				handleFormUpload={this.handleFormUpload}
-				onChangeHandler={this.onChangeHandler}
-				onImageHandler={this.onImageHandler}
-				componentMount={this.componentMount}
-				receiptData={this.state}
-			/>
+			<div>
+				<AddNewReceipt
+					inputFileRef={this.inputFileRef}
+					uploadInputHandler={this.uploadInputHandler}
+					onImageHandler={this.onImageHandler}
+					showModal={this.props.showModal}
+				/>
+			</div>
 		);
 	}
 }
