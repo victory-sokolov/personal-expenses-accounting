@@ -91,12 +91,12 @@ class ImageProcessing:
                 target = approx
                 break
 
-        approx = mapper.mapp(target)  # find endpoints of the sheet
+        # approx = mapper.mapp(target)  # find endpoints of the sheet
         pts = np.float32([[0, 0], [800, 0], [800, 800], [0, 800]])
 
         op = cv2.getPerspectiveTransform(approx, pts)
         dst = cv2.warpPerspective(image, op, (800, 800))
-        return res
+        return dst
 
     def run_pipeline(self):
         rotated_image = self.rotate(self.image)
