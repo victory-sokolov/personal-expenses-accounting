@@ -17,7 +17,7 @@ login_manager.login_view = 'login'
 
 def create_app():
     app = Flask(__name__,
-                static_folder="../../client/dist",
+                static_folder="../../client",
                 template_folder="../../client")
 
     # enable CORS
