@@ -8,6 +8,14 @@ import { dirPictures } from '../utils/dirStorage';
 const RNFS = require('react-native-fs');
 
 class CameraActivity extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: this.props.navigation.state.params.id,
+    };
+  }
+
   render() {
     const {isFocused} = this.props;
     return (
@@ -34,12 +42,12 @@ class CameraActivity extends React.Component {
 
   handleImageUpload = async image => {
     const base64image = await RNFS.readFile(image, 'base64');
-    await fetch(`http://${HOST_IP}:5000/addreceipt`, {
+    await fetch(`http://${HOST_IP}:5001/recognize`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
       },
-      body: JSON.stringify({'image': base64image}),
+      body: JSON.stringify({image: base64image, id: this.state.id}),
     })
       .then(response => {
         let res = response.json();

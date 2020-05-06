@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { HOST_IP } from 'react-native-dotenv';
 import { Button, Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -13,8 +13,34 @@ export default class Login extends Component {
   }
 
 
-
   formUpload = () => {
+      const {navigate} = this.props.navigation;
+      fetch(`http://${HOST_IP}:5000/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: this.state.email,
+          password: this.state.password,
+        }),
+      })
+        .then(response =>
+          response
+            .json()
+            .then(data => ({status: response.status, body: data}))
+            .then(res => {
+              if (res.status == 200) {
+                navigate('Home', {
+                  id: res.body.id,
+                });
+              }
+            }),
+        )
+        .catch(error => {
+          console.log(`Error: ${error}`);
+        });
+
   };
 
   render() {

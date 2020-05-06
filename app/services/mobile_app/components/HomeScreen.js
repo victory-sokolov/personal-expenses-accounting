@@ -1,16 +1,27 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
-
 class HomeScreen extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: this.props.navigation.state.params.id
+    }
+  }
+
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <Text>
+          </Text>
+        </View>
         <View style={styles.footer}>
           <TouchableOpacity
             style={styles.cameraButton}
-            onPress={() => navigate('Camera')}>
+            onPress={() => navigate('Camera', {id:this.state.id})}>
             <Icon name="camera" size={35} color="#fff" />
           </TouchableOpacity>
         </View>
@@ -19,7 +30,12 @@ class HomeScreen extends React.Component {
   }
 }
 
+;
+
 const styles = StyleSheet.create({
+  container : {
+    flex: 1,
+  },
   cameraButton: {
     shadowColor: 'black',
     shadowOpacity: 0.9,
@@ -32,9 +48,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#1E90FF',
     borderRadius: 50,
   },
-  footer: {
+  content: {
     flex: 1,
-    justifyContent: 'flex-end',
+  },
+  footer: {
+    height: 100,
+    alignItems: 'center',
     paddingBottom: 25,
   },
 });
