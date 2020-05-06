@@ -52,11 +52,10 @@ class Recogniser(object):
 
     def get_price(self, text):
         for line in text:
-            price = re.compile(".*(KUPĀ|KOPĀ|SUMMA){1}.*")
-            if price.match(line):
-                print(line)
-                price = re.findall(r'\d+\.\s\d{0,2}', line)[0]
-                return price
+            reg = r'.*(KUPĀ|KOPĀ|SUMMA).*\d+\.\s*\d{0,2}'
+            if re.match(reg, line):
+                price = re.findall(r'\d+\.\s*\d{0,2}', line)
+                return "" if len(price) == 0 else price[0].replace(' ', '')
         return ""
 
     def receipt_data(self, image, user_id):
