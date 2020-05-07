@@ -12,7 +12,7 @@ from PIL import Image
 from project.ImageProcessing import ImageProcessing
 
 
-class Recogniser(object):
+class Recognizer(object):
 
     def __init__(self, lang: str):
         self._lang = lang
@@ -52,7 +52,7 @@ class Recogniser(object):
 
     def get_price(self, text):
         for line in text:
-            reg = r'.*(KUPĀ|KOPĀ|SUMMA).*\d+\.\s*\d{0,2}'
+            reg = r'.*(KUPĀ|KOPĀ|SUMMA|Samaksai).*\d+\.\s*\d{0,2}'
             if re.match(reg, line):
                 price = re.findall(r'\d+\.\s*\d{0,2}', line)
                 return "" if len(price) == 0 else price[0].replace(' ', '')
@@ -80,4 +80,4 @@ class Recogniser(object):
 
 def recognise_factory(image, user_id):
     ImageProcessing(image).run_pipeline()
-    Recogniser("lav").receipt_data(image, user_id)
+    Recognizer("lav").receipt_data(image, user_id)
