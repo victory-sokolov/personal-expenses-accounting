@@ -9,6 +9,10 @@ from matplotlib.ticker import FormatStrFormatter
 from utils.helpers import read_file
 
 
+plt.rc('xtick', labelsize=14)
+plt.rc('ytick', labelsize=14)
+
+
 class Statistics(object):
 
     def plot_data(self, data: Dict, label: str, text: str):
@@ -70,4 +74,4 @@ class Statistics(object):
 
 stat = Statistics()
 data = stat.get_stats()
-stat.plot_data(data, "Character error", "char")
+stat.plot_data(data, "Word error", "word")
