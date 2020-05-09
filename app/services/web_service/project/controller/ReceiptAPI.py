@@ -28,7 +28,7 @@ class ReceiptAPI(MethodView):
                 vendor=receipt_data['vendor'],
                 price=receipt_data['price'],
                 date=parser.parse(receipt_data['date']),
-                category='',
+                category=receipt_data['category'],
                 # warranty='',
                 user_id=receipt_data['user_id']
             )
