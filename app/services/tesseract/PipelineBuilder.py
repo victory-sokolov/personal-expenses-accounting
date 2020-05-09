@@ -2,13 +2,14 @@ from Evaluator import Evaluator
 from ModelExtractor import ModelExtractor
 from ModelTraining import ModelTraining
 from TrainingDataGenerator import TrainingDataGenerator
+from ModelProperties import ModelProperties
 
 from app.base.ProcessManager import ProcessManager
 
 
 class PipelineBuilder(object):
 
-    def __init__(self, props):
+    def __init__(self, props: ModelProperties):
         self._props = props
 
     def create_pipeline(self):
