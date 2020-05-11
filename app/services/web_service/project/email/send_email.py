@@ -1,8 +1,10 @@
 from flask_mail import Message
 from flask import render_template
-from project import app, mail
+from project import create_app
+from flask_mail import Mail
 
-
+app = create_app()
+mail = Mail(app)
 def send_email(to, subject, template, **kwargs):
     msg = Message(
         subject,
