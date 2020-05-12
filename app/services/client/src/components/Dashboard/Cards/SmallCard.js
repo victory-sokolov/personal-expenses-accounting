@@ -5,13 +5,48 @@ import tagIcon from './icons/tags-solid.svg';
 import graphIcon from './icons/today_graph.svg';
 
 class SmallCard extends Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			receiptData: {},
+		}
+	}
+
+	componentDidMount() {
+		const id = localStorage.getItem("id");
+		this.receiptAggregatedData(id);
+	}
+
+	receiptAggregatedData = async(id) => {
+		await fetch(`/receipt/${id}`, {
+			method: "GET",
+			cache: 'no-cache',
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data);
+				this.setState({ receiptData: data, isLoading: false });
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+			});
+	}
+
 	render() {
+		const totalReceipts = Object.keys(this.props.receiptData).length;
+		const yearlySpendings = this.props.receiptData.map((receipt) => receipt.price);
+		const monthlySpendings = this.state.receiptData.monthly;
+		console.log(monthlySpendings);
 		return (
 			<div className={cards.container}>
 				<div className={cards.smallCards}>
 					<div className={cards.title}>
 						<p>Monthly Spendings</p>
-						<p>900 $</p>
+						<p>{monthlySpendings} &euro;</p>
 					</div>
 					<img src={graphIcon} alt="" />
 				</div>
@@ -34,7 +69,7 @@ class SmallCard extends Component {
 						<p>
 							Amount Of <br /> Receipts / Month
 						</p>
-						<p>32</p>
+						<p>{totalReceipts}</p>
 					</div>
 					<img src={recieptIcon} className={cards.receiptIcon} alt="" />
 				</div>
