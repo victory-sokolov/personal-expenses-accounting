@@ -72,7 +72,7 @@ app.add_url_rule(
 app.add_url_rule('/receipt', methods=['POST'],
                  view_func=ReceiptAPI.as_view('addreceipt'))
 app.add_url_rule(
-    '/receipt/<id>', methods=['PUT', 'DELETE'], view_func=ReceiptAPI.as_view('receipt'))
+    '/receipt/<id>', methods=['GET', 'PUT', 'DELETE'], view_func=ReceiptAPI.as_view('receipt'))
 app.add_url_rule('/login', view_func=Authenticate.as_view('login'))
 app.add_url_rule('/logout', view_func=LogOutAPI.as_view('logout'))
 app.add_url_rule('/dashboard', view_func=Dashboard.as_view('dashboard'))
