@@ -28,7 +28,6 @@ class SmallCard extends Component {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
 				this.setState({ receiptData: data, isLoading: false });
 			})
 			.catch((error) => {
@@ -38,22 +37,20 @@ class SmallCard extends Component {
 
 	render() {
 		const totalReceipts = Object.keys(this.props.receiptData).length;
-		const yearlySpendings = this.props.receiptData.map((receipt) => receipt.price);
-		const monthlySpendings = this.state.receiptData.monthly;
-		console.log(monthlySpendings);
+		const monthlySpendings = this.state.receiptData;
 		return (
 			<div className={cards.container}>
 				<div className={cards.smallCards}>
 					<div className={cards.title}>
 						<p>Monthly Spendings</p>
-						<p>{monthlySpendings} &euro;</p>
+						<p>{monthlySpendings.monthly} &euro;</p>
 					</div>
 					<img src={graphIcon} alt="" />
 				</div>
 				<div className={cards.smallCards}>
 					<div className={cards.title}>
 						<p>Yearly Spendings</p>
-						<p>23000 $</p>
+						<p>{monthlySpendings.yearly} &euro;</p>
 					</div>
 					<img src={graphIcon} className={cards.graphIcon} alt="" />
 				</div>
