@@ -28,7 +28,7 @@ class RecognizeAPI(MethodView):
             destination = "/".join([target, filename])
             file.save(destination)
 
-    def imageToBase64(self, image) -> str:
+    def base64ToImage(self, image) -> str:
         """Convert Base64 to image and return its name"""
         target = current_app.config.get('UPLOAD_FOLDER')
         date = datetime.datetime.utcnow().strftime('%Y-%m-%d-%H-%M-%S')
@@ -46,7 +46,7 @@ class RecognizeAPI(MethodView):
                 receipt_data = json.loads(request.data)
                 base64_image = receipt_data['image']
                 user_id = receipt_data['id']
-                image = self.imageToBase64(base64_image)
+                image = self.base64ToImage(base64_image)
                 Recognizer('lav').recognise_factory(image, user_id)
                 return jsonify({'status': 'Image Recognized'}), 200
 
