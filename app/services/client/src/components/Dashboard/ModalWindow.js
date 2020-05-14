@@ -14,6 +14,7 @@ class ModalWindow extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			id: "",
 			image: null,
 			imagePath: null,
 			renderImageUpload: true,
@@ -27,13 +28,16 @@ class ModalWindow extends Component {
 
 	setInputFields = () => {
 		this.setState({
+			id: this.props.inputData.id,
 			vendor: this.props.inputData.vendor,
 			date: this.props.inputData.date,
-			amount: this.props.inputData.amount,
+			amount: this.props.inputData.price,
 			category: this.props.inputData.category,
-			warranty: this.props.inputData.warranty,
+			// warranty: this.props.inputData.warranty,
+			imagePath: `client/public/receipts/${this.props.inputData.image}`,
+			renderImageUpload: false,
 		});
-	}
+	};
 
 	resetInputFields = () => {
 		this.setState({
@@ -43,7 +47,7 @@ class ModalWindow extends Component {
 			category: "",
 			warranty: "",
 		});
-	}
+	};
 
 	onImagePreview = (e) => {
 		e.preventDefault();
@@ -63,10 +67,43 @@ class ModalWindow extends Component {
 		}));
 	}
 
-	onChangeHandler = () => {
+	handleVendorChange = (event) => {
 		this.setState({
-			[event.target.name]: event.target.value,
+			vendor: event.target.value,
 		});
+	};
+
+	handleAmountChange = (event) => {
+		this.setState({
+			amount: event.target.value,
+		});
+	};
+
+	handleDateChange = (event) => {
+		this.setState({
+			date: event.target.value,
+		});
+	};
+
+	handleWarrantyChange = (event) => {
+		this.setState({
+			warranty: event.target.value,
+		});
+	}
+
+	saveHandler = () => {
+		const receipt = {
+			id: this.state.id,
+			vendor: this.state.vendor,
+			amount: this.state.amount,
+			warranty: this.state.warranty,
+			date: this.state.date,
+			category: this.state.category,
+		};
+		console.log(this.state.amount);
+		// update data & close modal window
+		this.props.postData(`/receipt/${this.state.id}`, "PUT", receipt);
+		this.props.handleClose();
 	};
 
 	render() {
@@ -90,18 +127,18 @@ class ModalWindow extends Component {
 											label="Vendor"
 											type="text"
 											id="vendor"
-											onChange={this.onChangeHandler}
+											onChange={this.handleVendorChange}
 											value={this.state.vendor}
 										/>
 										<InputContainer>
-											<DatePickerComponent />
+											<DatePickerComponent date={this.state.date} />
 										</InputContainer>
 										<InputOutline
 											label="Amount"
 											type="text"
 											id="amount"
-											onChange={this.onChangeHandler}
-											value={this.amount}
+											onChange={this.handleAmountChange}
+											value={this.state.amount}
 										/>
 										<InputContainer>
 											<NativeSelects />
@@ -110,8 +147,8 @@ class ModalWindow extends Component {
 											label="Warranty"
 											type="text"
 											id="warranty"
-											onChange={this.onChangeHandler}
-											value={this.warranty}
+											onChange={this.handleWarrantyChange}
+											value={this.state.warranty}
 										/>
 									</Col>
 									<Col xs={12} md={6} className={dashboard.verticalCenterd}>
@@ -129,7 +166,7 @@ class ModalWindow extends Component {
 						<Button variant="secondary" onClick={this.props.handleClose}>
 							Close
 						</Button>
-						<Button variant="primary" onClick={this.props.handleClose}>
+						<Button variant="primary" onClick={this.saveHandler}>
 							Save
 						</Button>
 						{this.props.children}
