@@ -10,12 +10,32 @@ class SmallCard extends Component {
 		super(props);
 		this.state = {
 			receiptData: {},
-		}
+			isLoading: true,
+			monthlySum: 0,
+			yearlySum: 0,
+		};
 	}
 
-	componentDidMount() {
+	componentDidMount = () => {
 		const id = localStorage.getItem("id");
 		this.receiptAggregatedData(id);
+	}
+
+	sumSpendings = (receiptData) => {
+		const monthName = new Date().toLocaleString("default", { month: "long" });
+		const monthlySum = receiptData.yearly[monthName].reduce(
+			(curr, prev) => curr + prev
+		);
+		this.setState({ monthlySum: monthlySum });
+	}
+
+	yearlySpendings = (receiptData) => {
+		let sum = 0;
+		for (let key in receiptData.yearly) {
+			let currentSum = receiptData.yearly[key].reduce((curr, prev) => curr + prev, 0);
+			sum += currentSum;
+		}
+		this.setState({yearlySum: sum});
 	}
 
 	receiptAggregatedData = async(id) => {
@@ -29,6 +49,8 @@ class SmallCard extends Component {
 			.then((response) => response.json())
 			.then((data) => {
 				this.setState({ receiptData: data, isLoading: false });
+				this.sumSpendings(data);
+				this.yearlySpendings(data);
 			})
 			.catch((error) => {
 				console.error("Error:", error);
@@ -37,20 +59,20 @@ class SmallCard extends Component {
 
 	render() {
 		const totalReceipts = Object.keys(this.props.receiptData).length;
-		const monthlySpendings = this.state.receiptData;
+
 		return (
 			<div className={cards.container}>
 				<div className={cards.smallCards}>
 					<div className={cards.title}>
 						<p>Monthly Spendings</p>
-						<p>{monthlySpendings.monthly} &euro;</p>
+						<p>{this.state.monthlySum} &euro;</p>
 					</div>
 					<img src={graphIcon} alt="" />
 				</div>
 				<div className={cards.smallCards}>
 					<div className={cards.title}>
 						<p>Yearly Spendings</p>
-						<p>{monthlySpendings.yearly} &euro;</p>
+						<p>{this.state.yearlySum} &euro;</p>
 					</div>
 					<img src={graphIcon} className={cards.graphIcon} alt="" />
 				</div>
