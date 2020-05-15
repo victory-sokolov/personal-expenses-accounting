@@ -57,26 +57,42 @@ class ReceiptAPI(MethodView):
         return jsonify({'status': f'Receipt with ID: {id} has been deleted'}), 200
 
     def calculate_sum(self, data):
+        """Calculate total sum for specified month"""
         return sum([float(field.price)
                     for field in data if field.price]
                    )
 
+    def monthly_spending_data(self, data):
+        """Get spendings of each month of the current year"""
+        monthly_spendgings = {
+            'January': [],
+            'February': [],
+            'March': [],
+            'April': [],
+            'May': [],
+            'June': [],
+            'July': [],
+            'August': [],
+            'September': [],
+            'October': [],
+            'November': [],
+            'December': []
+        }
+        for receipt in data:
+            month = receipt.date.strftime("%B")
+            amount = receipt.price if receipt.price else 0
+            monthly_spendgings[month].append(float(amount))
+        return monthly_spendgings
+
     def get(self, id):
         today = datetime.datetime.today()
         year = today.year
-        month = today.month
-
-        monthly_data = ReceiptData.query.filter(ReceiptData.user_id == id,
-                                                ReceiptData.date.between(f'{year}-{month}-1', f'{year}-{month+1}-1')).all()
-        monthly_spendings = self.calculate_sum(monthly_data)
 
         yearly_data = ReceiptData.query.filter(ReceiptData.user_id == id,
                                                ReceiptData.date.between(f'{year}-1-1', f'{year}-12-31')).all()
-        yearly_spendings = self.calculate_sum(yearly_data)
-        print(monthly_data)
-        print(yearly_data)
+        monthy_spendings_data = self.monthly_spending_data(yearly_data)
+
         data = {
-            'monthly': monthly_spendings,
-            'yearly': yearly_spendings
+            'yearly': monthy_spendings_data
         }
         return jsonify(data), 200
