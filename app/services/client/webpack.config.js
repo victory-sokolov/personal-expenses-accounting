@@ -1,5 +1,6 @@
 const path = require("path");
 const htmlWebPackPlugin = require("html-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const settings = {
 	distPath: path.join(__dirname, "/dist"),
@@ -11,9 +12,13 @@ function srcPathExtend(subpath) {
 }
 
 module.exports = {
+	// mode: "production",
 	output: {
 		path: path.join(__dirname, "/dist"),
 		filename: "bundle.js",
+	},
+	optimization: {
+		minimizer: [new UglifyJsPlugin()],
 	},
 	module: {
 		rules: [
@@ -63,14 +68,7 @@ module.exports = {
 			},
 			{
 				test: /\.(png|jpg|gif|svg)$/i,
-				use: [
-					{
-						loader: "url-loader",
-						options: {
-							// limit: 8192,
-						},
-					},
-				],
+				use: ["url-loader", "image-webpack-loader"],
 			},
 		],
 	},
