@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime
 
 import pytest
 import requests
@@ -34,8 +35,19 @@ class TestRecognizer(BaseTestCase):
         price = self.recognizer.get_price(test_input)
         self.assertEqual(price, expected)
 
-    def test_get_vendor(self):
-        pass
+    @parameterized.expand([
+        (['SIA RIMI'], 'SIA RIMI'),
+        (['AS Balticom'], 'AS Balticom'),
+    ])
+    def test_get_vendor(self, test_input, expected):
+        """Test vendor extraction"""
+        vendor = self.recognizer.get_vendor(test_input)
+        self.assertEqual(vendor, expected)
+        self.assertNotEqual(vendor, 'IAS')
 
-    def test_get_date(self):
-        pass
+    @parameterized.expand([
+        (['2020.5.17'], '2020.5.17'),
+    ])
+    def test_get_date(self, test_input, expected):
+        date = self.recognizer.get_date(test_input)
+        self.assertEqual(date, expected)
