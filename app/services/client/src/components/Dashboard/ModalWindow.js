@@ -34,7 +34,7 @@ class ModalWindow extends Component {
 			amount: this.props.inputData.price,
 			category: this.props.inputData.category,
 			// warranty: this.props.inputData.warranty,
-			imagePath: `client/public/receipts/${this.props.inputData.image}`,
+			imagePath: `client/public/images/receipts/${this.props.inputData.image}`,
 			renderImageUpload: false,
 		});
 	};
@@ -71,7 +71,14 @@ class ModalWindow extends Component {
 		this.setState({
 			vendor: event.target.value,
 		});
+		alert(this.state.vendor);
 	};
+
+	handleCategoryChange = (event) => {
+		this.setState({
+			category: event.target.value
+		});
+	}
 
 	handleAmountChange = (event) => {
 		this.setState({
@@ -89,7 +96,7 @@ class ModalWindow extends Component {
 		this.setState({
 			warranty: event.target.value,
 		});
-	}
+	};
 
 	saveHandler = () => {
 		const receipt = {
@@ -100,7 +107,6 @@ class ModalWindow extends Component {
 			date: this.state.date,
 			category: this.state.category,
 		};
-		console.log(this.state.amount);
 		// update data & close modal window
 		this.props.postData(`/receipt/${this.state.id}`, "PUT", receipt);
 		this.props.handleClose();
@@ -141,7 +147,9 @@ class ModalWindow extends Component {
 											value={this.state.amount}
 										/>
 										<InputContainer>
-											<NativeSelects />
+											<NativeSelects
+												onChange={this.handleCategoryChange}
+											/>
 										</InputContainer>
 										<InputOutline
 											label="Warranty"

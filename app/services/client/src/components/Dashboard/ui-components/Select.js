@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 
 const categories = Object.keys(category);
 
-export default function NativeSelects() {
+export default function NativeSelects(props) {
 	const classes = useStyles();
 	const [state, setState] = React.useState({
 		age: "",
@@ -25,9 +25,8 @@ export default function NativeSelects() {
 	});
 
 
-
 	const handleChange = event => {
-		const name = event.target.name;
+		const name = event.target.value;
 		setState({
 			...state,
 			[name]: event.target.value
@@ -40,14 +39,13 @@ export default function NativeSelects() {
 				<InputLabel htmlFor="cate-native">Choose category</InputLabel>
 				<Select
 					native
-					value={state.age}
-					onChange={handleChange}
+					onChange={props.onChange}
 					inputProps={{
 						name: "Category",
 						id: "cate-native",
 					}}
 				>
-					<option value="" defaultValue disabled hidden>
+					<option defaultValue disabled hidden>
 						Choose category
 					</option>
 					{categories.map((cat, id) => {
