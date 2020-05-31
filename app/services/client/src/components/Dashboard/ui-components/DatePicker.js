@@ -3,7 +3,7 @@ import { createMuiTheme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { ThemeProvider } from "@material-ui/styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dashboard from "../dashboard.scss";
 
 const materialTheme = createMuiTheme({
@@ -19,16 +19,26 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function DatePickerComponent() {
-	const [selectedDate, handleDateChange] = useState(new Date());
+export default function DatePickerComponent(props) {
+	const date = new Date(props.date);
+	const formatedDate = `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`;
+	const [currentDate, setDate] = useState(formatedDate);
+
+	const handleDateChange = (date) => {
+		setDate(date);
+	}
+
+	useEffect(() => {
+		setDate(formatedDate);
+	}, [formatedDate]);
 
 	return (
 		<MuiPickersUtilsProvider utils={Utils}>
 			<ThemeProvider theme={materialTheme}>
 				<KeyboardDatePicker
 					clearable
-					value={selectedDate}
-					onChange={(date) => handleDateChange(date)}
+					value={currentDate}
+					onChange={handleDateChange}
 					format="MM/dd/yyyy"
 					className={dashboard.MuiInput}
 				/>
