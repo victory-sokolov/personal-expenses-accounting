@@ -30,7 +30,7 @@ class ReceiptAPI(MethodView):
                 price=receipt_data['price'],
                 date=parser.parse(receipt_data['date']),
                 category=receipt_data['category'],
-                # warranty='',
+                warranty='',
                 user_id=receipt_data['user_id']
             )
             db.session.add(new_receipt)
@@ -43,6 +43,7 @@ class ReceiptAPI(MethodView):
         receipt = ReceiptData.query.filter_by(id=id).first()
 
         req_data = request.get_json()
+        print(req_data['date'])
         receipt.vendor = req_data['vendor']
         receipt.price = req_data['amount']
         # receipt.warranty = req_data['warranty']
@@ -84,15 +85,22 @@ class ReceiptAPI(MethodView):
             monthly_spendgings[month].append(float(amount))
         return monthly_spendgings
 
+    def get_categories(self, id):
+        receipts = ReceiptData.query.filter_by(user_id=id).all()
+        categories = [cat.category for cat in receipts if cat.category]
+        return categories
+
     def get(self, id):
+        """Get users receipt data"""
         today = datetime.datetime.today()
         year = today.year
 
         yearly_data = ReceiptData.query.filter(ReceiptData.user_id == id,
                                                ReceiptData.date.between(f'{year}-1-1', f'{year}-12-31')).all()
         monthy_spendings_data = self.monthly_spending_data(yearly_data)
-
+        cat = self.get_categories(id)
         data = {
-            'yearly': monthy_spendings_data
+            'yearly': monthy_spendings_data,
+            'categories': cat
         }
         return jsonify(data), 200
