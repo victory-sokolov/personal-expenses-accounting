@@ -3,6 +3,7 @@ import pcIcon from '../../../public/images/app_development_SVG.svg';
 import Main from '../App.scss';
 import Alert from "../Dashboard/ui-components/Alert";
 import LoginForm from './LoginForm';
+
 class LoginFormContainer extends Component {
 	constructor(props) {
 		super(props);
