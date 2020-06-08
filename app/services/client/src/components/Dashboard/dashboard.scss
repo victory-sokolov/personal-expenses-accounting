@@ -6,6 +6,15 @@ main {
 	height: 100vh;
 	padding-right: 25px;
 	padding-left: 25px;
+	overflow-x:hidden;
+}
+
+.spinner {
+	position: fixed;
+	z-index: 1031;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .heading {
@@ -25,13 +34,17 @@ main {
 	display: flex;
 	margin-top: 20px;
 
-	a {
-		text-decoration: none;
-		font-size: 18px;
-		color: #222;
-		position: relative;
-		top: 8px;
-		left: 10px;
+	.filterSection {
+		display: flex;
+		flex: auto;
+		a {
+			text-decoration: none;
+			font-size: 18px;
+			color: #222;
+			position: relative;
+			top: 8px;
+			left: 10px;
+		}
 	}
 }
 
@@ -57,6 +70,66 @@ main {
 	width: 30px;
 }
 
-.MuiFormControl-root {
+.verticalCenterd {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px dashed $primary-color;
+	background-color: lighten($primary-color, 58%);
+	padding: 10px;
+
+	img {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.MuiInput {
 	width: 100%;
+
+	.MuiInputBase-root {
+		color: $primary-color;
+
+		&:before,
+		&:after {
+			border-bottom: 1px solid $primary-color;
+		}
+	}
+}
+
+.MuiFormControl-root {
+	width: 335px;
+}
+
+.receiptSection {
+	margin-top: 60px;
+	padding-bottom: 40px;
+	display: grid;
+	cursor: pointer;
+
+	.titleSection {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		align-items: center;
+		justify-items: center;
+	}
+
+	.receiptData {
+		background: #fff;
+		box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+		height: 160px;
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		align-items: center;
+		justify-items: center;
+		margin-bottom: 20px;
+
+		&:nth-child(odd) {
+			background-color: #f6f6f6;
+		}
+	}
+
+	.receiptImage {
+		width: 112px;
+	}
 }
