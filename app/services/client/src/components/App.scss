@@ -6,13 +6,25 @@
 	box-sizing: border-box;
 }
 
+@keyframes fadeInAnimation {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
 body {
-	background: #e9e9e9;
+	background: #f2efef;
 	color: #666;
 	font-family: "RobotoDraft", "Roboto", sans-serif;
 	font-size: 14px;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	animation: fadeInAnimation ease 1s;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
 }
 
 .container {
@@ -36,6 +48,10 @@ body {
 		border-bottom: 2px solid lighten($primary-color, 45%);
 		display: inline-block;
 		line-height: 1.5;
+	}
+
+	form {
+		padding-bottom: 20px;
 	}
 }
 

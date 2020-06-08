@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Main from './App.scss';
+import Main from "./App.scss";
 import LoginPageContainer from "./Login/LoginPageContainer";
 
 class App extends Component {
