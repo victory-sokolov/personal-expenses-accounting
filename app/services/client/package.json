@@ -1,10 +1,10 @@
 {
-  "name": "personal-expenses-app",
+  "name": "client",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode development",
     "lint": "eslint ."
@@ -22,11 +22,12 @@
     "classnames": "^2.2.6",
     "core-js": "^3.6.4",
     "date-fns": "^2.12.0",
+    "loaders.css": "^0.1.2",
     "react": "^16.12.0",
     "react-apexcharts": "^1.3.7",
     "react-bootstrap": "^1.0.0",
     "react-dom": "^16.12.0",
-    "react-filepond": "^7.0.1",
+    "react-loaders": "^3.0.1",
     "react-router-dom": "^5.1.2",
     "regenerator-runtime": "^0.13.5",
     "sass-extract": "^2.1.0",
@@ -41,17 +42,40 @@
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
     "@babel/runtime": "^7.8.4",
+    "@testing-library/react": "^10.0.4",
     "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.7",
     "css-loader": "^3.4.2",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
+    "identity-obj-proxy": "^3.0.0",
+    "image-webpack-loader": "^6.0.0",
+    "jest": "^26.0.1",
+    "jest-dom": "^4.0.0",
     "node-sass": "^4.13.1",
+    "react-test-renderer": "^16.13.1",
+    "responsive-loader": "^1.2.0",
     "sass-loader": "^8.0.2",
+    "sharp": "^0.25.2",
     "style-loader": "^1.1.3",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^3.0.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|styl|less|sass|scss)$": "identity-obj-proxy"
+    }
   }
 }
