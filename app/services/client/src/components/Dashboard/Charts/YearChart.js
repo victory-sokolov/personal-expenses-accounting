@@ -95,7 +95,7 @@ class YearChart extends Component {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				this.setState({ receiptData: data, isLoading: false }, () => this.yearlySpendings(data));
+				this.setState({ receiptData: data }, () => this.yearlySpendings(data));
 			})
 			.catch((error) => {
 				console.error("Error:", error);
@@ -107,7 +107,7 @@ class YearChart extends Component {
 		let receipts = receiptData.yearly;
 		this.state.months.map((value) => {
 			let sum = receipts[value].reduce((curr, prev) => curr + prev, 0);
-			totalSumForMonth.push(sum);
+			totalSumForMonth.push(sum.toFixed(2));
 		});
 		let monthData = {...this.state.series}[0];
 		monthData.data = [...totalSumForMonth];
