@@ -4,3 +4,4 @@ colorlog==4.1.0
 pytesseract==0.3.3
 python-dotenv==0.12.0
 click==7.1.1
+radon==4.1.0
