@@ -1,9 +1,9 @@
 import os
 import subprocess
 
-from app.base.ProcessManager import ProcessManager
 from ModelProperties import ModelProperties
 from OrderedClassMembers import OrderedClassMembers
+from ProcessManager import ProcessManager
 from utils.Logger import Logger
 
 
@@ -22,4 +22,7 @@ class ModelExtractor(metaclass=OrderedClassMembers):
             f'{self._props.model_path}/{self._lang}.lstm'
         ]
         process = self._proc.create_process(process_params)
+        process.stdout.close()
+        process.kill()
+        process.wait()
         return process.returncode

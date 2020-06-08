@@ -2,7 +2,7 @@ import subprocess
 
 from ModelProperties import ModelProperties
 from OrderedClassMembers import OrderedClassMembers
-from app.base.ProcessManager import ProcessManager
+from ProcessManager import ProcessManager
 from utils.font import fonts_to_json, supported_fonts
 from utils.helpers import read_file, read_json
 
@@ -40,4 +40,7 @@ class TrainingDataGenerator(metaclass=OrderedClassMembers):
         ]
         process = self._proc.create_process(process_params)
         self._proc.process_output(process)
+        process.stdout.close()
+        process.kill()
+        process.wait()
         return process.returncode
