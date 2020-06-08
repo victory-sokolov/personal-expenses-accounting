@@ -1,10 +1,10 @@
 import json
-from email import send_email
+from project.email.send_email import send_email
 
 from flask import (Flask, current_app, jsonify, make_response, redirect,
-                   render_template, request, url_for)
+                   render_template, request, url_for, flash)
 from flask.views import MethodView
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 from project import db
 from project.auth import encode_auth_token
@@ -36,9 +36,9 @@ class CreateUser(MethodView):
         db.session.add(user)
         db.session.commit()
         # confirm email
-        token = User.generate_confirmation_token(user_data['email'])
-        send_email(user_data['email'], 'Confirm Your Account',
-                   'email/confirm', user=user, token=token)
+        # token = User.generate_confirmation_token(user_data['email'])
+        # send_email(user_data['email'], 'Confirm Your Account',
+        #            'email/confirm', user=user, token=token)
 
         auth_token = encode_auth_token(user.id)
         response = {
@@ -57,7 +57,7 @@ class CreateUser(MethodView):
             return redirect(url_for('main.index'))
         if current_user.confirm(token):
             db.session.commit()
-            #flash('You have confirmed your account. Thanks!')
+            flash('You have confirmed your account. Thanks!')
         else:
-            #flash('The confirmation link is invalid or has expired.')
+            flash('The confirmation link is invalid or has expired.')
         return redirect(url_for('main.index'))

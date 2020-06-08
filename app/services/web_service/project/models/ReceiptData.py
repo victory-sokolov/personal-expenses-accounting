@@ -1,3 +1,5 @@
+import datetime
+
 from flask import jsonify
 
 from project import db
@@ -11,7 +13,7 @@ class ReceiptData(db.Model):
     price = db.Column(db.String(20))
     date = db.Column(db.DateTime)
     category = db.Column(db.String(50))
-    warranty = db.Column(db.DateTime)
+    warranty = db.Column(db.String(50))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __init__(self, **kwargs):

@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from flasgger import Swagger
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS, cross_origin
@@ -20,12 +21,14 @@ def create_app():
                 static_folder="../../client",
                 template_folder="../../client")
 
-    # enable CORS
-    CORS(app)
-
-    # set config
     app_settings = os.getenv('APP_SETTINGS')
     app.config.from_object(app_settings)
+
+    # enable CORS
+    CORS(app)
+    # Swagger
+    Swagger(app)
+    # set config
 
     # set up extensions
     db.init_app(app)

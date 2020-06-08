@@ -5,7 +5,7 @@ import pytest
 
 from project import create_app, db
 
-
+app = create_app()
 class BaseTestCase(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
@@ -15,8 +15,8 @@ class BaseTestCase(unittest.TestCase):
         super(BaseTestCase, self).__init__(*args, **kwargs)
 
     def create_app(self):
-        self.app.config.from_object("project.config.TestingConfig")
-        return self.app
+        app.config.from_object("project.config.DevelopmentConfig")
+        return app
 
     def setUp(self):
         db.create_all()

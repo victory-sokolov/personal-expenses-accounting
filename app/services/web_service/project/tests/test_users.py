@@ -6,7 +6,7 @@ import requests
 from project import create_app, db
 from project.models.User import User
 from project.tests.base import BaseTestCase
-from utils import create_user
+from project.tests.utils import create_user
 
 
 class TestUsers(BaseTestCase):
@@ -15,7 +15,6 @@ class TestUsers(BaseTestCase):
     def __init__(self, *args, **kwargs):
         self.app = create_app()
         self.app_test = self.app.test_client()
-
         super(TestUsers, self).__init__(*args, **kwargs)
 
     def test_add_user(self):
@@ -53,9 +52,6 @@ class TestUsers(BaseTestCase):
         response = requests.get(f'http://localhost:5000/user/{user.id}')
         self.assertEqual(response.status_code, 200)
         self.assertIn('viktor', response.json()['name'])
-
-    def test_get_all_users(self):
-        pass
 
 
 if __name__ == "__main__":
