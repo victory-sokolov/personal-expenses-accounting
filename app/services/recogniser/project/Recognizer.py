@@ -2,15 +2,17 @@ import json
 import os
 import re
 from time import sleep
+from typing import List
 
 import cv2
 import numpy as np
 import pytesseract
 import requests
 from PIL import Image
-from typing import List
-from project.ImageProcessing import ImageProcessing
+
 from project.category.search_category import SearchCategory
+from project.ImageProcessing import ImageProcessing
+
 
 class Recognizer(object):
 
@@ -45,7 +47,7 @@ class Recognizer(object):
 
     def get_vendor(self, text: List) -> str:
         for line in text:
-            vendor = re.search(r'\bSIA|As\b', line)
+            vendor = re.search(r'\bSIA|AS\b', line)
             if vendor:
                 return line
         return ""
