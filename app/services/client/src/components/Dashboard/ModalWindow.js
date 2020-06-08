@@ -71,7 +71,6 @@ class ModalWindow extends Component {
 		this.setState({
 			vendor: event.target.value,
 		});
-		alert(this.state.vendor);
 	};
 
 	handleCategoryChange = (event) => {
