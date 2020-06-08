@@ -2,13 +2,14 @@ import os
 import sys
 import unittest
 
+from colour_runner.runner import ColourTextTestRunner
 import coverage
 from flask.cli import FlaskGroup
 
 from project import create_app, db
 from project.RecognizeAPI import RecognizeAPI
 
-test_dir = 'services/web_service/project/tests'
+test_dir = 'services/recogniser/project/tests'
 
 COV = coverage.Coverage(
     branch=True,
@@ -36,9 +37,11 @@ def recreate_db():
 @cli.command()
 def test():
     """Run tests without code coverage"""
+    print("Running Tests")
     tests = unittest.TestLoader().discover(
         test_dir, pattern='test*.py')
-    result = unittest.TextTestRunner(verbosity=2).run(tests)
+    result = ColourTextTestRunner(
+        verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0
     sys.exit(result)
