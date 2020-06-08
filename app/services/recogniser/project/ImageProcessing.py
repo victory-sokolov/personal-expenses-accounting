@@ -7,6 +7,7 @@ from wand.image import Image as WandImage
 
 from app.base.ProcessManager import ProcessManager
 
+
 class ImageProcessing:
 
     def __init__(self, image):
@@ -110,7 +111,7 @@ class ImageProcessing:
         from os.path import expanduser
         home = expanduser("~")
         shutil.move(f'{os.getcwd()}/recogniser/project/receipts/{self.image_name}',
-                    f'{home}/Documents/personal-expenses-accounting/app/services/client/public/receipts')
+                    f'{home}/Documents/personal-expenses-accounting/app/services/client/public/images/receipts')
         # code end
         return reduce(
             lambda image, function: function(image), (
