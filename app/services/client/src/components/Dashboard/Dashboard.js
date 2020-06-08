@@ -10,8 +10,9 @@ import dashboard from "./dashboard.scss";
 import Header from "./Header";
 import ModalWindow from "./ModalWindow";
 import Nav from "./Nav/Nav";
-import nav from './Nav/side-nav.scss';
+import nav from "./Nav/side-nav.scss";
 import ReceiptSection from "./Receipt/ReceiptSection";
+
 
 const Delete = (props) => {
 	return (
@@ -20,6 +21,7 @@ const Delete = (props) => {
 		</Button>
 	);
 }
+
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
@@ -29,10 +31,12 @@ class Dashboard extends Component {
 			data: {},
 			preview: false,
 			inputData: {},
+			usersReceipts: {}
 		};
 		this.modalRef = React.createRef();
 		this.receiptSectRef = React.createRef();
 	}
+
 
 	handleClose = () => {
 		this.setState({ show: false });
@@ -54,7 +58,7 @@ class Dashboard extends Component {
 
 	componentDidMount() {
 		const id = localStorage.getItem("id");
-		this.fetchData(`/user/${id}`, "GET");
+		this.fetchData(`/user/${id}`, "GET"); 
 	}
 
 	postData = async(url, method, data) => {
@@ -140,6 +144,7 @@ class Dashboard extends Component {
 							<YearChart />
 							<PieChart />
 						</div>
+
 						<ReceiptSection
 							showModal={this.handleShow}
 							receipts={this.state.data}
