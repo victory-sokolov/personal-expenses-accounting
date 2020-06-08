@@ -40,29 +40,32 @@ class ReceiptSection extends Component {
 					<h5>Amount</h5>
 					<h5>Category</h5>
 				</div>
-				{receipts.slice(0).reverse().map((receipt) => {
-					const d = new Date(receipt.date);
-					const date = `${d.getFullYear()}-${d.getUTCDay()}-${d.getUTCDate()}`;
-					const price = receipt.price == "" ? 0.00 : receipt.price;
-					return (
-						<div
-							className={dashboard.receiptData}
-							onClick={this.modalClick}
-							receipt-id={receipt.id}
-							key={receipt.id}
-						>
-							<h5>{date}</h5>
-							<h5>{receipt.vendor}</h5>
-							<h5>{price} &euro;</h5>
-							<h5>{receipt.category}</h5>
-							<img
-								src={`client/public/receipts/${receipt.image}`}
-								alt="receipt"
-								className={dashboard.receiptImage}
-							/>
-						</div>
-					);
-				})}
+				{receipts
+					.slice(0)
+					.reverse()
+					.map((receipt) => {
+						const d = new Date(receipt.date);
+						const date = `${d.getFullYear()}-${d.getUTCDay()+1}-${d.getUTCDate()}`;
+						const price = receipt.price == "" ? 0.0 : receipt.price;
+						return (
+							<div
+								className={dashboard.receiptData}
+								onClick={this.modalClick}
+								receipt-id={receipt.id}
+								key={receipt.id}
+							>
+								<h5>{date}</h5>
+								<h5>{receipt.vendor}</h5>
+								<h5>{price} &euro;</h5>
+								<h5>{receipt.category}</h5>
+								<img
+									src={`client/public/images/receipts/${receipt.image}`}
+									alt="receipt"
+									className={dashboard.receiptImage}
+								/>
+							</div>
+						);
+					})}
 			</div>
 		);
 	}
