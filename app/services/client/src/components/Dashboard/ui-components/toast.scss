@@ -1,0 +1,55 @@
+.toast {
+	color: #000;
+	line-height: 1.5;
+	margin-bottom: 1em;
+	padding: 1.25em;
+	position: absolute;
+	right: -365px;
+	// top: 1em;
+	bottom: 0;
+	transition: 0.15s ease-in-out;
+	width: 350px;
+	font-size: 16px;
+	font-weight: 500;
+	font-family: Helvetica, sans-serif;
+	text-align: center;
+	letter-spacing: 0.5px;
+
+	.on {
+		transform: translateX(-365px);
+	}
+}
+
+.toast.on {
+	transform: translateX(-365px);
+}
+
+.close {
+	cursor: pointer;
+	float: right;
+	font-size: 1.25rem;
+	line-height: 1;
+	margin-left: 1em;
+	opacity: 0.8;
+}
+
+.jam {
+	background-color: #ee577d;
+	color: #fff;
+	// opacity: 0.85;
+}
+
+@keyframes fadeInOut {
+	0% {
+		opacity: 0;
+	}
+	16% {
+		opacity: 1;
+	}
+	84% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
