@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import cards from './cards.scss';
+import cards from "./cards.scss";
 import recieptIcon from './icons/receipt-solid.svg';
 import tagIcon from './icons/tags-solid.svg';
 import graphIcon from './icons/today_graph.svg';
 
 class SmallCard extends Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -19,29 +18,31 @@ class SmallCard extends Component {
 	componentDidMount = () => {
 		const id = localStorage.getItem("id");
 		this.receiptAggregatedData(id);
-	}
+	};
 
 	sumSpendings = (receiptData) => {
 		const monthName = new Date().toLocaleString("default", { month: "long" });
 		const monthlySum = receiptData.yearly[monthName].reduce(
-			(curr, prev) => curr + prev
+			(curr, prev) => curr + prev, 0
 		);
-		this.setState({ monthlySum: monthlySum });
-	}
+		this.setState({ monthlySum: monthlySum.toFixed(2) });
+	};
 
 	yearlySpendings = (receiptData) => {
 		let sum = 0;
 		for (let key in receiptData.yearly) {
-			let currentSum = receiptData.yearly[key].reduce((curr, prev) => curr + prev, 0);
+			let currentSum = receiptData.yearly[key].reduce(
+				(curr, prev) => curr + prev, 0
+			);
 			sum += currentSum;
 		}
-		this.setState({yearlySum: sum});
-	}
+		this.setState({ yearlySum: sum.toFixed(2) });
+	};
 
-	receiptAggregatedData = async(id) => {
+	receiptAggregatedData = async (id) => {
 		await fetch(`/receipt/${id}`, {
 			method: "GET",
-			cache: 'no-cache',
+			cache: "no-cache",
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -55,7 +56,7 @@ class SmallCard extends Component {
 			.catch((error) => {
 				console.error("Error:", error);
 			});
-	}
+	};
 
 	render() {
 		const totalReceipts = Object.keys(this.props.receiptData).length;
