@@ -13,7 +13,7 @@ from project.controller.LogOutAPI import LogOutAPI
 from project.controller.ReceiptAPI import ReceiptAPI
 from project.controller.UserAPI import UserAPI
 
-test_dir = 'services/web_service/project/tests'
+test_dir = '/home/viktor/Documents/personal-expenses-accounting/app/services/web_service/project/tests'
 
 COV = coverage.Coverage(
     branch=True,
@@ -52,7 +52,7 @@ def test():
 @cli.command()
 def cov():
     """Runs the unit tests with coverage."""
-    print(os.getcwd() + "/services/web_services/project/controller/*")
+    # print(os.getcwd() + "/services/web_services/project/controller/*")
     tests = unittest.TestLoader().discover(test_dir)
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
