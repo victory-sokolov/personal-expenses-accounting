@@ -2,12 +2,12 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-
 class BaseConfig:
     """Base configuration"""
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
+    SLOW_DB_QUERY_TIME = 0.5
     SECRET_KEY = os.urandom(24)
     DEBUG_TB_ENABLED = False
     DEBUG_TB_INTERCEPT_REDIRECTS = False
