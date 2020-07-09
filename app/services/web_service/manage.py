@@ -3,30 +3,35 @@ import sys
 import unittest
 
 import coverage
+from dotenv import load_dotenv
 from flask.cli import FlaskGroup
 
 from project import create_app, db
-from project.controller.Authenticate import Authenticate
-from project.controller.CreateUser import CreateUser
-from project.controller.Dashboard import Dashboard
-from project.controller.LogOutAPI import LogOutAPI
-from project.controller.ReceiptAPI import ReceiptAPI
-from project.controller.UserAPI import UserAPI
+from project.models import ReceiptData, User
 
-test_dir = '/home/viktor/Documents/personal-expenses-accounting/app/services/web_service/project/tests'
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+
 
 COV = coverage.Coverage(
     branch=True,
-    include="/home/viktor/Documents/personal-expenses-accounting/app/services/web_service/project/*",
+    include="app/*",
     omit=[
         'project/tests/*',
-        'services/web_service/project/config.py'
+        'services/web_service/config.py'
     ]
 )
 COV.start()
 
-app = create_app()
+config_name = os.getenv('FLASK_CONFIG', 'default')
+app = create_app(config_name)
 cli = FlaskGroup(create_app=create_app)
+
+
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db, User=User, ReceiptData=ReceiptData)
 
 
 @cli.command("recreate_db")
@@ -39,10 +44,9 @@ def recreate_db():
 
 
 @cli.command()
-def test():
+def tests():
     """Run tests without code coverage"""
-    tests = unittest.TestLoader().discover(
-        test_dir, pattern='test*.py')
+    tests = unittest.TestLoader().discover('tests')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0
@@ -52,7 +56,6 @@ def test():
 @cli.command()
 def cov():
     """Runs the unit tests with coverage."""
-    # print(os.getcwd() + "/services/web_services/project/controller/*")
     tests = unittest.TestLoader().discover(test_dir)
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
@@ -65,18 +68,6 @@ def cov():
         return 0
     sys.exit(result)
 
-
-# Routings
-app.add_url_rule(
-    '/register', view_func=CreateUser.as_view('createuser'))
-app.add_url_rule('/receipt', methods=['POST'],
-                 view_func=ReceiptAPI.as_view('addreceipt'))
-app.add_url_rule(
-    '/receipt/<id>', methods=['GET', 'PUT', 'DELETE'], view_func=ReceiptAPI.as_view('receipt'))
-app.add_url_rule('/login', view_func=Authenticate.as_view('login'))
-app.add_url_rule('/logout', view_func=LogOutAPI.as_view('logout'))
-app.add_url_rule('/dashboard', view_func=Dashboard.as_view('dashboard'))
-app.add_url_rule('/user/<id>', view_func=UserAPI.as_view('user'))
 
 
 if __name__ == "__main__":
