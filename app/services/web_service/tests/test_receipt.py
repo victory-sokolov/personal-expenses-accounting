@@ -4,20 +4,26 @@ from datetime import datetime
 
 import requests
 
-from project import create_app, db
+from config import config
+from project import db, create_app
 from project.models.ReceiptData import ReceiptData
 from project.models.User import User
-from project.tests.base import BaseTestCase
-from project.tests.utils import create_user
+from tests.utils import user
 
 
-class TestReceipts(BaseTestCase):
-    """ Test Receipts service"""
+class TestReceipts(unittest.TestCase):
+    """Test Receipts service"""
 
-    def __init__(self, *args, **kwargs):
-        self.app = create_app()
-        self.app_test = self.app.test_client()
-        super(TestReceipts, self).__init__(*args, **kwargs)
+    def setUp(self):
+        self.app = create_app('testing')
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
 
     def test_add_receipt(self):
         receipt_data = {
@@ -37,7 +43,6 @@ class TestReceipts(BaseTestCase):
         self.assertIn('Receipt has been added', response.json()['status'])
 
     def test_get_receipts_by_user_id(self):
-        create_user()
         self.test_add_receipt()
         receipts = User.query.with_entities(
             User.receipts).filter_by(id=1).all()

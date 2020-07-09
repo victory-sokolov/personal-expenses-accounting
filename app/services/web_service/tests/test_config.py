@@ -6,16 +6,12 @@ from flask import current_app
 
 from config import config
 from project import create_app
-from project.tests.base import BaseTestCase
 
-
-class TestDevelopmentConfig(BaseTestCase):
+class TestDevelopmentConfig(unittest.TestCase):
     """Test development config"""
 
-    def __init__(self, *args, **kwargs):
+    def setUp(self):
         self.app = create_app('development')
-        self.app.config.from_object(config['development'])
-        super(TestDevelopmentConfig, self).__init__(*args, **kwargs)
 
     def test_app_is_development(self):
         self.assertFalse(self.app.config['TESTING'])
@@ -26,12 +22,11 @@ class TestDevelopmentConfig(BaseTestCase):
         )
 
 
-class TestTestingConfig(BaseTestCase):
+class TestTestingConfig(unittest.TestCase):
     """Test testing config"""
 
-    def __init__(self, *args, **kwargs):
+    def setUp(self):
         self.app = create_app('testing')
-        super(TestTestingConfig, self).__init__(*args, **kwargs)
 
     def test_app_is_testing(self):
         self.assertTrue(self.app.config['TESTING'])
@@ -39,3 +34,7 @@ class TestTestingConfig(BaseTestCase):
             self.app.config['SQLALCHEMY_DATABASE_URI'] ==
             os.environ.get('TEST_DATABASE_URL')
         )
+
+
+if __name__ == '__main__':
+    unittest.main()
