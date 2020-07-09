@@ -19,6 +19,9 @@ beautifulsoup4 = "^4.9.1"
 pytesseract = "^0.3.4"
 Pillow = "^7.2.0"
 python-dotenv = "^0.14.0"
+PyMySQL = "^0.9.3"
+redis = "^3.5.3"
+rq = "^1.4.3"
 
 [tool.poetry.dev-dependencies]
 parameterized = "^0.7.4"
