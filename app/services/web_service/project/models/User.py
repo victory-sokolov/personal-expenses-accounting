@@ -1,13 +1,12 @@
 import hashlib
 
-from flask import current_app, jsonify, request
+from flask import current_app, request
 from flask_login import UserMixin, current_user
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from project import create_app, db, login_manager
+from project import db, login_manager
 from project.models.ReceiptData import ReceiptData
-
 
 class User(UserMixin, db.Model):
 
