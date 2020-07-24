@@ -6,8 +6,8 @@ from flask.views import MethodView
 
 from project.models.User import User
 
-
 class UserAPI(MethodView):
+
     @swag_from('UserAPI.yml')
     def get(self, id):
         user = User.query.filter_by(id=id).first()
