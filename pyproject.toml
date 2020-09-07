@@ -22,6 +22,13 @@ python-dotenv = "^0.14.0"
 PyMySQL = "^0.9.3"
 redis = "^3.5.3"
 rq = "^1.4.3"
+coverage = "^5.2.1"
+flasgger = "^0.9.5"
+flask_login = "^0.5.0"
+pandas = "^1.1.1"
+cryptography = "^3.1"
+colour_runner = "^0.1.1"
+wand = "^0.6.2"
 
 [tool.poetry.dev-dependencies]
 parameterized = "^0.7.4"
