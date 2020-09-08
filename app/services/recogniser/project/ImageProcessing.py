@@ -103,7 +103,7 @@ class ImageProcessing:
     def run_pipeline(self):
         rotated_image = self.rotate(self.image)
         cv2.imwrite(
-            f'{os.getcwd()}/recogniser/project/receipts/{self.image_name}', rotated_image
+            f'{os.getcwd()}/project/receipts/{self.image_name}', rotated_image
         )
         self.image = rotated_image
         # Temp code: move image to assets folder
