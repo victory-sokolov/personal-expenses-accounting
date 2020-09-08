@@ -1,13 +1,13 @@
 import datetime
 import json
+from datetime import datetime
+
+from dateutil import parser
 
 import pandas as pd
-from dateutil import parser
-from flask import (jsonify, render_template, request,
-                   session)
+from flask import jsonify, render_template, request, session
 from flask.views import MethodView
 from flask_login import current_user, login_required
-
 from project import create_app, db
 from project.models.ReceiptData import ReceiptData
 
@@ -43,13 +43,14 @@ class ReceiptAPI(MethodView):
         receipt = ReceiptData.query.filter_by(id=id).first()
 
         req_data = request.get_json()
-        print(req_data['date'])
+
         receipt.vendor = req_data['vendor']
         receipt.price = req_data['amount']
         # receipt.warranty = req_data['warranty']
-        receipt.date = req_data['date']
+        receipt.date = parser.parse(req_data['date']).date()
         receipt.category = req_data['category']
         db.session.commit()
+        
         return jsonify({'status': 'Updated!'}), 200
 
     def delete(self, id):
@@ -92,7 +93,7 @@ class ReceiptAPI(MethodView):
 
     def get(self, id):
         """Get users receipt data"""
-        today = datetime.datetime.today()
+        today = datetime.today()
         year = today.year
 
         yearly_data = ReceiptData.query.filter(ReceiptData.user_id == id,
