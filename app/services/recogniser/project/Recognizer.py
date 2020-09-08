@@ -4,14 +4,17 @@ import re
 from time import sleep
 from typing import List
 
-import cv2
-import numpy as np
-import pytesseract
 import requests
 from PIL import Image
 
+import cv2
+import numpy as np
+import pytesseract
+from datetime import datetime
 from project.category.search_category import SearchCategory
 from project.ImageProcessing import ImageProcessing
+from redis import Redis
+from rq import Queue
 
 
 class Recognizer(object):
@@ -20,7 +23,7 @@ class Recognizer(object):
         self._lang = lang
 
     def recognise_image(self, filename) -> List:
-        tessdata_dir = r'--tessdata-dir "recogniser/project/data/"'
+        tessdata_dir = r'--tessdata-dir ' + f"{os.getcwd()}/project/data/"
 
         traineddata = f'{self._lang}+eng+lav-9bc56f04-e9fa-4046-8118-788a91cb4e92'
         black_list_chars = '#~_|!?+»=<>[]();,:*”'
@@ -32,7 +35,7 @@ class Recognizer(object):
         text = pytesseract.image_to_string(
             Image.open(filename), config=config
         )
-        os.remove('recogniser/project/output.png')
+        os.remove(f'{os.getcwd()}/project/output.png')
         return list(
             filter(None, text.split("\n"))
         )
@@ -61,7 +64,8 @@ class Recognizer(object):
         return ""
 
     def receipt_data(self, image, user_id):
-        data = self.recognise_image('recogniser/project/output.png')
+        path = f"{os.getcwd()}/project/output.png"
+        data = self.recognise_image(path)
         vendor = self.get_vendor(data)
         date = self.get_date(data)
         price = self.get_price(data)
@@ -74,13 +78,20 @@ class Recognizer(object):
             'category': category,
             'user_id': user_id
         }
-        headers = {'Content-Type': 'application/json'}
+
         requests.post(
             "http://localhost:5000/receipt",
             data=json.dumps(receipt_data),
-            headers=headers
+            headers={'Content-Type': 'application/json'}
         )
 
     def recognise_factory(self, image, user_id):
-        ImageProcessing(image).run_pipeline()
-        Recognizer("lav").receipt_data(image, user_id)
+        image_process = ImageProcessing(image)
+        recognize = Recognizer("lav")
+
+        q = Queue(connection=Redis())
+
+        pipeline_job = q.enqueue(image_process.run_pipeline)
+        q.enqueue(recognize.receipt_data, args=(image, user_id), depends_on=pipeline_job)
+
+        print(f"Task {pipeline_job.id} added to queue at {pipeline_job.enqueued_at}. {len(q)} tasks in the queue")
