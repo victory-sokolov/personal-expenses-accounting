@@ -21,7 +21,7 @@ class ReceiptAPI(MethodView):
         if receipt_data:
             # if date is empty set to todays date
             if not receipt_data['date']:
-                date = datetime.date.today()
+                date = datetime.today()
                 receipt_data['date'] = str(date)
 
             new_receipt = ReceiptData(
@@ -50,7 +50,7 @@ class ReceiptAPI(MethodView):
         receipt.date = parser.parse(req_data['date']).date()
         receipt.category = req_data['category']
         db.session.commit()
-        
+
         return jsonify({'status': 'Updated!'}), 200
 
     def delete(self, id):
