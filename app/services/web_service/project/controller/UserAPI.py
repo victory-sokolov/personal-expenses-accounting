@@ -1,10 +1,11 @@
 import json
 
-from flasgger import swag_from
 from flask import jsonify
 from flask.views import MethodView
 
+from flasgger import swag_from
 from project.models.User import User
+
 
 class UserAPI(MethodView):
 
@@ -12,12 +13,14 @@ class UserAPI(MethodView):
     def get(self, id):
         user = User.query.filter_by(id=id).first()
         receipts = []
-        for receipt in user.receipts:
-            dictret = dict(receipt.__dict__)
-            dictret.pop('_sa_instance_state', None)
-            receipts.append(dictret)
 
         if user:
+
+            for receipt in user.receipts:
+                dictret = dict(receipt.__dict__)
+                dictret.pop('_sa_instance_state', None)
+                receipts.append(dictret)
+
             user_object = {
                 'id': user.id,
                 'name': user.name,
