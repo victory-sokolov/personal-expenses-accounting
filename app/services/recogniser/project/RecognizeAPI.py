@@ -11,14 +11,13 @@ from werkzeug.utils import secure_filename
 
 from project.Recognizer import Recognizer
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-
+# ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 class RecognizeAPI(MethodView):
 
     def allowed_files(self, filename):
-        EXTENSION = current_app.config.get('ALLOWED_IMAGE_EXTENSIONS')
-        return '.' in filename and filename.rsplit('.', 1)[1].lower() in EXTENSION
+        extension = current_app.config.get('ALLOWED_IMAGE_EXTENSIONS')
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in extension
 
     def file_upload(self):
         """Save image"""
@@ -32,6 +31,9 @@ class RecognizeAPI(MethodView):
     def base64ToImage(self, image) -> str:
         """Convert Base64 to image and return its name"""
         target = current_app.config.get('UPLOAD_FOLDER')
+
+        print(current_app.config.get('UPLOAD_FOLDER'))
+
         date = datetime.datetime.utcnow().strftime('%Y-%m-%d-%H-%M-%S')
         base64_to_image = Image.open(BytesIO(base64.b64decode(image)))
         image_path = f'{target}/{date}.jpg'
