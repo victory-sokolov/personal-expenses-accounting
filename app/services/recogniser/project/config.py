@@ -11,6 +11,7 @@ class BaseConfig:
     BCRYPT_LOG_ROUNDS = 13
     TOKEN_EXPIRATION_DAYS = 30
     TOKEN_EXPIRATION_SECONDS = 0
+    UPLOAD_FOLDER = os.path.abspath(os.curdir) + os.getenv('UPLOAD_FOLDER')
 
 
 class DevelopmentConfig(BaseConfig):
