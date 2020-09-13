@@ -17,7 +17,8 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 class RecognizeAPI(MethodView):
 
     def allowed_files(self, filename):
-        return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+        EXTENSION = current_app.config.get('ALLOWED_IMAGE_EXTENSIONS')
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in EXTENSION
 
     def file_upload(self):
         """Save image"""
