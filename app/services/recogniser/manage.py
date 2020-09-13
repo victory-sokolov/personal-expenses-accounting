@@ -2,8 +2,8 @@ import os
 import sys
 import unittest
 
-from colour_runner.runner import ColourTextTestRunner
 import coverage
+from colour_runner.runner import ColourTextTestRunner
 from flask.cli import FlaskGroup
 
 from project import create_app, db
@@ -21,7 +21,8 @@ COV = coverage.Coverage(
 )
 COV.start()
 
-app = create_app()
+config_name = os.getenv('FLASK_CONFIG', 'default')
+app = create_app(config_name)
 cli = FlaskGroup(create_app=create_app)
 
 
@@ -65,7 +66,6 @@ def cov():
 
 # Routings
 app.add_url_rule('/recognize', view_func=RecognizeAPI.as_view('recognize'))
-
 
 if __name__ == "__main__":
     cli()
