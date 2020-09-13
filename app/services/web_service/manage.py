@@ -3,15 +3,10 @@ import sys
 import unittest
 
 import coverage
-from dotenv import load_dotenv
 from flask.cli import FlaskGroup
 
 from project import create_app, db
 from project.models import ReceiptData, User
-
-dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
-if os.path.exists(dotenv_path):
-    load_dotenv(dotenv_path)
 
 
 COV = coverage.Coverage(
@@ -56,7 +51,7 @@ def tests():
 @cli.command()
 def cov():
     """Runs the unit tests with coverage."""
-    tests = unittest.TestLoader().discover(test_dir)
+    tests = unittest.TestLoader().discover()
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         COV.stop()
@@ -67,7 +62,6 @@ def cov():
         COV.erase()
         return 0
     sys.exit(result)
-
 
 
 if __name__ == "__main__":
