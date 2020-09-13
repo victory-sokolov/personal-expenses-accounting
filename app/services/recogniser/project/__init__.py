@@ -2,11 +2,12 @@ import os
 from pathlib import Path
 
 from flask import Flask
-from flask_bcrypt import Bcrypt
-from flask_cors import CORS, cross_origin
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+
+from flask_bcrypt import Bcrypt
+from flask_cors import CORS, cross_origin
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -33,10 +34,10 @@ def create_app():
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
-    os.chdir('..')
-    UPLOAD_FOLDER = os.path.abspath(
-        os.curdir) + '/recogniser/project/receipts'
-    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    # os.chdir('..')
+    # UPLOAD_FOLDER = os.path.abspath(
+    #     os.curdir) + '/recogniser/project/receipts'
+    # app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
     # shell context for flask cli
     @app.shell_context_processor
