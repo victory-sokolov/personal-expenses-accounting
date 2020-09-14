@@ -9,14 +9,14 @@ from flask.cli import FlaskGroup
 from project import create_app, db
 from project.RecognizeAPI import RecognizeAPI
 
-test_dir = 'services/recogniser/project/tests'
+test_dir = 'services/recogniser/app/tests'
 
 COV = coverage.Coverage(
     branch=True,
-    include="/home/viktor/Documents/personal-expenses-accounting/app/services/web_service/project/*",
+    include="/home/viktor/Documents/personal-expenses-accounting/app/services/web_service/app/*",
     omit=[
-        'project/tests/*',
-        'services/web_service/project/config.py'
+        'app/tests/*',
+        'services/web_service/app/config.py'
     ]
 )
 COV.start()

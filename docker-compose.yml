@@ -48,7 +48,7 @@ services:
   database:
     container_name: database
     build:
-      context: ./services/users/project/db
+      context: ./services/users/app/db
       dockerfile: Dockerfile
     ports:
       - 5435:5432

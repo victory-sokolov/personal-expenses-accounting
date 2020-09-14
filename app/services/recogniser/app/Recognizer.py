@@ -1,7 +1,6 @@
 import json
 import os
 import re
-from time import sleep
 from typing import List
 
 import requests

@@ -13,7 +13,7 @@ class BaseTestCase(unittest.TestCase):
         super(BaseTestCase, self).__init__(*args, **kwargs)
 
     def create_app(self):
-        self.app.config.from_object("project.config.TestingConfig")
+        self.app.config.from_object("app.config.TestingConfig")
         return self.app
 
     def setUp(self):

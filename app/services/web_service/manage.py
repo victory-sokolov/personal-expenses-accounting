@@ -13,7 +13,7 @@ COV = coverage.Coverage(
     branch=True,
     include="app/*",
     omit=[
-        'project/tests/*',
+        'app/tests/*',
         'services/web_service/config.py'
     ]
 )

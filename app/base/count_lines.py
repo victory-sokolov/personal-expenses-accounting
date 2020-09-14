@@ -25,7 +25,7 @@ exclude_files = [
 dirr = '/home/viktor/Documents/personal-expenses-accounting/app/services/web_service/'
 folders = glob.glob(dirr + '/**/', recursive=True)
 
-# only project related directories
+# only app related directories
 directories = []
 for folder in folders:
     current_folder = folder.split('/')[-2]
