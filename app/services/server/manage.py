@@ -5,9 +5,8 @@ import unittest
 import coverage
 from flask.cli import FlaskGroup
 
-from project import create_app, db
-from project.models import ReceiptData, User
-
+from app import create_app, db
+from app.models import ReceiptData, User
 
 COV = coverage.Coverage(
     branch=True,
