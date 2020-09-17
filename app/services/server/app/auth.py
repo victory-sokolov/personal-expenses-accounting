@@ -5,7 +5,8 @@ from functools import wraps
 import jwt
 from flask import Flask, current_app, g, jsonify, request
 from flask_login import LoginManager
-from project.models import User
+
+from app.models import User
 
 EXPERATION_TIME = 2
 

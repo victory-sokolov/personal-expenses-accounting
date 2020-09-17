@@ -1,7 +1,7 @@
 
 from flask import jsonify
 
-from project import db
+from app import db
 
 
 class ReceiptData(db.Model):

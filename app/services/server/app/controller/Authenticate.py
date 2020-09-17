@@ -8,9 +8,9 @@ from flask.views import MethodView
 from flask_login import current_user, login_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from project import db
-from project.auth import encode_auth_token
-from project.models.User import User
+from app import db
+from app.auth import encode_auth_token
+from app.models.User import User
 
 
 class Authenticate(MethodView):

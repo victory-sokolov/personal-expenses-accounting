@@ -11,12 +11,12 @@ from flask_sqlalchemy import SQLAlchemy
 
 from config import config
 
-
 db = SQLAlchemy()
 migrate = Migrate()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 login_manager.login_view = 'login'
+
 
 def create_app(config_name) -> object:
     app = Flask(__name__,
@@ -49,21 +49,22 @@ def create_app(config_name) -> object:
         return {'app': app, 'db': db}
 
     def register_routes():
-        from project.controller.Authenticate import Authenticate
-        from project.controller.CreateUser import CreateUser
-        from project.controller.Dashboard import Dashboard
-        from project.controller.LogOutAPI import LogOutAPI
-        from project.controller.ReceiptAPI import ReceiptAPI
-        from project.controller.UserAPI import UserAPI
+        from app.controller.Authenticate import Authenticate
+        from app.controller.CreateUser import CreateUser
+        from app.controller.Dashboard import Dashboard
+        from app.controller.LogOutAPI import LogOutAPI
+        from app.controller.ReceiptAPI import ReceiptAPI
+        from app.controller.UserAPI import UserAPI
 
         app.add_url_rule('/register', view_func=CreateUser.as_view('register'))
         app.add_url_rule('/receipt', methods=['POST'],
-                        view_func=ReceiptAPI.as_view('addreceipt'))
+                         view_func=ReceiptAPI.as_view('addreceipt'))
         app.add_url_rule(
             '/receipt/<id>', methods=['GET', 'PUT', 'DELETE'], view_func=ReceiptAPI.as_view('receipt'))
         app.add_url_rule('/login', view_func=Authenticate.as_view('login'))
         app.add_url_rule('/logout', view_func=LogOutAPI.as_view('logout'))
-        app.add_url_rule('/dashboard', view_func=Dashboard.as_view('dashboard'))
+        app.add_url_rule(
+            '/dashboard', view_func=Dashboard.as_view('dashboard'))
         app.add_url_rule('/user/<id>', view_func=UserAPI.as_view('user'))
 
     register_routes()

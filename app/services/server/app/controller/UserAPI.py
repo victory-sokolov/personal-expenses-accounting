@@ -4,7 +4,7 @@ from flask import jsonify
 from flask.views import MethodView
 
 from flasgger import swag_from
-from project.models.User import User
+from app.models.User import User
 
 
 class UserAPI(MethodView):

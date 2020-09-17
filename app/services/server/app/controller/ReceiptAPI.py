@@ -8,8 +8,8 @@ import pandas as pd
 from flask import jsonify, render_template, request, session
 from flask.views import MethodView
 from flask_login import current_user, login_required
-from project import create_app, db
-from project.models.ReceiptData import ReceiptData
+from app import create_app, db
+from app.models.ReceiptData import ReceiptData
 
 
 class ReceiptAPI(MethodView):
