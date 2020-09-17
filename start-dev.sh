@@ -7,7 +7,7 @@ DEFAULT_TABS_TITLE4="Redis queue"
 
 PROJECT_PATH="${HOME}/Documents/personal-expenses-accounting/app/services"
 
-DEFAULT_TABS_CMD1="cd ${PROJECT_PATH}/web_service && flask run"
+DEFAULT_TABS_CMD1="cd ${PROJECT_PATH}/server && flask run"
 DEFAULT_TABS_CMD2="cd ${PROJECT_PATH}/recogniser && flask run"
 DEFAULT_TABS_CMD3="redis-server"
 DEFAULT_TABS_CMD4="cd ${PROJECT_PATH}/recogniser && rq worker"
