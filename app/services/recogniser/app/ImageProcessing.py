@@ -6,8 +6,6 @@ import cv2
 import numpy as np
 from wand.image import Image as WandImage
 
-# from app.base.ProcessManager import ProcessManager
-
 
 class ImageProcessing:
 
@@ -20,7 +18,10 @@ class ImageProcessing:
         process_params = [
             "mogrify", "-set", "density", "300", image
         ]
-        #process = ProcessManager.create_process(process_params)
+
+    def rect_kernel():
+        return cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+
 
     def rotate(self, image):
         angle = 90
@@ -69,11 +70,11 @@ class ImageProcessing:
         return rotated
 
     def dilate(self, image):
-        kernel = np.ones((5, 5), np.uint8)
+        kernel = self.rect_kernel()
         return cv2.dilate(image, kernel, iterations=1)
 
     def erode(self, image):
-        kernel = np.ones((5, 5), np.uint8)
+        kernel = self.rect_kernel()
         return cv2.erode(image, kernel, iterations=1)
 
     def cut_image(self, image):
