@@ -1,7 +1,7 @@
 import json
 import os
 
-from project.category.Parser1188 import Parser1188
+from app.category.Parser1188 import Parser1188
 
 
 class SearchCategory(Parser1188):
