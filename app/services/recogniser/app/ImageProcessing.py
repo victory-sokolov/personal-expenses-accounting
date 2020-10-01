@@ -52,7 +52,7 @@ class ImageProcessing:
         return cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 121, 12)
 
     def save_image(self, image):
-        cv2.imwrite(f'{os.getcwd()}/project/output.png', image)
+        cv2.imwrite(f'{os.getcwd()}/app/output.png', image)
 
     def deskew(self, image):
         coords = np.column_stack(np.where(image > 0))
@@ -103,14 +103,14 @@ class ImageProcessing:
     def run_pipeline(self):
         rotated_image = self.rotate(self.image)
         cv2.imwrite(
-            f'{os.getcwd()}/project/receipts/{self.image_name}', rotated_image
+            f'{os.getcwd()}/app/receipts/{self.image_name}', rotated_image
         )
         self.image = rotated_image
         # Temp code: move image to assets folder
         import shutil
         from os.path import expanduser
         home = expanduser("~")
-        shutil.move(f'{os.getcwd()}/project/receipts/{self.image_name}',
+        shutil.move(f'{os.getcwd()}/app/receipts/{self.image_name}',
                     f'{home}/Documents/personal-expenses-accounting/app/services/client/public/images/receipts')
         # code end
         return reduce(
