@@ -6,8 +6,8 @@ import coverage
 from colour_runner.runner import ColourTextTestRunner
 from flask.cli import FlaskGroup
 
-from project import create_app, db
-from project.RecognizeAPI import RecognizeAPI
+from app import create_app, db
+from app.RecognizeAPI import RecognizeAPI
 
 test_dir = 'services/recogniser/app/tests'
 
