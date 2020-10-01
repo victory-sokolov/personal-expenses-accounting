@@ -9,9 +9,8 @@ from flask.views import MethodView
 from PIL import Image
 from werkzeug.utils import secure_filename
 
-from project.Recognizer import Recognizer
+from app.Recognizer import Recognizer
 
-# ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 class RecognizeAPI(MethodView):
 
