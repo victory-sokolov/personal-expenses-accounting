@@ -1,14 +1,11 @@
 import json
 import os
 import re
-from datetime import datetime
 from typing import List
 
 import cv2
-import numpy as np
 import pytesseract
 import requests
-from PIL import Image
 from redis import Redis
 from rq import Queue
 
@@ -21,7 +18,6 @@ class Recognizer(object):
     def __init__(self, lang: str):
         self._lang = lang
 
-
     def recognise_image(self, filename) -> List:
         tessdata_dir = r'--tessdata-dir ' + f"{os.getcwd()}/app/data/"
 
@@ -33,7 +29,7 @@ class Recognizer(object):
             --oem 1 --psm 3 {tessdata_dir}'
         )
         text = pytesseract.image_to_string(
-            Image.open(filename), config=config
+            cv2.imread(filename), config=config
         )
         os.remove(f'{os.getcwd()}/app/output.png')
         return list(
@@ -89,7 +85,7 @@ class Recognizer(object):
 
     def recognise_factory(self, image, user_id):
         image_process = ImageProcessing(image)
-        recognize = Recognizer("lav")
+        recognize = Recognizer(self._lang)
 
         q = Queue(connection=Redis())
 
