@@ -21,15 +21,6 @@ class Recognizer(object):
     def __init__(self, lang: str):
         self._lang = lang
 
-    def easyocr_recognize(self, filename: str) -> List:
-        import easyocr
-
-        reader = easyocr.Reader(['lv'], gpu=False)
-        result = reader.readtext(filename, detail=0)
-
-        return list(
-            filter(None, result.split("\n"))
-        )
 
     def recognise_image(self, filename) -> List:
         tessdata_dir = r'--tessdata-dir ' + f"{os.getcwd()}/app/data/"
@@ -74,8 +65,7 @@ class Recognizer(object):
 
     def receipt_data(self, image, user_id):
         path = f"{os.getcwd()}/app/output.png"
-        # data = self.recognise_image(path)
-        data = self.easyocr_recognize(path)
+        data = self.recognise_image(path)
 
         vendor = self.get_vendor(data)
         date = self.get_date(data)
