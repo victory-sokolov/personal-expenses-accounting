@@ -1,11 +1,8 @@
 import os
 from functools import reduce
-from time import sleep
-
 import cv2
 import numpy as np
 from wand.image import Image as WandImage
-
 
 class ImageProcessing:
 
@@ -14,14 +11,11 @@ class ImageProcessing:
         self.image_name = image.split("/")[-1]
         self.image = cv2.imread(image)
 
-    def change_image_DPI(self, image):
-        process_params = [
-            "mogrify", "-set", "density", "300", image
-        ]
-
     def rect_kernel():
         return cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
 
+    def resize_image(self, image):
+        return cv2.resize(image, None, fx=1.2, fy=1.2, interpolation=cv2.INTER_CUBIC)
 
     def rotate(self, image):
         angle = 90
@@ -96,7 +90,6 @@ class ImageProcessing:
 
         # approx = mapper.mapp(target)  # find endpoints of the sheet
         pts = np.float32([[0, 0], [800, 0], [800, 800], [0, 800]])
-
         op = cv2.getPerspectiveTransform(approx, pts)
         dst = cv2.warpPerspective(image, op, (800, 800))
         return dst
@@ -116,9 +109,10 @@ class ImageProcessing:
         # code end
         return reduce(
             lambda image, function: function(image), (
+                self.resize_image,
                 self.gray_scale,
-                self.thresh,
                 self.noise_removal,
+                self.thresh,
                 self.save_image
             ),
             self.image
