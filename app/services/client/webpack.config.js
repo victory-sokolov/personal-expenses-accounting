@@ -1,6 +1,8 @@
 const path = require("path");
 const htmlWebPackPlugin = require("html-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+	.BundleAnalyzerPlugin;
 
 const settings = {
 	distPath: path.join(__dirname, "/dist"),
@@ -73,6 +75,11 @@ module.exports = {
 		],
 	},
 	plugins: [
+		new BundleAnalyzerPlugin({
+			analyzerMode: "disabled",
+			generateStatsFile: true,
+			statsOptions: { source: false },
+		}),
 		// new htmlWebPackPlugin({
 		//   template: srcPathExtend("index.html")
 		// })
