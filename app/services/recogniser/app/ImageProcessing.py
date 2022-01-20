@@ -18,19 +18,18 @@ class ImageProcessing:
         return cv2.resize(image, None, fx=1.2, fy=1.2, interpolation=cv2.INTER_CUBIC)
 
     def rotate(self, image):
-        angle = 90
         (h, w) = image.shape[:2]
-        if h < w:
-            with WandImage(filename=self.image_path) as img:
-                img.rotate(angle)
-                img_buffer = np.asarray(
-                    bytearray(img.make_blob()), dtype=np.uint8)
-
-            if img_buffer is not None:
-                retval = cv2.imdecode(img_buffer, cv2.IMREAD_UNCHANGED)
-                return retval
-        else:
+        if h >= w:
             return self.image
+
+        angle = 90
+        with WandImage(filename=self.image_path) as img:
+            img.rotate(angle)
+            img_buffer = np.asarray(
+                bytearray(img.make_blob()), dtype=np.uint8)
+
+        if img_buffer is not None:
+            return cv2.imdecode(img_buffer, cv2.IMREAD_UNCHANGED)
 
     def gray_scale(self, image):
         return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -52,16 +51,12 @@ class ImageProcessing:
     def deskew(self, image):
         coords = np.column_stack(np.where(image > 0))
         angle = cv2.minAreaRect(coords)[-1]
-        if angle < -45:
-            angle = -(90 + angle)
-        else:
-            angle = -angle
+        angle = -(90 + angle) if angle < -45 else -angle
         (h, w) = image.shape[:2]
         center = (w // 2, h // 2)
         M = cv2.getRotationMatrix2D(center, angle, 1.0)
-        rotated = cv2.warpAffine(
+        return cv2.warpAffine(
             image, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
-        return rotated
 
     def dilate(self, image):
         kernel = self.rect_kernel()
@@ -91,8 +86,7 @@ class ImageProcessing:
         # approx = mapper.mapp(target)  # find endpoints of the sheet
         pts = np.float32([[0, 0], [800, 0], [800, 800], [0, 800]])
         op = cv2.getPerspectiveTransform(approx, pts)
-        dst = cv2.warpPerspective(image, op, (800, 800))
-        return dst
+        return cv2.warpPerspective(image, op, (800, 800))
 
     def run_pipeline(self):
         rotated_image = self.rotate(self.image)

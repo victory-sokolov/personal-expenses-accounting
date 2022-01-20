@@ -12,8 +12,7 @@ class Category(Parser1188):
 
     def __init__(self, url):
         super().__init__(url)
-        self.category_list = {}
-        self.category_list['companies'] = []
+        self.category_list = {'companies': []}
 
     def get_category_list(self):
         page = super().get_page()
@@ -43,6 +42,5 @@ class Category(Parser1188):
                 'div', {'class': 'company-info-container'}
             )
             count = len(info_container)
-            branch = info_container[0].find('div', {'class': 'branch'}).find('a').text
-            return branch
+            return info_container[0].find('div', {'class': 'branch'}).find('a').text
 

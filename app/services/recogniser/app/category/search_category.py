@@ -11,14 +11,10 @@ class SearchCategory(Parser1188):
         self.category = category
 
     def get_branch_by_shop_name(self):
-        categories = []
         page = super().get_page()
         company = page.find_all("div", {"class": "company"})
         branches = [branch.find("div", {"class": "branch"})
                     for branch in company]
 
-        for cat in branches:
-            if cat:
-                categories.append(cat.find('a').text)
-
+        categories = [cat.find('a').text for cat in branches if cat]
         return categories[0] if categories else ""

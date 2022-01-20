@@ -21,7 +21,7 @@ class Statistics(object):
             arg2 - title text
             arg3 - text (char or word)
         """
-        if text != "char" and text != "word":
+        if text not in ["char", "word"]:
             print("Type parameter must be either 'char' or 'word'")
             return
 

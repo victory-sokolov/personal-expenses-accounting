@@ -60,9 +60,7 @@ class ReceiptAPI(MethodView):
 
     def calculate_sum(self, data):
         """Calculate total sum for specified month"""
-        return sum([float(field.price)
-                    for field in data if field.price]
-                   )
+        return sum(float(field.price) for field in data if field.price)
 
     def monthly_spending_data(self, data):
         """Get spendings of each month of the current year"""
@@ -82,14 +80,13 @@ class ReceiptAPI(MethodView):
         }
         for receipt in data:
             month = receipt.date.strftime("%B")
-            amount = receipt.price if receipt.price else 0
+            amount = receipt.price or 0
             monthly_spendgings[month].append(float(amount))
         return monthly_spendgings
 
     def get_categories(self, id):
         receipts = ReceiptData.query.filter_by(user_id=id).all()
-        categories = [cat.category for cat in receipts if cat.category]
-        return categories
+        return [cat.category for cat in receipts if cat.category]
 
     def get(self, id):
         """Get users receipt data"""

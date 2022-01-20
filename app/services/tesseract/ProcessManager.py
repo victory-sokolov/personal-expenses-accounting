@@ -7,10 +7,9 @@ class ProcessManager(object):
 
     @staticmethod
     def create_process(params: List):
-        process = subprocess.Popen(
+        return subprocess.Popen(
             params, stdout=PIPE, stderr=STDOUT, text=True
         )
-        return process
 
     @staticmethod
     def process_output(process):

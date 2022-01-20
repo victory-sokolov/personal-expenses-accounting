@@ -22,8 +22,7 @@ def get_fonts_from_dir() -> List:
     """
     directory = './fonts/'
     dir_content = os.listdir(directory)
-    font_list = [font for font in dir_content if font.endswith('.ttf', -4)]
-    return font_list
+    return [font for font in dir_content if font.endswith('.ttf', -4)]
 
 
 def get_font_names() -> List:
@@ -46,10 +45,7 @@ def fonts_to_json() -> None:
     if os.path.isfile(json_file):
         data = read_json('fonts')
 
-    dat = {}
-    for font in fonts:
-        dat[font] = {'skip': False}
-
+    dat = {font: {'skip': False} for font in fonts}
     keys = dat.keys()
     if data:
         for key in keys:
@@ -65,14 +61,13 @@ def fonts_to_json() -> None:
 
 def convert_to_iso_639_1(lang: str) -> str:
     """Converts iso_639-2 to iso_639-1"""
-    iso = read_json('./utils/iso_639-2')[lang]['639-1']
-    return iso
+    return read_json('./utils/iso_639-2')[lang]['639-1']
 
 
 def is_lang_supported(font: str, lang: str) -> bool:
     """Check if fonts supports specific language"""
     # by default eng is supported mostly for all fonts
-    if lang == 'eng' or lang == 'en':
+    if lang in {'eng', 'en'}:
         return True
     full_path = os.path.join('./fonts/', f'{font}')
     with Popen(['fc-query', full_path], stdout=PIPE, stderr=PIPE) as proc:
@@ -87,11 +82,7 @@ def is_lang_supported(font: str, lang: str) -> bool:
 
 
 def list_of_supported_fonts(fonts: List, lang: str) -> List:
-    font_list = []
-    for font in fonts:
-        if is_lang_supported(font, lang):
-            font_list.append(font)
-    return font_list
+    return [font for font in fonts if is_lang_supported(font, lang)]
 
 
 def supported_fonts(fonts, lang: str) -> List:
