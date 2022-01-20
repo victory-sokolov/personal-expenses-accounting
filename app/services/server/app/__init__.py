@@ -20,8 +20,8 @@ login_manager.login_view = 'login'
 
 def create_app(config_name) -> object:
     app = Flask(__name__,
-                static_folder="../../client",
-                template_folder="../../client"
+                static_folder="../../client-dashboard/build/static",
+                template_folder="../../client-dashboard/build/"
                 )
 
     if not isinstance(config_name, str):

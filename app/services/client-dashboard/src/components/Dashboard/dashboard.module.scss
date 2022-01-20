@@ -1,0 +1,117 @@
+@import '../ui-elements/colors.scss';
+@import '../ui-elements/button.module.scss';
+
+main {
+	position: relative;
+	height: 100vh;
+	padding-right: 25px;
+	padding-left: 25px;
+	overflow-x: hidden;
+}
+
+.spinner {
+	position: fixed;
+	z-index: 1031;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.heading {
+	margin-top: 30px;
+
+	h1 {
+		letter-spacing: 1.5px;
+	}
+}
+
+.divider {
+	border-bottom: 1px solid grey;
+	padding-bottom: 25px;
+}
+
+.buttonContainer {
+	margin-left: auto;
+	padding-right: 12px;
+
+	button {
+		@extend .button;
+		background: $primary-color;
+		color: #fff;
+		border-radius: 5px;
+		width: 170px;
+		font-size: 14px;
+		text-transform: none;
+	}
+}
+
+.filterIcon {
+	background-image: url('./icons/sliders-h-solid 1.svg');
+	background-repeat: no-repeat;
+	height: 45px;
+	width: 30px;
+}
+
+.verticalCenterd {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px dashed $primary-color;
+	background-color: lighten($primary-color, 58%);
+	padding: 10px;
+
+	img {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.MuiInput {
+	width: 100%;
+
+	.MuiInputBase-root {
+		color: $primary-color;
+
+		&:before,
+		&:after {
+			border-bottom: 1px solid $primary-color;
+		}
+	}
+}
+
+.MuiFormControl-root {
+	width: 335px;
+}
+
+.receiptSection {
+	margin-top: 60px;
+	padding-bottom: 40px;
+	display: grid;
+	cursor: pointer;
+
+	.titleSection {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		align-items: center;
+		justify-items: center;
+	}
+
+	.receiptData {
+		background: #fff;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+		height: 160px;
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		align-items: center;
+		justify-items: center;
+		margin-bottom: 20px;
+
+		&:nth-child(odd) {
+			background-color: #f6f6f6;
+		}
+	}
+
+	.receiptImage {
+		width: 112px;
+	}
+}
