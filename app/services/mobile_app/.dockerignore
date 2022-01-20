@@ -1,1 +1,7 @@
+.git
+.cache
+logs/
+.venv
+venv
+Dockerfile
 node_modules

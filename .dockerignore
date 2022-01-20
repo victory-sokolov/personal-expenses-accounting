@@ -1,0 +1,6 @@
+.git
+.cache
+.node_modules
+logs/
+.venv
+venv
