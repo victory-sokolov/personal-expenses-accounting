@@ -1,16 +1,8 @@
 version: "3.7"
 
 services:
-  # users:
-  # 	container_name: users
-  # 	build:
-  # 		context: ./services/users
-  # 		dockerfile: Docker
-  # 	ports:
-  # 		- 5001:5000
-
   tesseract:
-    #container_name: tesseract
+    container_name: tesseract
     build:
       context: ./app/services/tesseract/
       dockerfile: Dockerfile
@@ -38,15 +30,15 @@ services:
 
   nginx:
     container_name: nginx
-    build:
-      context: ./app/services/nginx
-      dockerfile: Dockerfile
+    image: nginx:1.16.0-alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     restart: always
     ports:
-      - 80:80
+      - "8080:80"
 
   database:
-    container_name: database
+    container_name: postgres
     build:
       context: ./services/users/app/db
       dockerfile: Dockerfile
