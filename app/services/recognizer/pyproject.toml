@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "recognizer-api"
+version = "0.1.0"
+description = "Data extraction and pre-processing api"
+authors = ["Viktor Sokolov <viktorsokolov.and@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.72.0"
+uvicorn = "^0.17.0"
+opencv-python = "^4.5.5"
+numpy = "^1.22.1"
+pytesseract = "^0.3.8"
+python-dotenv = "^0.19.2"
+redis = "^4.1.1"
+rq = "^1.10.1"
+PyMySQL = "^1.0.2"
+Pillow = "^9.0.0"
+Wand = "^0.6.7"
+starlette = "^0.17.1"
+pydantic = "^1.9.0"
+python-multipart = "^0.0.5"
+celery = "^5.2.3"
+tesserocr = "^2.5.2"
+
+[tool.poetry.dev-dependencies]
+wemake-python-styleguide = "^0.16.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[virtualenvs]
+in-project = true
