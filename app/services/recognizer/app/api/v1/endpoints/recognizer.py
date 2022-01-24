@@ -1,3 +1,4 @@
+import json
 from fastapi import File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter
@@ -26,7 +27,7 @@ async def post(image: str = Form(...)):
         cv_img = to_RGB(img)
         recognizer = RecognizerProcessor('lav')
         data = recognizer.recognize_factory(image=cv_img)
-        return JSONResponse(data), 200
+        return JSONResponse(content=data), 200
 
     return JSONResponse({'status': 'Cannot handle request!'}), 400
 

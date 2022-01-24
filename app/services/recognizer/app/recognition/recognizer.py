@@ -1,5 +1,5 @@
 import re
-from typing import List
+from typing import List, Union
 from tesserocr import OEM, PyTessBaseAPI
 
 from .processor import ImageProcessing
@@ -10,11 +10,11 @@ class RecognizerProcessor(Recognizer):
     def __init__(self, lang: str):
         self._lang = lang
 
-    def recognize(self, image = None) -> List:
+    def recognize(self, image = None) -> Union[str, List]:
         with PyTessBaseAPI(lang=f"{self._lang}+eng", oem=OEM.LSTM_ONLY) as api:
             api.SetImage(image)
             response = api.GetUTF8Text()
-            return list(filter(bool,response.split(" ")))
+            return " ".join(list(filter(bool,response.split(" "))))
 
     def get_date(self, text: List) -> str:
         date_pattern = r'^(0?[1-9]|[12][0-9]|3[01])(-|\.)(0?[1-9]|1[012])(-|\.)([19|20]\d\d\d)'
