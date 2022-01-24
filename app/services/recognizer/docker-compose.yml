@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  redis-server:
+    image: redis
+    container_name: redis_server
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --loglevel warning
+    volumes:
+      - cache:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+
+volumes:
+  cache:
+    driver: local

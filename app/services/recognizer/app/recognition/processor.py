@@ -1,53 +1,75 @@
-import os
+import logging
 from functools import reduce
+from PIL import Image
 import cv2
 import numpy as np
-from wand.image import Image as WandImage
 
 class ImageProcessing:
 
     def __init__(self, image):
-        self.image_path = image
-        self.image_name = image.split("/")[-1]
-        self.image = cv2.imread(image)
+        self.image = image
 
-    def rect_kernel():
+    def rect_kernel(self):
         return cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
 
     def resize_image(self, image):
+        """Resize image.
+        interpolation methods:
+            * INTER_CUBIC
+            * INTER_LINEAR
+            * INTER_AREA
+        Args:
+            image (cv2): Image data
+
+        Returns:
+            cv2: Image data
+        """
         return cv2.resize(image, None, fx=1.2, fy=1.2, interpolation=cv2.INTER_CUBIC)
 
+
     def rotate(self, image):
-        angle = 90
         (h, w) = image.shape[:2]
         if h < w:
-            with WandImage(filename=self.image_path) as img:
-                img.rotate(angle)
-                img_buffer = np.asarray(
-                    bytearray(img.make_blob()), dtype=np.uint8)
+            return cv2.rotate(image, cv2.cv2.ROTATE_90_CLOCKWISE)
 
-            if img_buffer is not None:
-                retval = cv2.imdecode(img_buffer, cv2.IMREAD_UNCHANGED)
-                return retval
-        else:
-            return self.image
+        return self.image
 
     def gray_scale(self, image):
         return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    def noise_removal(self, image):
+    def avg_blur(self, image):
+        return cv2.blur(image,(5,5))
+
+    def gausian_blur(self, image):
         return cv2.GaussianBlur(image, (5, 5), 0)
 
-    def thresh(self, image):
+    def media_blur(self, image):
+        return cv2.medianBlur(image, 3)
+
+    def bilateral_filter(self, image):
+        return cv2.bilateralFilter(image,9,75,75)
+
+    def thresh_otsu(self, image):
         return cv2.threshold(
             image, 127, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU
         )[1]
+
+    def thresh_binary(self, image):
+        return cv2.threshold(image,127,255, cv2.THRESH_BINARY)
 
     def adaptive_thresh(self, image):
         return cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 121, 12)
 
     def save_image(self, image):
-        cv2.imwrite(f'{os.getcwd()}/app/output.png', image)
+        path = 'recognition/output.jpg'
+        if isinstance(image, Image.Image):
+            print("WRiting image")
+            img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            cv2.imwrite(path, img)
+            return img
+
+        cv2.imwrite(path, image)
+        return image
 
     def deskew(self, image):
         coords = np.column_stack(np.where(image > 0))
@@ -70,6 +92,13 @@ class ImageProcessing:
     def erode(self, image):
         kernel = self.rect_kernel()
         return cv2.erode(image, kernel, iterations=1)
+
+    def opening(self, image):
+        kernel = np.ones((5,5),np.uint8)
+        return cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
+
+    def canny(self,image):
+        return cv2.Canny(image, 100, 200)
 
     def cut_image(self, image):
         """ Cut edges of receipt image"""
@@ -94,26 +123,22 @@ class ImageProcessing:
         dst = cv2.warpPerspective(image, op, (800, 800))
         return dst
 
+
+    def cv2_to_pil(self, image):
+        img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        return Image.fromarray(img)
+
     def run_pipeline(self):
-        rotated_image = self.rotate(self.image)
-        cv2.imwrite(
-            f'{os.getcwd()}/app/receipts/{self.image_name}', rotated_image
-        )
-        self.image = rotated_image
-        # Temp code: move image to assets folder
-        import shutil
-        from os.path import expanduser
-        home = expanduser("~")
-        shutil.move(f'{os.getcwd()}/app/receipts/{self.image_name}',
-                    f'{home}/Documents/personal-expenses-accounting/app/services/client/public/images/receipts')
-        # code end
+        logging.info("Pre processing image data...")
         return reduce(
             lambda image, function: function(image), (
+                self.rotate,
                 self.resize_image,
                 self.gray_scale,
-                self.noise_removal,
-                self.thresh,
-                self.save_image
+                self.gausian_blur,
+                self.thresh_otsu,
+                self.save_image,
+                self.cv2_to_pil,
             ),
             self.image
         )
