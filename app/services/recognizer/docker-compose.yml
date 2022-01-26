@@ -7,7 +7,11 @@ services:
     ports:
       - "6379:6379"
     command: redis-server --loglevel warning
+    healthcheck:
+      test: /healthchecks/redis.sh
+      interval: "5s"
     volumes:
+      - "./healthchecks/redis.sh"
       - cache:/data
       - ./redis.conf:/usr/local/etc/redis/redis.conf
 
